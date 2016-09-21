@@ -46,7 +46,7 @@ public class Main {
             UIManager.put("OptionPane.cancelButtonText", "Abbrechen");
             UIManager.put("FileChooser.cancelButtonText", "Abbrechen");
             UIManager.put("FileChooser.openButtonText", "Öffnen");
-            UIManager.put("FileChooser.saveButtonText", "Save");
+            UIManager.put("FileChooser.saveButtonText", "Speichern");
         } catch (UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
