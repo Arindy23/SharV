@@ -32,12 +32,7 @@ public class Main {
         System.setProperty("sun.awt.noerasebackground", "true");
         //JFrame.setDefaultLookAndFeelDecorated(true);
         //JDialog.setDefaultLookAndFeelDecorated(true);
-        for (int i = 0; i < Theme.getAvailableThemes().length; i++) {
-            if (Theme.getAvailableThemes()[i].getName().equals(theme)) {
-                Theme.loadTheme(Theme.getAvailableThemes()[i]);
-                //break;
-            }
-        }
+        Theme.loadTheme(CharSheet.class.getClassLoader().getResource("Nightly.theme"));
         try {
             UIManager.setLookAndFeel(new TinyLookAndFeel());
             UIManager.put("OptionPane.yesButtonText", "Ja");
