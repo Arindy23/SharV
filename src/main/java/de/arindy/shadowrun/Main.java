@@ -2,8 +2,8 @@ package de.arindy.shadowrun;
 
 import de.arindy.shadowrun.controller.CharController;
 import de.arindy.shadowrun.gui.CharSheet;
-import de.muntjak.tinylookandfeel.Theme;
-import de.muntjak.tinylookandfeel.TinyLookAndFeel;
+import net.sf.tinylaf.Theme;
+import net.sf.tinylaf.TinyLookAndFeel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 public class Main {
     public static String TITLE = "Shadowrun V Helper";
-    private static ArrayList<Image> icons;
     private static CharSheet charSheet;
 
     public static void main(String[] args) {
@@ -76,7 +75,7 @@ public class Main {
     }
 
     private static void setIcons() {
-        icons = new ArrayList<>();
+        ArrayList<Image> icons = new ArrayList<>();
         try {
             icons.add(ImageIO.read(CharSheet.class.getClassLoader().getResourceAsStream("icon20x20.png")));
             icons.add(ImageIO.read(CharSheet.class.getClassLoader().getResourceAsStream("icon40x40.png")));
