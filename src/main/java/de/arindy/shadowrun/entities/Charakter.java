@@ -69,7 +69,7 @@ public class Charakter {
     @JsonIgnore
     private int initiative;
     @JsonIgnore
-    private int matrixInitiative = 0;
+    private int matrixInitiative;
     @JsonIgnore
     private int matrixInitiativeKalt;
     @JsonIgnore

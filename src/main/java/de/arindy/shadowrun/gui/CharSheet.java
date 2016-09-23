@@ -1,15 +1,12 @@
 package de.arindy.shadowrun.gui;
 
-import de.arindy.shadowrun.controller.CharController;
 import de.arindy.shadowrun.entities.types.Geschlecht;
 import de.arindy.shadowrun.entities.types.MagRes;
 import de.arindy.shadowrun.entities.types.Metatyp;
 import de.arindy.shadowrun.gui.helper.JCustomTextField;
-import de.arindy.shadowrun.gui.types.GBC;
+import de.arindy.shadowrun.gui.helper.Language;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import java.awt.*;
 
 public class CharSheet {
 
@@ -19,7 +16,6 @@ public class CharSheet {
 
     private JFrame sheet;
 
-    private JPanel main = new JPanel();
     private JPanel right = new JPanel();
     private JTabbedPane tabbed = new JTabbedPane();
 
@@ -46,19 +42,19 @@ public class CharSheet {
     private JPanel bewegung = new JPanel();
     private JPanel attributeLimits = new JPanel();
 
-    private JLabel lName = new JLabel("Name (Straßenname):");
-    private JLabel lMetatyp = new JLabel("Metatyp:");
-    private JLabel lGeschlecht = new JLabel("Geschlecht:");
-    private JLabel lAlter = new JLabel("Alter:");
-    private JLabel lGroesse = new JLabel("Größe:");
-    private JLabel lGewicht = new JLabel("Gewicht:");
-    private JLabel lEthnie = new JLabel("Ethnie:");
-    private JLabel lKonzept = new JLabel("Konzept:");
-    private JLabel lStrassenruf = new JLabel("Straßenruf:");
-    private JLabel lSchlechterRuf = new JLabel("Schlechter Ruf:");
-    private JLabel lProminenz = new JLabel("Prominenz:");
-    private JLabel lSonstiges = new JLabel("Sonstiges:");
-    private JLabel lKarma = new JLabel("Karma: 0\\0");
+    private JLabel lName;
+    private JLabel lMetatyp;
+    private JLabel lGeschlecht;
+    private JLabel lAlter;
+    private JLabel lGroesse;
+    private JLabel lGewicht;
+    private JLabel lEthnie;
+    private JLabel lKonzept;
+    private JLabel lStrassenruf;
+    private JLabel lSchlechterRuf;
+    private JLabel lProminenz;
+    private JLabel lSonstiges;
+    private JLabel lKarma;
 
     private JLabel lKonstitution = new JLabel("Konstitution:");
     private JLabel lGeschicklichkeit = new JLabel("Geschicklichkeit:");
@@ -102,23 +98,23 @@ public class CharSheet {
     private JLabel lEssenz = new JLabel("Essenz:");
     private JLabel lEdge = new JLabel("Edge:");
 
-    private JLabel lLimitKoerper = new JLabel("Körper:");
-    private JLabel lLimitGeist = new JLabel("Geist:");
-    private JLabel lLimitSozial = new JLabel("Sozial:");
+    private JLabel lLimitKoerper;
+    private JLabel lLimitGeist;
+    private JLabel lLimitSozial;
 
-    private JCustomTextField tName = new JCustomTextField();
-    private JComboBox<Metatyp> tMetatyp = new JComboBox<>(new DefaultComboBoxModel<>(Metatyp.values()));
-    private JComboBox<Geschlecht> tGeschlecht = new JComboBox<>(new DefaultComboBoxModel<>(Geschlecht.values()));
+    private JCustomTextField tName;
+    private JComboBox<Metatyp> tMetatyp;
+    private JComboBox<Geschlecht> tGeschlecht;
     private JComboBox<MagRes> lMagieResonanz = new JComboBox<>(new DefaultComboBoxModel<>(MagRes.values()));
-    private JCustomTextField tAlter = new JCustomTextField();
-    private JCustomTextField tGroesse = new JCustomTextField();
-    private JCustomTextField tGewicht = new JCustomTextField();
-    private JCustomTextField tEthnie = new JCustomTextField();
-    private JCustomTextField tKonzept = new JCustomTextField();
-    private JCustomTextField tStrassenruf = new JCustomTextField();
-    private JCustomTextField tSchlechterRuf = new JCustomTextField();
-    private JCustomTextField tProminenz = new JCustomTextField();
-    private JCustomTextField tSonstiges = new JCustomTextField();
+    private JCustomTextField tAlter;
+    private JCustomTextField tGroesse;
+    private JCustomTextField tGewicht;
+    private JCustomTextField tEthnie;
+    private JCustomTextField tKonzept;
+    private JCustomTextField tStrassenruf;
+    private JCustomTextField tSchlechterRuf;
+    private JCustomTextField tProminenz;
+    private JCustomTextField tSonstiges;
 
     private JCustomTextField tKonstitution = new JCustomTextField();
     private JCustomTextField tGeschicklichkeit = new JCustomTextField();
@@ -153,11 +149,19 @@ public class CharSheet {
     private JCustomTextField tEssenz = new JCustomTextField();
     private JCustomTextField tEdge = new JCustomTextField();
 
-    private JCustomTextField tLimitKoerper = new JCustomTextField();
-    private JCustomTextField tLimitGeist = new JCustomTextField();
-    private JCustomTextField tLimitSozial = new JCustomTextField();
+    private JCustomTextField tLimitKoerper;
+    private JCustomTextField tLimitGeist;
+    private JCustomTextField tLimitSozial;
 
-    private JProgressBar pvKarma = new JProgressBar();
+    private JProgressBar pvKarma;
+    private JPanel mainPanel;
+    private JLabel lCred;
+    private JCustomTextField tCredit;
+
+    private JMenu menuDatei;
+    private JMenu menuCharakter;
+    private JMenu menuVerwaltung;
+    private JMenu menuSprache;
     //</editor-fold>
 
     public CharSheet(String frameTitle) {
@@ -169,36 +173,34 @@ public class CharSheet {
         setLimits();
         pvKarma.setMinimum(0);
         sheet = new JFrame(frameTitle);
+        sheet.setContentPane(mainPanel);
         sheet.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        sheet.setSize(800, 600);
+        sheet.setSize(mainPanel.getPreferredSize());
+        sheet.setMinimumSize(mainPanel.getPreferredSize());
         sheet.setLocationRelativeTo(null);
-        sheet.setResizable(false);
         sheet.setJMenuBar(menu);
-
-        setBorders();
-
-        setLayouts();
+        buildMenu();
+        setComboBoxModels();
         centerText();
-        addComponents();
-
-        sheet.repaint();
         sheet.setVisible(true);
     }
 
-    private void setBorders() {
-        persoenliches.setBorder(new TitledBorder("Persönliche Daten"));
-        attribute.setBorder(new TitledBorder("Attribute"));
-        attributeKoerper.setBorder(new TitledBorder("Körper"));
-        attributeGeist.setBorder(new TitledBorder("Geist"));
-        attributeInitiative.setBorder(new TitledBorder("Initiative"));
-        attributeMagieResonanz.setBorder(new TitledBorder("Magie/Resonanz"));
-        attributeNebenAttribute.setBorder(new TitledBorder("Nebenattribute"));
-        attributeEssenzEdge.setBorder(new TitledBorder("Essenz/Edge"));
-        attributeLimits.setBorder(new TitledBorder("Limits"));
+    private void buildMenu() {
+        menuDatei =  new JMenu(Language.getString("menu.datei"));
+        menu.add(menuDatei);
+
+        menuCharakter = new JMenu(Language.getString("menu.charakter"));
+        menu.add(menuCharakter);
+
+        menuVerwaltung = new JMenu(Language.getString("menu.verwaltung"));
+        menu.add(menuVerwaltung);
+
+        menuSprache = new JMenu(Language.getString("menu.sprache"));
+        menu.add(menuSprache);
     }
 
     private void setLimits() {
-        tName.setMaximumLength(22);
+        tName.setMaximumLength(42);
         String wAndUmlauts = "\\w\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00df";
         tName.setRegexFilter("(([" + wAndUmlauts + "]*( )*)*(\\(([" + wAndUmlauts + "]*( )*)*\\))?)");
 
@@ -218,6 +220,8 @@ public class CharSheet {
         tProminenz.setRegexFilter("\\d*");
         tSonstiges.setMaximumLength(2);
         tSonstiges.setRegexFilter("\\d*");
+        tCredit.setMaximumLength(8);
+        tCredit.setRegexFilter("\\d*");
 
         tKonstitution.setMaximumLength(2);
         tKonstitution.setRegexFilter("\\d*");
@@ -303,7 +307,12 @@ public class CharSheet {
         tLimitSozial.setEditable(false);
     }
 
+    private void setComboBoxModels(){
+        tMetatyp.setModel(new DefaultComboBoxModel<>(Metatyp.values()));
+        tGeschlecht.setModel(new DefaultComboBoxModel<>(Geschlecht.values()));
+    }
     private void centerText() {
+        tCredit.setHorizontalAlignment(JTextField.RIGHT);
         tAlter.setHorizontalAlignment(JTextField.CENTER);
         tGroesse.setHorizontalAlignment(JTextField.CENTER);
         tGewicht.setHorizontalAlignment(JTextField.CENTER);
@@ -367,174 +376,6 @@ public class CharSheet {
         cb.setEditable(!bool);
         ((JTextField) cb.getEditor().getEditorComponent()).setDisabledTextColor(UIManager.getColor("ComboBox.foreground"));
         cb.setEnabled(bool);
-    }
-
-    private void setLayouts() {
-        main.setLayout(new GridBagLayout());
-        right.setLayout(new GridBagLayout());
-        sheet.setLayout(new GridLayout());
-
-        persoenliches.setLayout(new GridBagLayout());
-        persoenlichesTop.setLayout(new GridBagLayout());
-        persoenlichesMiddleTop.setLayout(new GridBagLayout());
-        persoenlichesMiddleBottom.setLayout(new GridBagLayout());
-        persoenlichesBottom.setLayout(new GridBagLayout());
-
-        attribute.setLayout(new GridBagLayout());
-        attributeLeft.setLayout(new GridBagLayout());
-        attributeRight.setLayout(new GridBagLayout());
-
-        attributeKoerper.setLayout(new GridBagLayout());
-        attributeGeist.setLayout(new GridBagLayout());
-        attributeInitiative.setLayout(new GridBagLayout());
-        attributeMagieResonanz.setLayout(new GridBagLayout());
-        attributeNebenAttribute.setLayout(new GridBagLayout());
-        attributeEssenzEdge.setLayout(new GridBagLayout());
-        attributeLimits.setLayout(new GridBagLayout());
-
-        edgeAusgegeben.setLayout(new GridLayout());
-        bewegung.setLayout(new GridBagLayout());
-    }
-
-    private void addComponents() {
-
-        menu.add(new JMenu(CharController.DATEI));
-        menu.add(new JMenu(CharController.CHARAKTER));
-        menu.add(new JMenu(CharController.VERWALTUNG));
-
-        persoenlichesTop.add(lName, GBC.clName);
-        persoenlichesTop.add(tName, GBC.ctName);
-        persoenlichesTop.add(lMetatyp, GBC.clMetatyp);
-        persoenlichesTop.add(tMetatyp, GBC.ctMetatyp);
-
-        persoenlichesMiddleTop.add(lGeschlecht, GBC.clGeschlecht);
-        persoenlichesMiddleTop.add(tGeschlecht, GBC.ctGeschlecht);
-        persoenlichesMiddleTop.add(lAlter, GBC.clAlter);
-        persoenlichesMiddleTop.add(tAlter, GBC.ctAlter);
-        persoenlichesMiddleTop.add(lGroesse, GBC.clGroesse);
-        persoenlichesMiddleTop.add(tGroesse, GBC.ctGroesse);
-        persoenlichesMiddleTop.add(lGewicht, GBC.clGewicht);
-        persoenlichesMiddleTop.add(tGewicht, GBC.ctGewicht);
-
-        persoenlichesMiddleBottom.add(lEthnie, GBC.clEthnie);
-        persoenlichesMiddleBottom.add(tEthnie, GBC.ctEthnie);
-        persoenlichesMiddleBottom.add(lKonzept, GBC.clKonzept);
-        persoenlichesMiddleBottom.add(tKonzept, GBC.ctKonzept);
-
-        persoenlichesBottom.add(lStrassenruf, GBC.clStrassenruf);
-        persoenlichesBottom.add(tStrassenruf, GBC.ctStrassenruf);
-        persoenlichesBottom.add(lSchlechterRuf, GBC.clSchlechterRuf);
-        persoenlichesBottom.add(tSchlechterRuf, GBC.ctSchlechterRuf);
-        persoenlichesBottom.add(lProminenz, GBC.clProminenz);
-        persoenlichesBottom.add(tProminenz, GBC.ctProminenz);
-        persoenlichesBottom.add(lSonstiges, GBC.clSonstiges);
-        persoenlichesBottom.add(tSonstiges, GBC.ctSonstiges);
-
-        persoenliches.add(persoenlichesTop, GBC.cPersoenlichesTop);
-        persoenliches.add(persoenlichesMiddleTop, GBC.cPersoenlichesMiddleTop);
-        persoenliches.add(persoenlichesMiddleBottom, GBC.cPersoenlichesMiddleBottom);
-        persoenliches.add(persoenlichesBottom, GBC.cPersoenlichesBottom);
-        persoenliches.add(lKarma, GBC.clKarma);
-        persoenliches.add(pvKarma, GBC.cpvKarma);
-
-        attributeKoerper.add(lKonstitution, GBC.clKonstitution);
-        attributeKoerper.add(tKonstitution, GBC.ctKonstitution);
-        attributeKoerper.add(lGeschicklichkeit, GBC.clGeschicklichkeit);
-        attributeKoerper.add(tGeschicklichkeit, GBC.ctGeschicklichkeit);
-        attributeKoerper.add(lReaktion, GBC.clReaktion);
-        attributeKoerper.add(tReaktion, GBC.ctReaktion);
-        attributeKoerper.add(lStaerke, GBC.clStaerke);
-        attributeKoerper.add(tStaerke, GBC.ctStaerke);
-
-        attributeGeist.add(lWillenskraft, GBC.clWillenskraft);
-        attributeGeist.add(tWillenskraft, GBC.ctWillenskraft);
-        attributeGeist.add(lLogik, GBC.clLogik);
-        attributeGeist.add(tLogik, GBC.ctLogik);
-        attributeGeist.add(lIntuition, GBC.clIntuition);
-        attributeGeist.add(tIntuition, GBC.ctIntuition);
-        attributeGeist.add(lCharisma, GBC.clCharisma);
-        attributeGeist.add(tCharisma, GBC.ctCharisma);
-
-        attributeInitiative.add(lInitiative, GBC.clInitiative);
-        attributeInitiative.add(lInitiativeW, GBC.clInitiativeW);
-        attributeInitiative.add(tInitiative, GBC.ctInitiative);
-        attributeInitiative.add(lAstralInitiative, GBC.clAstralInitiative);
-        attributeInitiative.add(lAstralInitiativeW, GBC.clAstralInitiativeW);
-        attributeInitiative.add(tAstralInitiative, GBC.ctAstralInitiative);
-        attributeInitiative.add(lMatrixInitiativeAR, GBC.clMatrixInitiativeAR);
-        attributeInitiative.add(lMatrixInitiativeARW, GBC.clMatrixInitiativeARW);
-        attributeInitiative.add(tMatrixInitiativeAR, GBC.ctMatrixInitiativeAR);
-        attributeInitiative.add(lMatrixInitiativekalt, GBC.clMatrixInitiativekalt);
-        attributeInitiative.add(lMatrixInitiativekaltW, GBC.clMatrixInitiativekaltW);
-        attributeInitiative.add(tMatrixInitiativekalt, GBC.ctMatrixInitiativekalt);
-        attributeInitiative.add(lMatrixInitiativeheiß, GBC.clMatrixInitiativeheiß);
-        attributeInitiative.add(lMatrixInitiativeheißW, GBC.clMatrixInitiativeheißW);
-        attributeInitiative.add(tMatrixInitiativeheiß, GBC.ctMatrixInitiativeheiß);
-        attributeInitiative.add(lRiggingInitiative, GBC.clRiggingInitiative);
-        attributeInitiative.add(lRiggingInitiativeW, GBC.clRiggingInitiativeW);
-        attributeInitiative.add(tRiggingInitiative, GBC.ctRiggingInitiative);
-        attributeInitiative.add(lRiggingInitiativekalt, GBC.clRiggingInitiativekalt);
-        attributeInitiative.add(lRiggingInitiativekaltW, GBC.clRiggingInitiativekaltW);
-        attributeInitiative.add(tRiggingInitiativekalt, GBC.ctRiggingInitiativekalt);
-        attributeInitiative.add(lRiggingInitiativeheiß, GBC.clRiggingInitiativeheiß);
-        attributeInitiative.add(lRiggingInitiativeheißW, GBC.clRiggingInitiativeheißW);
-        attributeInitiative.add(tRiggingInitiativeheiß, GBC.ctRiggingInitiativeheiß);
-        attributeInitiative.add(lRiggingInitiativedirekt, GBC.clRiggingInitiativedirekt);
-        attributeInitiative.add(lRiggingInitiativedirektW, GBC.clRiggingInitiativedirektW);
-        attributeInitiative.add(tRiggingInitiativedirekt, GBC.ctRiggingInitiativedirekt);
-
-        attributeNebenAttribute.add(lSelbstbeherrschung, GBC.clSelbstbeherrschung);
-        attributeNebenAttribute.add(tSelbstbeherrschung, GBC.ctSelbstbeherrschung);
-        attributeNebenAttribute.add(lMenschenkenntnis, GBC.clMenschenkenntnis);
-        attributeNebenAttribute.add(tMenschenkenntnis, GBC.ctMenschenkenntnis);
-        attributeNebenAttribute.add(lErinnerungsvermoegen, GBC.clErrinerungsvermoegen);
-        attributeNebenAttribute.add(tErinnerungsvermoegen, GBC.ctErrinerungsvermoegen);
-        attributeNebenAttribute.add(lHebenTragen, GBC.clHebenTragen);
-        attributeNebenAttribute.add(tHebenTragen, GBC.ctHebenTragen);
-
-        bewegung.add(lGehen, GBC.clGehen);
-        bewegung.add(tGehen, GBC.ctGehen);
-        bewegung.add(lLaufen, GBC.clLaufen);
-        bewegung.add(tLaufen, GBC.ctLaufen);
-        bewegung.add(lSprinten, GBC.clSprinten);
-        bewegung.add(tSprinten, GBC.ctSprinten);
-
-        attributeNebenAttribute.add(bewegung, GBC.cBewegung);
-        attributeEssenzEdge.add(lEssenz, GBC.clEssenz);
-        attributeEssenzEdge.add(tEssenz, GBC.ctEssenz);
-        attributeEssenzEdge.add(lEdge, GBC.clEdge);
-        attributeEssenzEdge.add(tEdge, GBC.ctEdge);
-        attributeEssenzEdge.add(edgeAusgegeben, GBC.cEdgeAusgegeben);
-
-        attributeMagieResonanz.add(lMagieResonanz, GBC.clMagieResonanz);
-        attributeMagieResonanz.add(tMagieResonanz, GBC.ctMagieResonanz);
-
-        attributeLimits.add(lLimitKoerper, GBC.clLimitKoerper);
-        attributeLimits.add(tLimitKoerper, GBC.ctLimitKoerper);
-        attributeLimits.add(lLimitGeist, GBC.clLimitGeist);
-        attributeLimits.add(tLimitGeist, GBC.ctLimitGeist);
-        attributeLimits.add(lLimitSozial, GBC.clLimitSozial);
-        attributeLimits.add(tLimitSozial, GBC.ctLimitSozial);
-
-        attributeLeft.add(attributeKoerper, GBC.cAttributeKoerper);
-        attributeLeft.add(attributeGeist, GBC.cAttributeGeist);
-        attributeLeft.add(attributeNebenAttribute, GBC.cAttributeNebenAttribute);
-
-        attributeRight.add(attributeMagieResonanz, GBC.cAttributeMagieResonanz);
-        attributeRight.add(attributeInitiative, GBC.cAttributeInitiative);
-        attributeRight.add(attributeEssenzEdge, GBC.cAttributeEssenzEdge);
-
-        attribute.add(attributeLeft, GBC.cAttributeLeft);
-        attribute.add(attributeRight, GBC.cAttributeRight);
-        attribute.add(attributeLimits, GBC.cAttributeLimits);
-
-        main.add(persoenliches, GBC.cPersoenliches);
-        main.add(attribute, GBC.cAttribute);
-
-        right.add(tabbed, GBC.cTabbed);
-
-        sheet.add(main);
-        sheet.add(right);
     }
 
     public void setInitMod(int initMod) {
@@ -756,5 +597,21 @@ public class CharSheet {
 
     public JProgressBar getPvKarma() {
         return pvKarma;
+    }
+
+    public JMenu getMenuVerwaltung() {
+        return menuVerwaltung;
+    }
+
+    public JMenu getMenuDatei() {
+        return menuDatei;
+    }
+
+    public JMenu getMenuCharakter() {
+        return menuCharakter;
+    }
+
+    public JMenu getMenuSprache() {
+        return menuSprache;
     }
 }

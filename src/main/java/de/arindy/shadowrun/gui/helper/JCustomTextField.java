@@ -26,7 +26,7 @@ public class JCustomTextField extends JTextField {
 
     public void setMaximumLength(int max) {
         maxLength = max;
-        this.setColumns(max);
+        this.setColumns(max+1);
     }
 
     public void setRegexFilter(String regex) {

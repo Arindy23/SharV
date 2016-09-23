@@ -1,9 +1,11 @@
 package de.arindy.shadowrun.entities.types;
 
+import de.arindy.shadowrun.gui.helper.Language;
+
 public enum VorteilNachteilEnum {
 
-    VORTEIL("Vorteil"),
-    NACHTEIL("Nachteil");
+    VORTEIL("v"),
+    NACHTEIL("n");
 
     private final String value;
 
@@ -28,6 +30,6 @@ public enum VorteilNachteilEnum {
 
     @Override
     public String toString() {
-        return value;
+        return Language.getString("vnenum." + value);
     }
 }

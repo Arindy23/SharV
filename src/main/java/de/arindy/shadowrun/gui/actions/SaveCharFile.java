@@ -2,6 +2,7 @@ package de.arindy.shadowrun.gui.actions;
 
 import de.arindy.shadowrun.controller.CharController;
 import de.arindy.shadowrun.controller.helper.DataHelper;
+import de.arindy.shadowrun.gui.helper.Language;
 import de.arindy.shadowrun.persistence.helper.JsonHandler;
 
 import javax.swing.*;
@@ -17,7 +18,7 @@ public class SaveCharFile extends AbstractAction {
     private boolean cancel;
 
     public SaveCharFile(CharController charController) {
-        super("Speichern");
+        super(Language.getString("menu.charakter.save"));
         this.charController = charController;
     }
 
@@ -29,7 +30,7 @@ public class SaveCharFile extends AbstractAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileFilter(new FileNameExtensionFilter("Char-Datei (*.srVchar)", "srVchar"));
+        fileChooser.setFileFilter(new FileNameExtensionFilter("srVchar-" + Language.getString("menu.datei") + " (*.srVchar)", "srVchar"));
         String suggestedName = (CharController.character.getName() != null && !CharController.character.getName().isEmpty()) ? CharController.character.getName().replaceAll(" ", "_") : "";
         suggestedName = (CharController.character.getStrassenname() != null && !CharController.character.getStrassenname().isEmpty()) ? CharController.character.getStrassenname() : suggestedName;
         fileChooser.setSelectedFile(new File(suggestedName + ".srVchar"));
@@ -37,11 +38,12 @@ public class SaveCharFile extends AbstractAction {
         if (JFileChooser.APPROVE_OPTION == returnValue) {
             int override = JOptionPane.YES_OPTION;
             if (fileChooser.getSelectedFile().exists()) {
-                override = JOptionPane.showConfirmDialog(charController.getCharSheet().getSheet(), "Datei " + fileChooser.getSelectedFile().getName() + " überschreiben?", fileChooser.getSelectedFile().getName() + " schon vorhanden", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null);
+                override = JOptionPane.showConfirmDialog(charController.getCharSheet().getSheet(), Language.getString("menu.charakter.save.ueberschreiben").replaceAll("%filename%",fileChooser.getSelectedFile().getName()) , Language.getString("menu.charakter.save.ueberschreiben.title").replaceAll("%filename%",fileChooser.getSelectedFile().getName()), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null);
             }
             if (override == JOptionPane.YES_OPTION) {
                 File file = (fileChooser.getSelectedFile().getAbsolutePath().endsWith(".srVchar")) ? fileChooser.getSelectedFile() : new File(fileChooser.getSelectedFile().getAbsolutePath() + ".srVchar");
                 JsonHandler.writeFile(file, CharController.character);
+                DataHelper.initCharPath = fileChooser.getSelectedFile().getAbsolutePath();
                 DataHelper.unsavedData = false;
                 charController.updateTitle();
             } else {

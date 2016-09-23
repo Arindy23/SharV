@@ -17,7 +17,7 @@ import java.io.File;
  */
 public class VorteilNachteilVerwaltung {
     private static final String srVvnFolder = "/srV/vn/";
-    private static JPanel panel = new JPanel();
+    private static JPanel panel;
     private static JPanel panelTop = new JPanel();
     private static JPanel panelLeft = new JPanel();
     private static JPanel panelRight = new JPanel();
@@ -48,25 +48,31 @@ public class VorteilNachteilVerwaltung {
 
 
     public static JPanel getPanel() {
+        if(panel==null){
+            addListeners();
+        }
         initPanel();
         return panel;
     }
 
     private static void initPanel() {
+        panel = new JPanel();
         panel.setName("Vorteile/Nachteile");
         panel.setSize(500, 350);
 
+        setLayouts();
+        addComponents();
+        updateVorteilNachteilAuswahl();
+        setLimits();
+    }
+
+    private static void addListeners(){
         bAktualisieren.addActionListener(e -> loadList());
         bSpeichern.addActionListener(e -> actionSpeichern());
         bLoeschen.addActionListener(e -> actionLoeschen());
         bLoeschen.setEnabled(false);
         lVorteilNachteil.addActionListener(e -> updateVorteilNachteilAuswahl());
         listVorteilNachteil.addListSelectionListener(e -> actionListSelect());
-
-        setLayouts();
-        addComponents();
-        updateVorteilNachteilAuswahl();
-        setLimits();
     }
 
     private static void actionListSelect() {
@@ -97,7 +103,7 @@ public class VorteilNachteilVerwaltung {
         while (!done) {
             String s = (String) JOptionPane.showInputDialog(
                     panel,
-                    "Geben Sie eine eindeutige ID ein!",
+                    "Geben Sie eine eindeutige ID ein.",
                     "ID",
                     JOptionPane.PLAIN_MESSAGE, null, null, null
             );

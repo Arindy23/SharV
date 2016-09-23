@@ -11,19 +11,19 @@ import java.awt.event.ActionEvent;
  */
 public class DialogBauer extends AbstractAction {
 
-    private CharController charController;
+    private JFrame sheet;
     private JPanel panel;
     private JDialog dialog;
 
-    public DialogBauer(CharController charController, JPanel panel) {
+    public DialogBauer(JFrame sheet, JPanel panel) {
         super(panel.getName());
-        this.charController = charController;
+        this.sheet = sheet;
         this.panel = panel;
         init();
     }
 
     private void init() {
-        dialog = new JDialog(charController.getCharSheet().getSheet(), this.panel.getName(), Dialog.ModalityType.APPLICATION_MODAL);
+        dialog = new JDialog(sheet, this.panel.getName(), Dialog.ModalityType.APPLICATION_MODAL);
 
         dialog.setSize(this.panel.getSize());
         dialog.setResizable(false);

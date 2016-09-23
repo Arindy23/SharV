@@ -1,5 +1,8 @@
 package de.arindy.shadowrun.gui.actions;
 
+import de.arindy.shadowrun.controller.helper.DataHelper;
+import de.arindy.shadowrun.gui.helper.Language;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,7 +18,7 @@ import java.awt.event.WindowEvent;
  */
 public class ExitAction extends AbstractAction {
     public ExitAction() {
-        super("Schließen");
+        super(Language.getString("menu.datei.close"));
     }
 
     @Override

@@ -4,8 +4,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import de.arindy.shadowrun.gui.helper.Language;
 import de.arindy.shadowrun.persistence.helper.MagResDeserializer;
 import de.arindy.shadowrun.persistence.helper.MagResSerializer;
+
+import java.util.Objects;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 @JsonDeserialize(using = MagResDeserializer.class)
@@ -13,8 +16,8 @@ import de.arindy.shadowrun.persistence.helper.MagResSerializer;
 @JsonRootName("magRes")
 public enum MagRes {
 
-    MAGIE("Magie"),
-    RESONANZ("Resonanz"),
+    MAGIE("m"),
+    RESONANZ("r"),
     NONE("-");
 
     private final String value;
@@ -36,6 +39,11 @@ public enum MagRes {
 
     @Override
     public String toString() {
-        return value;
+        if(value.equals(NONE.value)){
+            return value;
+        }
+        else{
+            return Language.getString("magres." + value);
+        }
     }
 }

@@ -1,6 +1,7 @@
 package de.arindy.shadowrun;
 
 import de.arindy.shadowrun.controller.CharController;
+import de.arindy.shadowrun.controller.helper.DataHelper;
 import de.arindy.shadowrun.gui.CharSheet;
 import net.sf.tinylaf.Theme;
 import net.sf.tinylaf.TinyLookAndFeel;
@@ -10,47 +11,62 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Main {
     public static String TITLE = "Shadowrun V Helper";
     private static CharSheet charSheet;
 
     public static void main(String[] args) {
-        //YQ Theme,Forest,Golden,Nightly,Plastic,Silver,Unicode
-        initLookAndFeel("Nightly");
-        int fontSize = 11;
+        do{
+            init();
+            CharController charController = new CharController(charSheet);
+            try {
+                synchronized (charController){
+                    charController.wait();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        while(DataHelper.languageChange);
+    }
+
+    public static void init(){
+        setLocales();
+        DataHelper.languageChange = false;
+        initLookAndFeel();
+        int fontSize = 12;
         Font font = loadFont(fontSize);
         setUIFont(new javax.swing.plaf.FontUIResource(((font != null) ? font : new Font("Consolas", Font.PLAIN, fontSize))));
 
         charSheet = new CharSheet(TITLE);
-        new CharController(charSheet);
         setIcons();
     }
 
-    private static void initLookAndFeel(String theme) {
+    private static void setLocales(){
+        Locale.setDefault(DataHelper.locale);
+        JFileChooser.setDefaultLocale(DataHelper.locale);
+        JOptionPane.setDefaultLocale(DataHelper.locale);
+    }
+
+    private static void initLookAndFeel() {
         Toolkit.getDefaultToolkit().setDynamicLayout(true);
         System.setProperty("sun.awt.noerasebackground", "true");
         //JFrame.setDefaultLookAndFeelDecorated(true);
         //JDialog.setDefaultLookAndFeelDecorated(true);
-        Theme.loadTheme(CharSheet.class.getClassLoader().getResource("Nightly.theme"));
+        Theme.loadTheme(CharSheet.class.getClassLoader().getResource("theme/Nightly.theme"));
         try {
             UIManager.setLookAndFeel(new TinyLookAndFeel());
-            UIManager.put("OptionPane.yesButtonText", "Ja");
-            UIManager.put("OptionPane.noButtonText", "Nein");
-            UIManager.put("OptionPane.cancelButtonText", "Abbrechen");
-            UIManager.put("FileChooser.cancelButtonText", "Abbrechen");
-            UIManager.put("FileChooser.openButtonText", "Öffnen");
-            UIManager.put("FileChooser.saveButtonText", "Speichern");
         } catch (UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
-
     }
 
     private static Font loadFont(float size) {
         try {
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            Font font = Font.createFont(Font.TRUETYPE_FONT, CharSheet.class.getClassLoader().getResourceAsStream("Anonymous_Pro_Minus.ttf"));
+            Font font = Font.createFont(Font.TRUETYPE_FONT, CharSheet.class.getClassLoader().getResourceAsStream("font/Anonymous_Pro_Minus.ttf"));
             ge.registerFont(font);
             return font.deriveFont(size);
         } catch (IOException | FontFormatException e) {
@@ -72,8 +88,8 @@ public class Main {
     private static void setIcons() {
         ArrayList<Image> icons = new ArrayList<>();
         try {
-            icons.add(ImageIO.read(CharSheet.class.getClassLoader().getResourceAsStream("icon20x20.png")));
-            icons.add(ImageIO.read(CharSheet.class.getClassLoader().getResourceAsStream("icon40x40.png")));
+            icons.add(ImageIO.read(CharSheet.class.getClassLoader().getResourceAsStream("icon/icon20x20.png")));
+            icons.add(ImageIO.read(CharSheet.class.getClassLoader().getResourceAsStream("icon/icon40x40.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }

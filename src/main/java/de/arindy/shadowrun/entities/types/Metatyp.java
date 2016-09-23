@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import de.arindy.shadowrun.gui.helper.Language;
 import de.arindy.shadowrun.persistence.helper.MetatypDeserializer;
 import de.arindy.shadowrun.persistence.helper.MetatypSerializer;
 
@@ -13,7 +14,7 @@ import de.arindy.shadowrun.persistence.helper.MetatypSerializer;
 @JsonRootName("metatyp")
 public enum Metatyp {
 
-    MENSCH("Mensch",
+    MENSCH("m",
             /*Kon*/new int[]{1, 6},
             /*Ges*/new int[]{1, 6},
             /*Rea*/new int[]{1, 6},
@@ -23,10 +24,9 @@ public enum Metatyp {
 			/*In*/new int[]{1, 6},
 			/*Cha*/new int[]{1, 6},
 			/*Edg*/new int[]{2, 7},
-			/*Ess*/6,
-			/*Metamerkmale*/new String[]{"keine"}),
+			/*Ess*/6),
 
-    ELF("Elf",
+    ELF("e",
 			/*Kon*/new int[]{1, 6},
 			/*Ges*/new int[]{2, 7},
 			/*Rea*/new int[]{1, 6},
@@ -36,10 +36,9 @@ public enum Metatyp {
 			/*In*/new int[]{1, 6},
 			/*Cha*/new int[]{3, 8},
 			/*Edg*/new int[]{1, 6},
-			/*Ess*/6,
-			/*Metamerkmale*/new String[]{"Restlichtverstärkung"}),
+			/*Ess*/6),
 
-    ZWERG("Zwerg",
+    ZWERG("z",
 			/*Kon*/new int[]{3, 8},
 			/*Ges*/new int[]{1, 6},
 			/*Rea*/new int[]{1, 5},
@@ -49,10 +48,9 @@ public enum Metatyp {
 			/*In*/new int[]{1, 6},
 			/*Cha*/new int[]{1, 6},
 			/*Edg*/new int[]{1, 6},
-			/*Ess*/6,
-			/*Metamerkmale*/new String[]{"Infrarotsicht", "+2 Würfel für Pathogen- und Toxinwiderstand", "+20% Lebensstilkosten"}),
+			/*Ess*/6),
 
-    ORK("Ork",
+    ORK("o",
 			/*Kon*/new int[]{4, 9},
 			/*Ges*/new int[]{1, 6},
 			/*Rea*/new int[]{1, 6},
@@ -62,10 +60,9 @@ public enum Metatyp {
 			/*In*/new int[]{1, 6},
 			/*Cha*/new int[]{1, 5},
 			/*Edg*/new int[]{1, 6},
-			/*Ess*/6,
-			/*Metamerkmale*/new String[]{"Restlichtverstärkung"}),
+			/*Ess*/6),
 
-    TROLL("Troll",
+    TROLL("t",
 			/*Kon*/new int[]{5, 10},
 			/*Ges*/new int[]{1, 5},
 			/*Rea*/new int[]{1, 6},
@@ -75,8 +72,7 @@ public enum Metatyp {
 			/*In*/new int[]{1, 5},
 			/*Cha*/new int[]{1, 4},
 			/*Edg*/new int[]{1, 6},
-			/*Ess*/6,
-			/*Metamerkmale*/new String[]{"Infrarotsicht", "+1 Reichweite", "+1 natürliche Panzerung", "+100% Lebensstilkosten"});
+			/*Ess*/6);
 
     private final String name;
     private final int[] kon;
@@ -89,9 +85,8 @@ public enum Metatyp {
     private final int[] cha;
     private final int[] edg;
     private final int ess;
-    private final String[] metamerkmale;
 
-    Metatyp(String name, int[] kon, int[] ges, int[] rea, int[] str, int[] wil, int[] log, int[] in, int[] cha, int[] edg, int ess, String[] metamerkmale) {
+    Metatyp(String name, int[] kon, int[] ges, int[] rea, int[] str, int[] wil, int[] log, int[] in, int[] cha, int[] edg, int ess) {
         this.name = name;
         this.kon = kon;
         this.ges = ges;
@@ -103,7 +98,6 @@ public enum Metatyp {
         this.cha = cha;
         this.edg = edg;
         this.ess = ess;
-        this.metamerkmale = metamerkmale;
     }
 
     public static Metatyp fromValue(final String value) {
@@ -158,11 +152,11 @@ public enum Metatyp {
     }
 
     public String[] getMetamerkmale() {
-        return metamerkmale;
+        return Language.getStringArray("metatyp." + name + "merkmale");
     }
 
     @Override
     public String toString() {
-        return name;
+        return Language.getString("metatyp." + name);
     }
 }

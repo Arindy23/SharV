@@ -14,6 +14,7 @@ import de.arindy.shadowrun.gui.actions.ExitAction;
 import de.arindy.shadowrun.gui.actions.LoadCharFile;
 import de.arindy.shadowrun.gui.actions.SaveCharFile;
 import de.arindy.shadowrun.gui.helper.JCustomTextField;
+import de.arindy.shadowrun.gui.helper.Language;
 import de.arindy.shadowrun.gui.listener.WindowCloseListener;
 import de.arindy.shadowrun.gui.types.GBC;
 import de.arindy.shadowrun.persistence.helper.JsonHandler;
@@ -25,6 +26,7 @@ import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,10 +35,7 @@ import static java.lang.Math.ceil;
 public class CharController {
 
     //<editor-fold desc="Variablen">
-    public static final String DATEI = "Datei";
-    public static final String CHARAKTER = "Charakter";
-    public static final String VERWALTUNG = "Verwaltung";
-    public static Charakter character = new Charakter();
+    public static Charakter character;
     private CharSheet charSheet;
     private MagResPanel magResPanel;
     private Zustandsmonitor zustandsmonitor;
@@ -83,11 +82,11 @@ public class CharController {
         windowCloseListener.addAction(saveCharFile);
         charSheet.getSheet().addWindowListener(windowCloseListener);
         charSheet.setEnabledInputsPersoenlich(true);
-        updateTitle();
         buildMenu();
         charSheet.getRight().add(zustandsmonitor.getPanel(), GBC.cZustand);
         addTabbedPanes();
         addListeners();
+        loadInitCharacter();
     }
 
     public static File getDirectory() {
@@ -107,22 +106,30 @@ public class CharController {
         charSheet.getSheet().setTitle(((DataHelper.unsavedData) ? "*" : "") + Main.TITLE + titleBack);
     }
 
-    private void buildMenu() {
-        JMenuBar menu = charSheet.getMenu();
+    private void buildMenu(){
+        charSheet.getMenuDatei().add(new ExitAction());
+        charSheet.getMenuCharakter().add(loadCharFile);
+        charSheet.getMenuCharakter().add(saveCharFile);
+        charSheet.getMenuVerwaltung().add(new DialogBauer(charSheet.getSheet(), VorteilNachteilVerwaltung.getPanel()));;
 
-        for (int i = 0; i < menu.getMenuCount(); i++) {
-            switch (menu.getMenu(i).getText()) {
-                case DATEI:
-                    menu.getMenu(i).add(new ExitAction());
-                    break;
-                case CHARAKTER:
-                    menu.getMenu(i).add(loadCharFile);
-                    menu.getMenu(i).add(saveCharFile);
-                    break;
-                case VERWALTUNG:
-                    menu.getMenu(i).add(new DialogBauer(this, VorteilNachteilVerwaltung.getPanel()));
-                    break;
+        //noinspection ConstantConditions
+        for (File lang : new File(getClass().getClassLoader().getResource("lang/").getFile()).listFiles()) {
+            Locale loc = Locale.forLanguageTag(lang.getName().replace("language_","").replace(".properties",""));
+            if (!loc.getDisplayName().equalsIgnoreCase("language")){
+                JMenuItem item = new JMenuItem(loc.getDisplayName());
+                item.addActionListener(e -> changeLocale(loc));
+                charSheet.getMenuSprache().add(item);
             }
+        }
+    }
+
+    private void changeLocale(Locale locale){
+        DataHelper.languageChange = true;
+        DataHelper.locale = locale;
+        Window window = KeyboardFocusManager.getCurrentKeyboardFocusManager().getActiveWindow();
+        window.dispose();
+        synchronized (this){
+            notifyAll();
         }
     }
 
@@ -156,6 +163,19 @@ public class CharController {
         charSheet.gettMagieResonanz().getDocument().addDocumentListener(documentListener);
         charSheet.gettEssenz().getDocument().addDocumentListener(documentListener);
         charSheet.gettEdge().getDocument().addDocumentListener(documentListener);
+    }
+
+    private void loadInitCharacter(){
+        if(character ==null){
+            character = new Charakter();
+            character.setMetatyp(Metatyp.MENSCH);
+            character.setGeschlecht(Geschlecht.WEIBLICH);
+            character.setMagRes(MagRes.NONE);
+        }
+        else{
+            mapChar();
+            updateTitle();
+        }
     }
 
     private void calcData() {
@@ -402,7 +422,7 @@ public class CharController {
     }
 
     private void mapKarma() {
-        charSheet.getlKarma().setText("Karma: " + character.getKarma() + "\\" + character.getGesamtkarma());
+        charSheet.getlKarma().setText(Language.getString("charSheet.persDaten.karma") + ": " + character.getKarma() + "\\" + character.getGesamtkarma());
         charSheet.getPvKarma().setMaximum(character.getGesamtkarma());
         charSheet.getPvKarma().setValue(character.getKarma());
     }

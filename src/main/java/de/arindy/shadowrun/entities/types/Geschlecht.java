@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import de.arindy.shadowrun.gui.helper.Language;
 import de.arindy.shadowrun.persistence.helper.GeschlechtDeserializer;
 import de.arindy.shadowrun.persistence.helper.GeschlechtSerializer;
 
@@ -13,8 +14,8 @@ import de.arindy.shadowrun.persistence.helper.GeschlechtSerializer;
 @JsonRootName("geschlecht")
 public enum Geschlecht {
 
-    WEIBLICH("weiblich"),
-    MAENLICH("männlich");
+    WEIBLICH("w"),
+    MAENLICH("m");
 
     private final String value;
 
@@ -39,6 +40,6 @@ public enum Geschlecht {
 
     @Override
     public String toString() {
-        return value;
+        return Language.getString("geschlecht." + value);
     }
 }
