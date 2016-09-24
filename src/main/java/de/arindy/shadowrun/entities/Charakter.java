@@ -12,6 +12,7 @@ public class Charakter {
     private String name;
     private String strassenname;
     private Metatyp metatyp;
+    private int cred;
     private Geschlecht geschlecht;
     private MagRes magRes;
     private int alter;
@@ -114,6 +115,14 @@ public class Charakter {
 
     public void setStrassenname(String strassenname) {
         this.strassenname = strassenname;
+    }
+
+    public int getCred() {
+        return cred;
+    }
+
+    public void setCred(int cred) {
+        this.cred = cred;
     }
 
     public Metatyp getMetatyp() {

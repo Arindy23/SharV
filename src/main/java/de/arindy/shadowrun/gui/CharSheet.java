@@ -1,5 +1,6 @@
 package de.arindy.shadowrun.gui;
 
+import de.arindy.shadowrun.controller.helper.DataHelper;
 import de.arindy.shadowrun.entities.types.Geschlecht;
 import de.arindy.shadowrun.entities.types.MagRes;
 import de.arindy.shadowrun.entities.types.Metatyp;
@@ -7,6 +8,10 @@ import de.arindy.shadowrun.gui.helper.JCustomTextField;
 import de.arindy.shadowrun.gui.helper.Language;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CharSheet {
 
@@ -16,96 +21,31 @@ public class CharSheet {
 
     private JFrame sheet;
 
-    private JPanel right = new JPanel();
+    private JPanel right;
     private JTabbedPane tabbed = new JTabbedPane();
 
     private JMenuBar menu = new JMenuBar();
 
-    private JPanel persoenliches = new JPanel();
-    private JPanel persoenlichesTop = new JPanel();
-    private JPanel persoenlichesMiddleTop = new JPanel();
-    private JPanel persoenlichesMiddleBottom = new JPanel();
-    private JPanel persoenlichesBottom = new JPanel();
-
-    private JPanel attribute = new JPanel();
-    private JPanel attributeLeft = new JPanel();
-    private JPanel attributeRight = new JPanel();
-
-    private JPanel attributeKoerper = new JPanel();
-    private JPanel attributeGeist = new JPanel();
-    private JPanel attributeInitiative = new JPanel();
-    private JPanel attributeMagieResonanz = new JPanel();
-    private JPanel attributeNebenAttribute = new JPanel();
-    private JPanel attributeEssenzEdge = new JPanel();
-
-    private JPanel edgeAusgegeben = new JPanel();
-    private JPanel bewegung = new JPanel();
-    private JPanel attributeLimits = new JPanel();
-
     private JLabel lName;
-    private JLabel lMetatyp;
-    private JLabel lGeschlecht;
-    private JLabel lAlter;
-    private JLabel lGroesse;
-    private JLabel lGewicht;
-    private JLabel lEthnie;
-    private JLabel lKonzept;
-    private JLabel lStrassenruf;
-    private JLabel lSchlechterRuf;
-    private JLabel lProminenz;
-    private JLabel lSonstiges;
+
     private JLabel lKarma;
 
-    private JLabel lKonstitution = new JLabel("Konstitution:");
-    private JLabel lGeschicklichkeit = new JLabel("Geschicklichkeit:");
-    private JLabel lReaktion = new JLabel("Reaktion:");
-    private JLabel lStaerke = new JLabel("Stärke:");
+    private JLabel lInitiativeW;
+    private JLabel lAstralInitiativeW;
+    private JLabel lMatrixInitiativeARW;
+    private JLabel lMatrixInitiativekaltW;
+    private JLabel lMatrixInitiativeheißW;
+    private JLabel lRiggingInitiativeW;
+    private JLabel lRiggingInitiativekaltW;
+    private JLabel lRiggingInitiativeheißW;
+    private JLabel lRiggingInitiativedirektW;
 
-    private JLabel lWillenskraft = new JLabel("Willenskraft:");
-    private JLabel lLogik = new JLabel("Logik:");
-    private JLabel lIntuition = new JLabel("Intuition:");
-    private JLabel lCharisma = new JLabel("Charisma:");
-
-    private JLabel lInitiative = new JLabel("Initiative:");
-    private JLabel lAstralInitiative = new JLabel("Astral-Initiative:");
-    private JLabel lMatrixInitiativeAR = new JLabel("Matrix-Init.(AR):");
-    private JLabel lMatrixInitiativekalt = new JLabel("Matrix-Init.(kalt):");
-    private JLabel lMatrixInitiativeheiß = new JLabel("Matrix-Init.(heiß):");
-    private JLabel lRiggingInitiative = new JLabel("Rigging-Init.(AR)::");
-    private JLabel lRiggingInitiativekalt = new JLabel("Rigging-Init.(kalt):");
-    private JLabel lRiggingInitiativeheiß = new JLabel("Rigging-Init.(heiß):");
-    private JLabel lRiggingInitiativedirekt = new JLabel("Rigging-Init.(direkt):");
-
-    private JLabel lInitiativeW = new JLabel((1 + initMod) + "W6+");
-    private JLabel lAstralInitiativeW = new JLabel((2 + initMod) + "W6+");
-    private JLabel lMatrixInitiativeARW = new JLabel((1 + initMod) + "W6+");
-    private JLabel lMatrixInitiativekaltW = new JLabel((3 + initMod) + "W6+");
-    private JLabel lMatrixInitiativeheißW = new JLabel((4 + initMod) + "W6+");
-    private JLabel lRiggingInitiativeW = new JLabel((1 + initMod) + "W6+");
-    private JLabel lRiggingInitiativekaltW = new JLabel((1 + initMod) + "W6+");
-    private JLabel lRiggingInitiativeheißW = new JLabel((1 + initMod) + "W6+");
-    private JLabel lRiggingInitiativedirektW = new JLabel((1 + initMod) + "W6+");
-
-    private JLabel lSelbstbeherrschung = new JLabel("Selbstbeherrschung:");
-    private JLabel lMenschenkenntnis = new JLabel("Menschenkenntnis:");
-    private JLabel lErinnerungsvermoegen = new JLabel("Erinnerungsvermögen:");
-    private JLabel lHebenTragen = new JLabel("Heben/Tragen:");
-
-    private JLabel lGehen = new JLabel("Geh:");
-    private JLabel lLaufen = new JLabel("Lauf:");
-    private JLabel lSprinten = new JLabel("Sprint(+1m):");
-
-    private JLabel lEssenz = new JLabel("Essenz:");
-    private JLabel lEdge = new JLabel("Edge:");
-
-    private JLabel lLimitKoerper;
-    private JLabel lLimitGeist;
-    private JLabel lLimitSozial;
+    private JLabel lSprinten;
 
     private JCustomTextField tName;
     private JComboBox<Metatyp> tMetatyp;
     private JComboBox<Geschlecht> tGeschlecht;
-    private JComboBox<MagRes> lMagieResonanz = new JComboBox<>(new DefaultComboBoxModel<>(MagRes.values()));
+    private JComboBox<MagRes> lMagieResonanz;
     private JCustomTextField tAlter;
     private JCustomTextField tGroesse;
     private JCustomTextField tGewicht;
@@ -114,40 +54,49 @@ public class CharSheet {
     private JCustomTextField tStrassenruf;
     private JCustomTextField tSchlechterRuf;
     private JCustomTextField tProminenz;
-    private JCustomTextField tSonstiges;
 
-    private JCustomTextField tKonstitution = new JCustomTextField();
-    private JCustomTextField tGeschicklichkeit = new JCustomTextField();
-    private JCustomTextField tReaktion = new JCustomTextField();
-    private JCustomTextField tStaerke = new JCustomTextField();
+    private JCustomTextField tKonstitution;
+    private JCustomTextField tGeschicklichkeit;
+    private JCustomTextField tReaktion;
+    private JCustomTextField tStaerke;
 
-    private JCustomTextField tWillenskraft = new JCustomTextField();
-    private JCustomTextField tLogik = new JCustomTextField();
-    private JCustomTextField tIntuition = new JCustomTextField();
-    private JCustomTextField tCharisma = new JCustomTextField();
+    private JCustomTextField tKonstitutionFin;
+    private JCustomTextField tGeschicklichkeitFin;
+    private JCustomTextField tReaktionFin;
+    private JCustomTextField tStaerkeFin;
 
-    private JCustomTextField tMagieResonanz = new JCustomTextField();
+    private JCustomTextField tWillenskraft;
+    private JCustomTextField tLogik;
+    private JCustomTextField tIntuition;
+    private JCustomTextField tCharisma;
 
-    private JCustomTextField tInitiative = new JCustomTextField();
-    private JCustomTextField tAstralInitiative = new JCustomTextField();
-    private JCustomTextField tMatrixInitiativeAR = new JCustomTextField();
-    private JCustomTextField tMatrixInitiativekalt = new JCustomTextField();
-    private JCustomTextField tMatrixInitiativeheiß = new JCustomTextField();
-    private JCustomTextField tRiggingInitiative = new JCustomTextField();
-    private JCustomTextField tRiggingInitiativekalt = new JCustomTextField();
-    private JCustomTextField tRiggingInitiativeheiß = new JCustomTextField();
-    private JCustomTextField tRiggingInitiativedirekt = new JCustomTextField();
+    private JCustomTextField tWillenskraftFin;
+    private JCustomTextField tLogikFin;
+    private JCustomTextField tIntuitionFin;
+    private JCustomTextField tCharismaFin;
 
-    private JCustomTextField tSelbstbeherrschung = new JCustomTextField();
-    private JCustomTextField tMenschenkenntnis = new JCustomTextField();
-    private JCustomTextField tErinnerungsvermoegen = new JCustomTextField();
-    private JCustomTextField tHebenTragen = new JCustomTextField();
-    private JCustomTextField tGehen = new JCustomTextField();
-    private JCustomTextField tLaufen = new JCustomTextField();
-    private JCustomTextField tSprinten = new JCustomTextField();
+    private JCustomTextField tMagieResonanz;
 
-    private JCustomTextField tEssenz = new JCustomTextField();
-    private JCustomTextField tEdge = new JCustomTextField();
+    private JCustomTextField tInitiative;
+    private JCustomTextField tAstralInitiative;
+    private JCustomTextField tMatrixInitiativeAR;
+    private JCustomTextField tMatrixInitiativekalt;
+    private JCustomTextField tMatrixInitiativeheiß;
+    private JCustomTextField tRiggingInitiative;
+    private JCustomTextField tRiggingInitiativekalt;
+    private JCustomTextField tRiggingInitiativeheiß;
+    private JCustomTextField tRiggingInitiativedirekt;
+
+    private JCustomTextField tSelbstbeherrschung;
+    private JCustomTextField tMenschenkenntnis;
+    private JCustomTextField tErinnerungsvermoegen;
+    private JCustomTextField tHebenTragen;
+    private JCustomTextField tGehen;
+    private JCustomTextField tLaufen;
+    private JCustomTextField tSprinten;
+
+    private JCustomTextField tEssenz;
+    private JCustomTextField tEdge;
 
     private JCustomTextField tLimitKoerper;
     private JCustomTextField tLimitGeist;
@@ -155,13 +104,20 @@ public class CharSheet {
 
     private JProgressBar pvKarma;
     private JPanel mainPanel;
-    private JLabel lCred;
     private JCustomTextField tCredit;
 
     private JMenu menuDatei;
     private JMenu menuCharakter;
     private JMenu menuVerwaltung;
     private JMenu menuSprache;
+    private JMenu menuSchriftgroesse;
+
+    private JPanel edgeAusgegeben;
+    private Zustandsmonitor zustandsmonitor;
+    private JTabbedPane tabbedPane1;
+
+    private ActionListener edgeListener;
+    private List<JCheckBox> edgeCheckBox;
     //</editor-fold>
 
     public CharSheet(String frameTitle) {
@@ -175,13 +131,20 @@ public class CharSheet {
         sheet = new JFrame(frameTitle);
         sheet.setContentPane(mainPanel);
         sheet.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        sheet.setSize(mainPanel.getPreferredSize());
-        sheet.setMinimumSize(mainPanel.getPreferredSize());
-        sheet.setLocationRelativeTo(null);
         sheet.setJMenuBar(menu);
+        setInitMod(0);
         buildMenu();
         setComboBoxModels();
+
         centerText();
+        sheet.pack();
+        sheet.setResizable(false);
+        if (DataHelper.getLocation() != null) {
+            sheet.setLocation(DataHelper.getLocation());
+        } else {
+            sheet.setLocationRelativeTo(null);
+        }
+        DataHelper.setLocation(null);
         sheet.setVisible(true);
     }
 
@@ -195,12 +158,18 @@ public class CharSheet {
         menuVerwaltung = new JMenu(Language.getString("menu.verwaltung"));
         menu.add(menuVerwaltung);
 
-        menuSprache = new JMenu(Language.getString("menu.sprache"));
-        menu.add(menuSprache);
+        JMenu menuOptions = new JMenu(Language.getString("menu.options"));
+        menu.add(menuOptions);
+
+        menuSprache = new JMenu(Language.getString("menu.options.sprache"));
+        menuOptions.add(menuSprache);
+
+        menuSchriftgroesse = new JMenu(Language.getString("menu.options.fontsize"));
+        menuOptions.add(menuSchriftgroesse);
     }
 
     private void setLimits() {
-        tName.setMaximumLength(42);
+        tName.setMaximumLength(40);
         String wAndUmlauts = "\\w\u00c4\u00e4\u00d6\u00f6\u00dc\u00fc\u00df";
         tName.setRegexFilter("(([" + wAndUmlauts + "]*( )*)*(\\(([" + wAndUmlauts + "]*( )*)*\\))?)");
 
@@ -218,10 +187,9 @@ public class CharSheet {
         tSchlechterRuf.setRegexFilter("\\d*");
         tProminenz.setMaximumLength(2);
         tProminenz.setRegexFilter("\\d*");
-        tSonstiges.setMaximumLength(2);
-        tSonstiges.setRegexFilter("\\d*");
-        tCredit.setMaximumLength(8);
+        tCredit.setMaximumLength(10);
         tCredit.setRegexFilter("\\d*");
+        tCredit.setForeground(java.awt.Color.ORANGE);
 
         tKonstitution.setMaximumLength(2);
         tKonstitution.setRegexFilter("\\d*");
@@ -239,6 +207,23 @@ public class CharSheet {
         tIntuition.setRegexFilter("\\d*");
         tCharisma.setMaximumLength(2);
         tCharisma.setRegexFilter("\\d*");
+
+        tKonstitutionFin.setMaximumLength(2);
+        tKonstitutionFin.setRegexFilter("\\d*");
+        tGeschicklichkeitFin.setMaximumLength(2);
+        tGeschicklichkeitFin.setRegexFilter("\\d*");
+        tReaktionFin.setMaximumLength(2);
+        tReaktionFin.setRegexFilter("\\d*");
+        tStaerkeFin.setMaximumLength(2);
+        tStaerkeFin.setRegexFilter("\\d*");
+        tWillenskraftFin.setMaximumLength(2);
+        tWillenskraftFin.setRegexFilter("\\d*");
+        tLogikFin.setMaximumLength(2);
+        tLogikFin.setRegexFilter("\\d*");
+        tIntuitionFin.setMaximumLength(2);
+        tIntuitionFin.setRegexFilter("\\d*");
+        tCharismaFin.setMaximumLength(2);
+        tCharismaFin.setRegexFilter("\\d*");
 
         tInitiative.setMaximumLength(2);
         tInitiative.setRegexFilter("\\d*");
@@ -310,8 +295,21 @@ public class CharSheet {
     private void setComboBoxModels(){
         tMetatyp.setModel(new DefaultComboBoxModel<>(Metatyp.values()));
         tGeschlecht.setModel(new DefaultComboBoxModel<>(Geschlecht.values()));
+        lMagieResonanz.setModel(new DefaultComboBoxModel<>(MagRes.values()));
+        removeComboBoxBorder(tMetatyp);
+        removeComboBoxBorder(tGeschlecht);
+        removeComboBoxBorder(lMagieResonanz);
+    }
+
+    private void removeComboBoxBorder(JComboBox combo) {
+        for (int i = 0; i < combo.getComponentCount(); i++) {
+            if (combo.getComponent(i) instanceof JComponent) {
+                ((JComponent) combo.getComponent(i)).setBorder(new EmptyBorder(0, 0, 0, 0));
+            }
+        }
     }
     private void centerText() {
+        tName.setHorizontalAlignment(JTextField.CENTER);
         tCredit.setHorizontalAlignment(JTextField.RIGHT);
         tAlter.setHorizontalAlignment(JTextField.CENTER);
         tGroesse.setHorizontalAlignment(JTextField.CENTER);
@@ -319,7 +317,6 @@ public class CharSheet {
         tStrassenruf.setHorizontalAlignment(JTextField.CENTER);
         tSchlechterRuf.setHorizontalAlignment(JTextField.CENTER);
         tProminenz.setHorizontalAlignment(JTextField.CENTER);
-        tSonstiges.setHorizontalAlignment(JTextField.CENTER);
 
         tKonstitution.setHorizontalAlignment(JTextField.CENTER);
         tGeschicklichkeit.setHorizontalAlignment(JTextField.CENTER);
@@ -330,6 +327,16 @@ public class CharSheet {
         tLogik.setHorizontalAlignment(JTextField.CENTER);
         tIntuition.setHorizontalAlignment(JTextField.CENTER);
         tCharisma.setHorizontalAlignment(JTextField.CENTER);
+
+        tKonstitutionFin.setHorizontalAlignment(JTextField.CENTER);
+        tGeschicklichkeitFin.setHorizontalAlignment(JTextField.CENTER);
+        tReaktionFin.setHorizontalAlignment(JTextField.CENTER);
+        tStaerkeFin.setHorizontalAlignment(JTextField.CENTER);
+
+        tWillenskraftFin.setHorizontalAlignment(JTextField.CENTER);
+        tLogikFin.setHorizontalAlignment(JTextField.CENTER);
+        tIntuitionFin.setHorizontalAlignment(JTextField.CENTER);
+        tCharismaFin.setHorizontalAlignment(JTextField.CENTER);
 
         tSelbstbeherrschung.setHorizontalAlignment(JTextField.CENTER);
         tMenschenkenntnis.setHorizontalAlignment(JTextField.CENTER);
@@ -378,29 +385,21 @@ public class CharSheet {
         cb.setEnabled(bool);
     }
 
-    public void setInitMod(int initMod) {
+    private void setInitMod(int initMod) {
         this.initMod = initMod;
-        lInitiativeW = new JLabel((1 + initMod) + "W6+");
-        lAstralInitiativeW.setText((2 + initMod) + "W6+");
-        lMatrixInitiativeARW.setText((1 + initMod) + "W6+");
-        lMatrixInitiativekaltW.setText((3 + initMod) + "W6+");
-        lMatrixInitiativeheißW.setText((4 + initMod) + "W6+");
-        lRiggingInitiativeW.setText((1 + initMod) + "W6+");
-        lRiggingInitiativekaltW.setText((1 + initMod) + "W6+");
-        lRiggingInitiativeheißW.setText((1 + initMod) + "W6+");
-        lRiggingInitiativedirektW.setText((1 + initMod) + "W6+");
+        lInitiativeW.setText((1 + initMod) + Language.getString("dice") + " +");
+        lAstralInitiativeW.setText((2 + initMod) + Language.getString("dice") + " +");
+        lMatrixInitiativeARW.setText((1 + initMod) + Language.getString("dice") + " +");
+        lMatrixInitiativekaltW.setText((3 + initMod) + Language.getString("dice") + " +");
+        lMatrixInitiativeheißW.setText((4 + initMod) + Language.getString("dice") + " +");
+        lRiggingInitiativeW.setText((1 + initMod) + Language.getString("dice") + " +");
+        lRiggingInitiativekaltW.setText((1 + initMod) + Language.getString("dice") + " +");
+        lRiggingInitiativeheißW.setText((1 + initMod) + Language.getString("dice") + " +");
+        lRiggingInitiativedirektW.setText((1 + initMod) + Language.getString("dice") + " +");
     }
 
     public JFrame getSheet() {
         return sheet;
-    }
-
-    public JPanel getRight() {
-        return right;
-    }
-
-    public JMenuBar getMenu() {
-        return menu;
     }
 
     public JTabbedPane getTabbed() {
@@ -425,6 +424,10 @@ public class CharSheet {
 
     public JCustomTextField gettName() {
         return tName;
+    }
+
+    public JCustomTextField gettCredit() {
+        return tCredit;
     }
 
     public JComboBox<Metatyp> gettMetatyp() {
@@ -467,10 +470,6 @@ public class CharSheet {
         return tProminenz;
     }
 
-    public JCustomTextField gettSonstiges() {
-        return tSonstiges;
-    }
-
     public JCustomTextField gettKonstitution() {
         return tKonstitution;
     }
@@ -501,6 +500,38 @@ public class CharSheet {
 
     public JCustomTextField gettCharisma() {
         return tCharisma;
+    }
+
+    public JCustomTextField gettKonstitutionFin() {
+        return tKonstitutionFin;
+    }
+
+    public JCustomTextField gettGeschicklichkeitFin() {
+        return tGeschicklichkeitFin;
+    }
+
+    public JCustomTextField gettReaktionFin() {
+        return tReaktionFin;
+    }
+
+    public JCustomTextField gettStaerkeFin() {
+        return tStaerkeFin;
+    }
+
+    public JCustomTextField gettWillenskraftFin() {
+        return tWillenskraftFin;
+    }
+
+    public JCustomTextField gettLogikFin() {
+        return tLogikFin;
+    }
+
+    public JCustomTextField gettIntuitionFin() {
+        return tIntuitionFin;
+    }
+
+    public JCustomTextField gettCharismaFin() {
+        return tCharismaFin;
     }
 
     public JCustomTextField gettMagieResonanz() {
@@ -613,5 +644,26 @@ public class CharSheet {
 
     public JMenu getMenuSprache() {
         return menuSprache;
+    }
+
+    public JMenu getMenuSchriftgroesse() {
+        return menuSchriftgroesse;
+    }
+
+    public List<JCheckBox> getEdgeCheckBox() {
+        return edgeCheckBox;
+    }
+
+    public Zustandsmonitor getZustandsmonitor() {
+        return zustandsmonitor;
+    }
+
+    private void createUIComponents() {
+        edgeCheckBox = new ArrayList<>();
+        edgeAusgegeben = new JPanel();
+        for (int i = 0; i < 8; i++) {
+            edgeCheckBox.add(new JCheckBox());
+            edgeAusgegeben.add(edgeCheckBox.get(i));
+        }
     }
 }

@@ -43,8 +43,8 @@ public class SaveCharFile extends AbstractAction {
             if (override == JOptionPane.YES_OPTION) {
                 File file = (fileChooser.getSelectedFile().getAbsolutePath().endsWith(".srVchar")) ? fileChooser.getSelectedFile() : new File(fileChooser.getSelectedFile().getAbsolutePath() + ".srVchar");
                 JsonHandler.writeFile(file, CharController.character);
-                DataHelper.initCharPath = fileChooser.getSelectedFile().getAbsolutePath();
-                DataHelper.unsavedData = false;
+                DataHelper.setInitCharPath(fileChooser.getSelectedFile().getAbsolutePath());
+                DataHelper.setUnsavedData(false);
                 charController.updateTitle();
             } else {
                 cancel = true;

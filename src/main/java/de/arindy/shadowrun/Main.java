@@ -18,10 +18,12 @@ public class Main {
     private static CharSheet charSheet;
 
     public static void main(String[] args) {
+        DataHelper.init();
         do{
             init();
             CharController charController = new CharController(charSheet);
             try {
+                //noinspection SynchronizationOnLocalVariableOrMethodParameter
                 synchronized (charController){
                     charController.wait();
                 }
@@ -29,14 +31,14 @@ public class Main {
                 e.printStackTrace();
             }
         }
-        while(DataHelper.languageChange);
+        while (DataHelper.isUiChange());
     }
 
-    public static void init(){
+    private static void init() {
         setLocales();
-        DataHelper.languageChange = false;
+        DataHelper.setUiChange(false);
         initLookAndFeel();
-        int fontSize = 12;
+        int fontSize = DataHelper.getFontsize();
         Font font = loadFont(fontSize);
         setUIFont(new javax.swing.plaf.FontUIResource(((font != null) ? font : new Font("Consolas", Font.PLAIN, fontSize))));
 
@@ -45,9 +47,9 @@ public class Main {
     }
 
     private static void setLocales(){
-        Locale.setDefault(DataHelper.locale);
-        JFileChooser.setDefaultLocale(DataHelper.locale);
-        JOptionPane.setDefaultLocale(DataHelper.locale);
+        Locale.setDefault(DataHelper.getLocale());
+        JFileChooser.setDefaultLocale(DataHelper.getLocale());
+        JOptionPane.setDefaultLocale(DataHelper.getLocale());
     }
 
     private static void initLookAndFeel() {
@@ -66,7 +68,7 @@ public class Main {
     private static Font loadFont(float size) {
         try {
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            Font font = Font.createFont(Font.TRUETYPE_FONT, CharSheet.class.getClassLoader().getResourceAsStream("font/Anonymous_Pro_Minus.ttf"));
+            Font font = Font.createFont(Font.TRUETYPE_FONT, CharSheet.class.getClassLoader().getResourceAsStream("font/Inconsolata-Regular.ttf"));
             ge.registerFont(font);
             return font.deriveFont(size);
         } catch (IOException | FontFormatException e) {

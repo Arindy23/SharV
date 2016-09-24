@@ -16,17 +16,19 @@ import de.arindy.shadowrun.gui.actions.SaveCharFile;
 import de.arindy.shadowrun.gui.helper.JCustomTextField;
 import de.arindy.shadowrun.gui.helper.Language;
 import de.arindy.shadowrun.gui.listener.WindowCloseListener;
-import de.arindy.shadowrun.gui.types.GBC;
 import de.arindy.shadowrun.persistence.helper.JsonHandler;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Locale;
+import java.util.*;
+import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,17 +51,17 @@ public class CharController {
     private SaveCharFile saveCharFile = new SaveCharFile(this);
     private LoadCharFile loadCharFile = new LoadCharFile(this);
 
-    private ArrayList<JCheckBox> edgeCheckBox;
+    private List<JCheckBox> edgeCheckBox;
 
-    private ArrayList<JCheckBox> koerperlich;
-    private ArrayList<JCheckBox> geistig;
-    private ArrayList<JCheckBox> ueberzaehlig;
+    private List<JCheckBox> koerperlich;
+    private List<JCheckBox> geistig;
+    private List<JCheckBox> ueberzaehlig;
     //</editor-fold>
 
     public CharController(CharSheet charSheet) {
         this.charSheet = charSheet;
         magResPanel = new MagResPanel();
-        zustandsmonitor = new Zustandsmonitor();
+        zustandsmonitor = charSheet.getZustandsmonitor();
         vorteilNachteilPanel = new VorteilNachteilPanel();
         documentListener = e -> textFieldChanged((JCustomTextField) e.getDocument().getProperty("owner"));
         comboBoxListener = e -> comboBoxChanged((JComboBox) e.getSource());
@@ -68,12 +70,8 @@ public class CharController {
         koerperlichListener = e -> schadenKoerperChanged((JCheckBox) e.getSource());
         geistigListener = e -> schadenGeistChanged((JCheckBox) e.getSource());
 
-        setupEdgeAusgegeben(8);
-        koerperlich = new ArrayList<>();
-        geistig = new ArrayList<>();
-        fillZustandPanel(zustandsmonitor.getpKoerperlich(), koerperlich, 6);
-        fillZustandPanel(zustandsmonitor.getpGeistig(), geistig, 4);
-        setupUeberzaehligPanel(20);
+        setupForms();
+        addListeners();
         updateUeberzaehligPanel();
         updateKoerperPanel();
         updateGeistPanel();
@@ -83,9 +81,7 @@ public class CharController {
         charSheet.getSheet().addWindowListener(windowCloseListener);
         charSheet.setEnabledInputsPersoenlich(true);
         buildMenu();
-        charSheet.getRight().add(zustandsmonitor.getPanel(), GBC.cZustand);
         addTabbedPanes();
-        addListeners();
         loadInitCharacter();
     }
 
@@ -100,33 +96,102 @@ public class CharController {
         return directory;
     }
 
+    private void setupForms() {
+        for (JCheckBox cb : zustandsmonitor.getUeberzaehlig()) {
+            cb.addActionListener(ueberzaehligListener);
+        }
+        for (JCheckBox cb : charSheet.getEdgeCheckBox()) {
+            cb.addActionListener(edgeListener);
+        }
+
+
+        for (JCheckBox cb : zustandsmonitor.getKoerperlich()) {
+            cb.addActionListener(koerperlichListener);
+        }
+
+        for (JCheckBox cb : zustandsmonitor.getGeistig()) {
+            cb.addActionListener(geistigListener);
+        }
+    }
+
     public void updateTitle() {
-        String titleBack = (character != null && character.getName() != null && !character.getName().isEmpty()) ? " - " + character.getName() : "";
-        titleBack += (character != null && character.getStrassenname() != null && !character.getStrassenname().isEmpty()) ? " (" + character.getStrassenname() + ")" : "";
-        charSheet.getSheet().setTitle(((DataHelper.unsavedData) ? "*" : "") + Main.TITLE + titleBack);
+        String titleFront = (character != null && character.getName() != null && !character.getName().isEmpty()) ? character.getName() + " - " : "";
+        titleFront += (character != null && character.getStrassenname() != null && !character.getStrassenname().isEmpty()) ? " (" + character.getStrassenname() + ")" : "";
+        charSheet.getSheet().setTitle(((DataHelper.hasUnsavedData()) ? "*" : "") + titleFront + Main.TITLE);
     }
 
     private void buildMenu(){
         charSheet.getMenuDatei().add(new ExitAction());
         charSheet.getMenuCharakter().add(loadCharFile);
         charSheet.getMenuCharakter().add(saveCharFile);
-        charSheet.getMenuVerwaltung().add(new DialogBauer(charSheet.getSheet(), VorteilNachteilVerwaltung.getPanel()));;
+        charSheet.getMenuVerwaltung().add(new DialogBauer(charSheet.getSheet(), new VorteilNachteilVerwaltung()));
 
         //noinspection ConstantConditions
-        for (File lang : new File(getClass().getClassLoader().getResource("lang/").getFile()).listFiles()) {
-            Locale loc = Locale.forLanguageTag(lang.getName().replace("language_","").replace(".properties",""));
-            if (!loc.getDisplayName().equalsIgnoreCase("language")){
-                JMenuItem item = new JMenuItem(loc.getDisplayName());
-                item.addActionListener(e -> changeLocale(loc));
-                charSheet.getMenuSprache().add(item);
+        final String path = "lang";
+        final File jarFile = new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
+
+        if (jarFile.isFile()) {  // Run with JAR file
+            try {
+                final JarFile jar = new JarFile(jarFile);
+                final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
+                while (entries.hasMoreElements()) {
+                    final String name = entries.nextElement().getName();
+                    if (name.startsWith(path + "/")) { //filter according to the path
+                        loadLanguageFile(new File(getClass().getClassLoader().getResource(name).getFile()));
+                    }
+                }
+                jar.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+        } else { // Run with IDE
+            for (File lang : new File(getClass().getClassLoader().getResource(path + "/").getFile()).listFiles()) {
+                loadLanguageFile(lang);
+            }
+        }
+
+        Map<Integer, String> fontsizes = new TreeMap<>();
+        fontsizes.put(18, Language.getString("menu.options.fontsize.huge"));
+        fontsizes.put(15, Language.getString("menu.options.fontsize.big"));
+        fontsizes.put(11, Language.getString("menu.options.fontsize.normal"));
+
+        for (Map.Entry<Integer, String> entry : fontsizes.entrySet()) {
+            int fontsize = entry.getKey();
+            JMenuItem item = new JMenuItem(entry.getValue());
+            if (fontsize == DataHelper.getFontsize()) {
+                item.setEnabled(false);
+            }
+            item.addActionListener(e -> changeFontsize(fontsize));
+            charSheet.getMenuSchriftgroesse().add(item);
+        }
+    }
+
+    private void loadLanguageFile(File lang) {
+        Locale loc = Locale.forLanguageTag(lang.getName().replace("language_", "").replace(".properties", ""));
+        if (!loc.getDisplayName().equalsIgnoreCase("language") && !loc.getDisplayName().equalsIgnoreCase("lang")) {
+            JMenuItem item = new JMenuItem(loc.getDisplayName());
+            if (loc.toLanguageTag().equalsIgnoreCase(DataHelper.getLocale().toLanguageTag())) {
+                item.setEnabled(false);
+            }
+            item.addActionListener(e -> changeLocale(loc));
+            charSheet.getMenuSprache().add(item);
         }
     }
 
     private void changeLocale(Locale locale){
-        DataHelper.languageChange = true;
-        DataHelper.locale = locale;
+        DataHelper.setLocale(locale);
+        reloadUI();
+    }
+
+    private void changeFontsize(int fontsize) {
+        DataHelper.setFontsize(fontsize);
+        reloadUI();
+    }
+
+    private void reloadUI() {
+        DataHelper.setUiChange(true);
         Window window = KeyboardFocusManager.getCurrentKeyboardFocusManager().getActiveWindow();
+        DataHelper.setLocation(window.getLocation());
         window.dispose();
         synchronized (this){
             notifyAll();
@@ -151,7 +216,6 @@ public class CharController {
         charSheet.gettStrassenruf().getDocument().addDocumentListener(documentListener);
         charSheet.gettSchlechterRuf().getDocument().addDocumentListener(documentListener);
         charSheet.gettProminenz().getDocument().addDocumentListener(documentListener);
-        charSheet.gettSonstiges().getDocument().addDocumentListener(documentListener);
         charSheet.gettKonstitution().getDocument().addDocumentListener(documentListener);
         charSheet.gettGeschicklichkeit().getDocument().addDocumentListener(documentListener);
         charSheet.gettReaktion().getDocument().addDocumentListener(documentListener);
@@ -166,11 +230,18 @@ public class CharController {
     }
 
     private void loadInitCharacter(){
-        if(character ==null){
-            character = new Charakter();
-            character.setMetatyp(Metatyp.MENSCH);
-            character.setGeschlecht(Geschlecht.WEIBLICH);
-            character.setMagRes(MagRes.NONE);
+        if (character == null) {
+            if (DataHelper.getInitCharPath() != null && new File(DataHelper.getInitCharPath()).exists()) {
+                character = (Charakter) JsonHandler.readFile(new File(DataHelper.getInitCharPath()), Charakter.class);
+                mapChar();
+                updateTitle();
+            } else {
+                character = new Charakter();
+                character.setMetatyp(Metatyp.MENSCH);
+                character.setGeschlecht(Geschlecht.WEIBLICH);
+                character.setMagRes(MagRes.NONE);
+                mapKarma();
+            }
         }
         else{
             mapChar();
@@ -204,6 +275,17 @@ public class CharController {
 
     private void mapCalc() {
         calcData();
+
+        charSheet.gettKonstitutionFin().setText("" + character.getKonstitution());
+        charSheet.gettGeschicklichkeitFin().setText("" + character.getGeschicklichkeit());
+        charSheet.gettReaktionFin().setText("" + character.getReaktion());
+        charSheet.gettStaerkeFin().setText("" + character.getStaerke());
+
+        charSheet.gettWillenskraftFin().setText("" + character.getWillenskraft());
+        charSheet.gettLogikFin().setText("" + character.getLogik());
+        charSheet.gettIntuitionFin().setText("" + character.getIntuition());
+        charSheet.gettCharismaFin().setText("" + character.getCharisma());
+
         charSheet.gettInitiative().setText("" + character.getInitiative());
         charSheet.gettAstralInitiative().setText("" + character.getAstralInitiative());
         charSheet.gettMatrixInitiativeAR().setText("" + character.getMatrixInitiative());
@@ -231,6 +313,7 @@ public class CharController {
 
     public void mapChar() {
         charSheet.gettName().setText((character.getStrassenname() != null && !character.getStrassenname().isEmpty()) ? character.getName() + " (" + character.getStrassenname() + ")" : character.getName());
+        charSheet.gettCredit().setText("" + character.getCred());
         charSheet.gettMetatyp().setSelectedItem(character.getMetatyp());
         charSheet.gettGeschlecht().setSelectedItem(character.getGeschlecht());
         charSheet.gettAlter().setText("" + character.getAlter());
@@ -241,29 +324,43 @@ public class CharController {
         charSheet.gettStrassenruf().setText("" + character.getStrassenruf());
         charSheet.gettSchlechterRuf().setText("" + character.getSchlechterRuf());
         charSheet.gettProminenz().setText("" + character.getProminenz());
-        charSheet.gettSonstiges().setText("" + character.getSonstiges());
 
         mapKarma();
 
+        synchronized (this) {
+            try {
+                wait(100L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         charSheet.gettKonstitution().setText("" + character.getKonstitution());
+        System.out.print("kon:" + character.getKonstitution());
         charSheet.gettGeschicklichkeit().setText("" + character.getGeschicklichkeit());
+        System.out.print("ges" + character.getGeschicklichkeit());
         charSheet.gettReaktion().setText("" + character.getReaktion());
+        System.out.print("rea" + character.getReaktion());
         charSheet.gettStaerke().setText("" + character.getStaerke());
-
+        System.out.print("sta" + character.getStaerke());
+        synchronized (this) {
+            try {
+                wait(100L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         charSheet.gettWillenskraft().setText("" + character.getWillenskraft());
+        System.out.print("wil" + character.getWillenskraft());
         charSheet.gettLogik().setText("" + character.getLogik());
+        System.out.print("log" + character.getLogik());
         charSheet.gettIntuition().setText("" + character.getIntuition());
+        System.out.print("int" + character.getIntuition());
         charSheet.gettCharisma().setText("" + character.getCharisma());
+        System.out.println("cha" + character.getCharisma());
 
         charSheet.getlMagieResonanz().setSelectedItem(character.getMagRes());
         magResPanel.setMagRes(character.getMagRes());
-        if (character.getMagRes() == MagRes.NONE) {
-            charSheet.gettMagieResonanz().setEnabled(false);
-            charSheet.gettMagieResonanz().setText("");
-        } else {
-            charSheet.gettMagieResonanz().setEnabled(true);
-            charSheet.gettMagieResonanz().setText("" + character.getMagieResonanz());
-        }
+        updateMagResTextField();
         charSheet.gettEssenz().setText("" + character.getEssenz());
         charSheet.gettEdge().setText("" + character.getEdge());
 
@@ -277,6 +374,16 @@ public class CharController {
         mapVorteilNachteil();
 
         charSheet.getlName().grabFocus();
+    }
+
+    private void updateMagResTextField() {
+        if (character.getMagRes() == MagRes.NONE) {
+            charSheet.gettMagieResonanz().setEnabled(false);
+            charSheet.gettMagieResonanz().setText("");
+        } else {
+            charSheet.gettMagieResonanz().setEnabled(true);
+            charSheet.gettMagieResonanz().setText("" + character.getMagieResonanz());
+        }
     }
 
     private void mapVorteilNachteil() {
@@ -295,17 +402,9 @@ public class CharController {
         }
     }
 
-    private void setupEdgeAusgegeben(int size) {
-        edgeCheckBox = new ArrayList<>();
-        for (int i = 0; i < size; i++) {
-            edgeCheckBox.add(new JCheckBox());
-            edgeCheckBox.get(i).setHorizontalAlignment(JCheckBox.CENTER);
-            edgeCheckBox.get(i).addActionListener(edgeListener);
-            charSheet.getEdgeAusgegeben().add(edgeCheckBox.get(i));
-        }
-    }
 
     private void updateEdgeAusgegeben() {
+        edgeCheckBox = charSheet.getEdgeCheckBox();
         for (int i = 0; i < edgeCheckBox.size(); i++) {
             if (character != null && character.getEdge() < i + 1) {
                 edgeCheckBox.get(i).setEnabled(false);
@@ -325,52 +424,8 @@ public class CharController {
         }
     }
 
-    private void fillZustandPanel(JPanel panel, ArrayList<JCheckBox> arrayList, int rows) {
-        panel.setLayout(new GridLayout(4, 0));
-        for (int i = 0; i < rows * 3; i++) {
-            arrayList.add(new JCheckBox());
-            if (panel == zustandsmonitor.getpKoerperlich()) {
-                arrayList.get(i).setHorizontalAlignment(JCheckBox.CENTER);
-                arrayList.get(i).addActionListener(koerperlichListener);
-            }
-            if (panel == zustandsmonitor.getpGeistig()) {
-                arrayList.get(i).setHorizontalAlignment(JCheckBox.CENTER);
-                arrayList.get(i).addActionListener(geistigListener);
-            }
-
-        }
-        for (int i = 0; i < rows * 4; i++) {
-            if (i / rows == 0) {
-                //panel.add(arrayList.get(i*3));
-                panel.add(new JLabel("-" + (i + 1)));
-            }
-            if (i / rows == 1) {
-                panel.add(arrayList.get((i - rows) * 3));
-                //panel.add(new JLabel("a"+i*3));
-            }
-            if (i / rows == 2) {
-                panel.add(arrayList.get((i - rows * 2) * 3 + 1));
-                //panel.add(new JLabel("b"+((i-rows/3)*3+1)));
-            }
-            if (i / rows == 3) {
-                panel.add(arrayList.get((i - rows * 3) * 3 + 2));
-                //panel.add(new JLabel("c"+((i-rows*2/3)*3+2)));
-            }
-        }
-    }
-
-    private void setupUeberzaehligPanel(int konst) {
-        zustandsmonitor.getPcueberzaehlig().setLayout(new GridLayout(2, 0));
-        ueberzaehlig = new ArrayList<>();
-        for (int i = 0; i < konst; i++) {
-            ueberzaehlig.add(new JCheckBox());
-            ueberzaehlig.get(i).setHorizontalAlignment(JCheckBox.CENTER);
-            ueberzaehlig.get(i).addActionListener(ueberzaehligListener);
-            zustandsmonitor.getPcueberzaehlig().add(ueberzaehlig.get(i));
-        }
-    }
-
     private void updateUeberzaehligPanel() {
+        ueberzaehlig = zustandsmonitor.getUeberzaehlig();
         for (int i = 0; i < ueberzaehlig.size(); i++) {
             if (character != null && character.getKonstitution() < i + 1) {
                 ueberzaehlig.get(i).setEnabled(false);
@@ -388,6 +443,7 @@ public class CharController {
     }
 
     private void updateKoerperPanel() {
+        koerperlich = zustandsmonitor.getKoerperlich();
         for (int i = 0; i < koerperlich.size(); i++) {
             if (character != null && ((int) ceil((8 + ((double) character.getKonstitution() / 2)))) < i + 1) {
                 koerperlich.get(i).setEnabled(false);
@@ -405,6 +461,7 @@ public class CharController {
     }
 
     private void updateGeistPanel() {
+        geistig = zustandsmonitor.getGeistig();
         for (int i = 0; i < geistig.size(); i++) {
             if (character != null && ((int) ceil((8 + ((double) character.getWillenskraft() / 2)))) < i + 1) {
                 geistig.get(i).setEnabled(false);
@@ -422,52 +479,53 @@ public class CharController {
     }
 
     private void mapKarma() {
-        charSheet.getlKarma().setText(Language.getString("charSheet.persDaten.karma") + ": " + character.getKarma() + "\\" + character.getGesamtkarma());
+        charSheet.getlKarma().setText(Language.getString("charSheet.persDaten.karma") + character.getKarma() + "\\" + character.getGesamtkarma());
         charSheet.getPvKarma().setMaximum(character.getGesamtkarma());
         charSheet.getPvKarma().setValue(character.getKarma());
     }
 
     private void textFieldChanged(JCustomTextField textField) {
         String text = textField.getText();
-        if (textField == charSheet.gettName()) {
-            character.setName(text.replaceAll("\\(.*\\)?", "").trim());
-            Matcher m = Pattern.compile("\\(([^)]+)\\)").matcher(text);
-            while (m.find()) character.setStrassenname(m.group(1));
-        }
-        if (textField == charSheet.gettEthnie()) character.setEthnie(text.trim());
-        if (textField == charSheet.gettKonzept()) character.setKonzept(text.trim());
-        if (text.isEmpty()) text = "" + 0;
-        if (textField == charSheet.gettAlter()) character.setAlter(Integer.valueOf(text));
-        if (textField == charSheet.gettGroesse()) character.setGroesse(Integer.valueOf(text));
-        if (textField == charSheet.gettGewicht()) character.setGewicht(Integer.valueOf(text));
-        if (textField == charSheet.gettStrassenruf()) character.setStrassenruf(Integer.valueOf(text));
-        if (textField == charSheet.gettSchlechterRuf()) character.setSchlechterRuf(Integer.valueOf(text));
-        if (textField == charSheet.gettProminenz()) character.setProminenz(Integer.valueOf(text));
-        if (textField == charSheet.gettSonstiges()) character.setSonstiges(Integer.valueOf(text));
-        if (textField == charSheet.gettKonstitution()) {
-            character.setKonstitution(Integer.valueOf(text));
-            updateUeberzaehligPanel();
-            updateKoerperPanel();
-        }
-        if (textField == charSheet.gettGeschicklichkeit()) character.setGeschicklichkeit(Integer.valueOf(text));
-        if (textField == charSheet.gettReaktion()) character.setReaktion(Integer.valueOf(text));
-        if (textField == charSheet.gettStaerke()) character.setStaerke(Integer.valueOf(text));
-        if (textField == charSheet.gettWillenskraft()) {
-            character.setWillenskraft(Integer.valueOf(text));
-            updateGeistPanel();
-        }
-        if (textField == charSheet.gettLogik()) character.setLogik(Integer.valueOf(text));
-        if (textField == charSheet.gettIntuition()) character.setIntuition(Integer.valueOf(text));
-        if (textField == charSheet.gettCharisma()) character.setCharisma(Integer.valueOf(text));
-        if (textField == charSheet.gettMagieResonanz()) character.setMagieResonanz(Integer.valueOf(text));
-        if (textField == charSheet.gettEssenz()) character.setEssenz(Integer.valueOf(text));
-        if (textField == charSheet.gettEdge()) {
-            character.setEdge(Integer.valueOf(text));
-            updateEdgeAusgegeben();
+        if (text.matches(textField.getRegexFilter())) {
+            if (textField == charSheet.gettName()) {
+                character.setName(text.replaceAll("\\(.*\\)?", "").trim());
+                Matcher m = Pattern.compile("\\(([^)]+)\\)").matcher(text);
+                while (m.find()) character.setStrassenname(m.group(1));
+            }
+            if (textField == charSheet.gettEthnie()) character.setEthnie(text.trim());
+            if (textField == charSheet.gettKonzept()) character.setKonzept(text.trim());
+            if (text.isEmpty()) text = "" + 0;
+            if (textField == charSheet.gettAlter()) character.setAlter(Integer.valueOf(text));
+            if (textField == charSheet.gettGroesse()) character.setGroesse(Integer.valueOf(text));
+            if (textField == charSheet.gettGewicht()) character.setGewicht(Integer.valueOf(text));
+            if (textField == charSheet.gettStrassenruf()) character.setStrassenruf(Integer.valueOf(text));
+            if (textField == charSheet.gettSchlechterRuf()) character.setSchlechterRuf(Integer.valueOf(text));
+            if (textField == charSheet.gettProminenz()) character.setProminenz(Integer.valueOf(text));
+            if (textField == charSheet.gettKonstitution()) {
+                character.setKonstitution(Integer.valueOf(text));
+                updateUeberzaehligPanel();
+                updateKoerperPanel();
+            }
+            if (textField == charSheet.gettGeschicklichkeit()) character.setGeschicklichkeit(Integer.valueOf(text));
+            if (textField == charSheet.gettReaktion()) character.setReaktion(Integer.valueOf(text));
+            if (textField == charSheet.gettStaerke()) character.setStaerke(Integer.valueOf(text));
+            if (textField == charSheet.gettWillenskraft()) {
+                character.setWillenskraft(Integer.valueOf(text));
+                updateGeistPanel();
+            }
+            if (textField == charSheet.gettLogik()) character.setLogik(Integer.valueOf(text));
+            if (textField == charSheet.gettIntuition()) character.setIntuition(Integer.valueOf(text));
+            if (textField == charSheet.gettCharisma()) character.setCharisma(Integer.valueOf(text));
+            if (textField == charSheet.gettMagieResonanz()) character.setMagieResonanz(Integer.valueOf(text));
+            if (textField == charSheet.gettEssenz()) character.setEssenz(Integer.valueOf(text));
+            if (textField == charSheet.gettEdge()) {
+                character.setEdge(Integer.valueOf(text));
+                updateEdgeAusgegeben();
+            }
         }
 
         mapCalc();
-        DataHelper.unsavedData = true;
+        DataHelper.setUnsavedData(true);
         updateTitle();
     }
 
@@ -476,18 +534,19 @@ public class CharController {
             character.setMetatyp((Metatyp) comboBox.getSelectedItem());
             updateEdgeAusgegeben();
             int sprintMod = (character.getMetatyp() == Metatyp.ZWERG || character.getMetatyp() == Metatyp.TROLL) ? 1 : 2;
-            charSheet.getlSprinten().setText("Sprint(+" + sprintMod + "m):");
+            charSheet.getlSprinten().setText(Language.getString("charSheet.attribute.neben.spr") + "(+" + sprintMod + "m)");
         }
         if (comboBox == charSheet.gettGeschlecht()) character.setGeschlecht((Geschlecht) comboBox.getSelectedItem());
         if (comboBox == charSheet.getlMagieResonanz()) {
             character.setMagRes((MagRes) comboBox.getSelectedItem());
             magResPanel.setMagRes((MagRes) comboBox.getSelectedItem());
+            updateMagResTextField();
         }
-        DataHelper.unsavedData = true;
+        DataHelper.setUnsavedData(true);
         updateTitle();
     }
 
-    private int checkBoxChanged(ArrayList<JCheckBox> arrayList, JCheckBox checkBox) {
+    private int checkBoxChanged(List<JCheckBox> arrayList, JCheckBox checkBox) {
         int clickedIndex = 0;
         for (int i = 0; i < arrayList.size(); i++) {
             if (checkBox == arrayList.get(i)) {
@@ -511,12 +570,14 @@ public class CharController {
         int clickedIndex = checkBoxChanged(koerperlich, checkBox);
         character.setSchadenKoerper((checkBox.isSelected()) ? clickedIndex + 1 : clickedIndex);
         updateVerletzungsMod();
+        DataHelper.setUnsavedData(true);
     }
 
     private void schadenGeistChanged(JCheckBox checkBox) {
         int clickedIndex = checkBoxChanged(geistig, checkBox);
         character.setSchadenGeist((checkBox.isSelected()) ? clickedIndex + 1 : clickedIndex);
         updateVerletzungsMod();
+        DataHelper.setUnsavedData(true);
     }
 
     private void updateVerletzungsMod() {
@@ -532,6 +593,7 @@ public class CharController {
     private void edgeChanged(JCheckBox checkBox) {
         int clickedIndex = checkBoxChanged(edgeCheckBox, checkBox);
         character.setEdgeAusgegeben((checkBox.isSelected()) ? clickedIndex + 1 : clickedIndex);
+        DataHelper.setUnsavedData(true);
     }
 
     public CharSheet getCharSheet() {

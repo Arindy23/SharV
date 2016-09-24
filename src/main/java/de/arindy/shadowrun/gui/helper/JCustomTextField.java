@@ -29,6 +29,10 @@ public class JCustomTextField extends JTextField {
         this.setColumns(max+1);
     }
 
+    public String getRegexFilter() {
+        return regexCheck;
+    }
+
     public void setRegexFilter(String regex) {
         regexCheck = regex;
     }

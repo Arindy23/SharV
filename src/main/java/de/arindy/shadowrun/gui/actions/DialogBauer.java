@@ -1,6 +1,6 @@
 package de.arindy.shadowrun.gui.actions;
 
-import de.arindy.shadowrun.controller.CharController;
+import de.arindy.shadowrun.gui.types.DialogIntrfs;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,28 +12,26 @@ import java.awt.event.ActionEvent;
 public class DialogBauer extends AbstractAction {
 
     private JFrame sheet;
-    private JPanel panel;
-    private JDialog dialog;
+    private DialogIntrfs dialog;
+    private JDialog dia;
 
-    public DialogBauer(JFrame sheet, JPanel panel) {
-        super(panel.getName());
+    public DialogBauer(JFrame sheet, DialogIntrfs dialog) {
+        super(dialog.getTitle());
+        this.dialog = dialog;
         this.sheet = sheet;
-        this.panel = panel;
-        init();
     }
 
-    private void init() {
-        dialog = new JDialog(sheet, this.panel.getName(), Dialog.ModalityType.APPLICATION_MODAL);
-
-        dialog.setSize(this.panel.getSize());
-        dialog.setResizable(false);
-        dialog.add(this.panel);
-        dialog.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        dialog.setLocationRelativeTo(null);
-        dialog.setVisible(true);
+        JPanel panel = dialog.getPanel();
+        dia = new JDialog(sheet, dialog.getTitle(), Dialog.ModalityType.APPLICATION_MODAL);
+
+        dia.setResizable(false);
+        dia.add(panel);
+        dia.pack();
+        dia.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        dia.setLocationRelativeTo(sheet);
+        dia.setVisible(true);
     }
 }

@@ -1,9 +1,11 @@
 package de.arindy.shadowrun.gui;
 
-import de.arindy.shadowrun.gui.types.GBC;
+import de.arindy.shadowrun.controller.helper.DataHelper;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by arindy on 27.05.16.
@@ -11,55 +13,72 @@ import java.awt.*;
 public class Zustandsmonitor {
 
     //<editor-fold desc="Variablen">
-    private JPanel panel;
-    private JPanel pKoerperlich = new JPanel();
-    private JPanel pGeistig = new JPanel();
-    private JPanel pueberzaehlig = new JPanel();
-    private JPanel pcueberzaehlig = new JPanel();
-    private JLabel lKoerperlich = new JLabel("Körperlich:");
-    private JLabel lGeistig = new JLabel("Geistig:");
-    private JLabel lVerletzungsmod = new JLabel("<html>Verletzungs-<br>modifikator:</html>");
-    private JLabel lUeberzaehlig = new JLabel("Überzähliger Schaden:");
+    private JPanel pKoerperlich;
+    private JPanel pGeistig;
+    private JPanel pueberzaehlig;
 
-    private JLabel verletzungsmodifikator = new JLabel("0");
+    private JLabel verletzungsmodifikator;
+    private JPanel panel;
+
+    private List<JCheckBox> koerperlich;
+    private List<JCheckBox> geistig;
+    private List<JCheckBox> ueberzaehlig;
     //</editor-fold>
 
-    public Zustandsmonitor() {
-        setupPanel();
+    public JLabel getVerletzungsmodifikator() {
+        return verletzungsmodifikator;
     }
 
-    private void setupPanel() {
-        panel = new JPanel();
-        panel.setLayout(new GridBagLayout());
-        verletzungsmodifikator.setFont((lVerletzungsmod.getFont().deriveFont(Font.BOLD, 30)));
-        pueberzaehlig.add(lUeberzaehlig, GBC.clUeberzaehlig);
-        pueberzaehlig.add(pcueberzaehlig, GBC.cUeberzaehlig);
-        panel.add(lKoerperlich, GBC.clKoerperlich);
-        panel.add(pKoerperlich, GBC.cpKoerperlich);
-        panel.add(lGeistig, GBC.clGeistig);
-        panel.add(pGeistig, GBC.cpGeistig);
-        panel.add(lVerletzungsmod, GBC.clVerletzungsmod);
-        panel.add(verletzungsmodifikator, GBC.cVerletzungsmod);
-        panel.add(pueberzaehlig, GBC.cpUeberzaehlig);
+    public List<JCheckBox> getKoerperlich() {
+        return koerperlich;
     }
 
-    public JPanel getpKoerperlich() {
-        return pKoerperlich;
+    public List<JCheckBox> getGeistig() {
+        return geistig;
     }
 
-    public JPanel getpGeistig() {
-        return pGeistig;
+    public List<JCheckBox> getUeberzaehlig() {
+        return ueberzaehlig;
     }
 
     public JPanel getPanel() {
         return panel;
     }
 
-    public JPanel getPcueberzaehlig() {
-        return pcueberzaehlig;
+    private void fillZustandPanel(JPanel panel, List<JCheckBox> arrayList, int rows) {
+        panel.setLayout(new GridLayout(4, 0));
+        for (int i = 0; i < rows * 3; i++) {
+            arrayList.add(new JCheckBox());
+        }
+        for (int i = 0; i < rows * 4; i++) {
+            if (i / rows == 0) panel.add(new JLabel("-" + (i + 1)));
+            if (i / rows == 1) panel.add(arrayList.get((i - rows) * 3));
+            if (i / rows == 2) panel.add(arrayList.get((i - rows * 2) * 3 + 1));
+            if (i / rows == 3) panel.add(arrayList.get((i - rows * 3) * 3 + 2));
+        }
     }
 
-    public JLabel getVerletzungsmodifikator() {
-        return verletzungsmodifikator;
+    private void setupUeberzaehligPanel(int konst) {
+        pueberzaehlig.setLayout(new GridLayout(2, 0));
+        for (int i = 0; i < konst; i++) {
+            ueberzaehlig.add(new JCheckBox());
+            ueberzaehlig.get(i).setHorizontalAlignment(JCheckBox.CENTER);
+            pueberzaehlig.add(ueberzaehlig.get(i));
+        }
+    }
+
+    private void createUIComponents() {
+        koerperlich = new ArrayList<>();
+        geistig = new ArrayList<>();
+        ueberzaehlig = new ArrayList<>();
+        verletzungsmodifikator = new JLabel("" + 0);
+        verletzungsmodifikator.setFont(verletzungsmodifikator.getFont().deriveFont(Font.BOLD, (int) (DataHelper.getFontsize() * 2.5)));
+        pKoerperlich = new JPanel();
+        pGeistig = new JPanel();
+        pueberzaehlig = new JPanel();
+
+        fillZustandPanel(pKoerperlich, koerperlich, 6);
+        fillZustandPanel(pGeistig, geistig, 4);
+        setupUeberzaehligPanel(20);
     }
 }

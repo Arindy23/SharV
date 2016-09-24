@@ -33,11 +33,13 @@ public class WindowCloseListener implements WindowListener {
 
     @Override
     public void windowClosing(WindowEvent e) {
-        if (DataHelper.unsavedData) {
+        if (DataHelper.hasUnsavedData()) {
             int option = JOptionPane.showOptionDialog(frame, "Speichern", "Character speichern?", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, e);
             if (option == JOptionPane.YES_OPTION) {
                 for (SaveCharFile action : actions) {
-                    action.saveCanceled(new ActionEvent(this, 0, "Save"));
+                    if (action.saveCanceled(new ActionEvent(this, 0, "Save"))) {
+                        return;
+                    }
                 }
             } else if (option == JOptionPane.NO_OPTION) {
                 System.out.println("Nicht speichern");

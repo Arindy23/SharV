@@ -23,9 +23,9 @@ public class LoadCharFile extends AbstractAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        DataHelper.loading = true;
+        DataHelper.setLoading(true);
         int option = JOptionPane.YES_OPTION;
-        if (DataHelper.unsavedData) {
+        if (DataHelper.hasUnsavedData()) {
             option = JOptionPane.showConfirmDialog(charController.getCharSheet().getSheet(), Language.getString("menu.charakter.load.verwerfen"), Language.getString("menu.charakter.load.verwerfen.title"), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null);
         }
         if (option == JOptionPane.YES_OPTION) {
@@ -36,13 +36,13 @@ public class LoadCharFile extends AbstractAction {
             if (JFileChooser.APPROVE_OPTION == returnValue) {
                 //CharController.character = new Charakter();
                 CharController.character = (Charakter) JsonHandler.readFile(fileChooser.getSelectedFile(), Charakter.class);
-                DataHelper.initCharPath = fileChooser.getSelectedFile().getAbsolutePath();
+                DataHelper.setInitCharPath(fileChooser.getSelectedFile().getAbsolutePath());
                 charController.mapChar();
-                DataHelper.unsavedData = false;
+                DataHelper.setUnsavedData(false);
                 charController.updateTitle();
             }
         }
-        DataHelper.loading = false;
+        DataHelper.setLoading(false);
     }
 
 }

@@ -1,7 +1,6 @@
 package de.arindy.shadowrun.persistence.helper;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import de.arindy.shadowrun.entities.types.Geschlecht;
@@ -15,6 +14,6 @@ public class GeschlechtSerializer extends JsonSerializer<Geschlecht> {
 
     @Override
     public void serialize(Geschlecht type, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-        jsonGenerator.writeString(type.toString());
+        jsonGenerator.writeString(type.getValue());
     }
 }

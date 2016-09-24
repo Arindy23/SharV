@@ -8,17 +8,15 @@ import de.arindy.shadowrun.gui.helper.Language;
 import de.arindy.shadowrun.persistence.helper.MagResDeserializer;
 import de.arindy.shadowrun.persistence.helper.MagResSerializer;
 
-import java.util.Objects;
-
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 @JsonDeserialize(using = MagResDeserializer.class)
 @JsonSerialize(using = MagResSerializer.class)
 @JsonRootName("magRes")
 public enum MagRes {
 
+    NONE("-"),
     MAGIE("m"),
-    RESONANZ("r"),
-    NONE("-");
+    RESONANZ("r");
 
     private final String value;
 
@@ -35,6 +33,10 @@ public enum MagRes {
             }
         }
         return null;
+    }
+
+    public String getValue() {
+        return value;
     }
 
     @Override

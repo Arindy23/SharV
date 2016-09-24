@@ -5,6 +5,7 @@ import de.arindy.shadowrun.entities.types.VorteilNachteil;
 import de.arindy.shadowrun.entities.types.VorteilNachteilEnum;
 import de.arindy.shadowrun.gui.helper.JCustomTextField;
 import de.arindy.shadowrun.gui.helper.SortedListModel;
+import de.arindy.shadowrun.gui.types.DialogIntrfs;
 import de.arindy.shadowrun.gui.types.GBC;
 import de.arindy.shadowrun.persistence.helper.JsonHandler;
 
@@ -15,49 +16,55 @@ import java.io.File;
 /**
  * Created by arindy on 28.07.16.
  */
-public class VorteilNachteilVerwaltung {
-    private static final String srVvnFolder = "/srV/vn/";
-    private static JPanel panel;
-    private static JPanel panelTop = new JPanel();
-    private static JPanel panelLeft = new JPanel();
-    private static JPanel panelRight = new JPanel();
-    private static JPanel panelName = new JPanel();
-    private static JPanel panelKarmaBonusKosten = new JPanel();
-    private static JPanel panelSpeichernLoeschen = new JPanel();
+public class VorteilNachteilVerwaltung implements DialogIntrfs {
+    private final String srVvnFolder = "/srV/vn/";
+    private String TITLE = "Vorteile/Nachteile";
+    private JPanel panel;
+    private JPanel panelTop = new JPanel();
+    private JPanel panelLeft = new JPanel();
+    private JPanel panelRight = new JPanel();
+    private JPanel panelName = new JPanel();
+    private JPanel panelKarmaBonusKosten = new JPanel();
+    private JPanel panelSpeichernLoeschen = new JPanel();
 
-    private static JComboBox<VorteilNachteilEnum> lVorteilNachteil = new JComboBox<>(new DefaultComboBoxModel<>(VorteilNachteilEnum.values()));
+    private JComboBox<VorteilNachteilEnum> lVorteilNachteil = new JComboBox<>(new DefaultComboBoxModel<>(VorteilNachteilEnum.values()));
 
-    private static JLabel lName = new JLabel("Name:");
-    private static JLabel lBeschreibung = new JLabel("Beschreibung:");
-    private static JLabel lDetails = new JLabel("Details:");
-    private static JLabel lKarmaBonusKosten = new JLabel("");
-    private static SortedListModel<VorteilNachteil> modelVorteilNachteil = new SortedListModel<>();
-    private static JList listVorteilNachteil = new JList(modelVorteilNachteil);
-    private static JScrollPane spListVorteilNachteil = new JScrollPane(listVorteilNachteil);
+    private JLabel lName = new JLabel("Name:");
+    private JLabel lBeschreibung = new JLabel("Beschreibung:");
+    private JLabel lDetails = new JLabel("Details:");
+    private JLabel lKarmaBonusKosten = new JLabel("");
+    private SortedListModel<VorteilNachteil> modelVorteilNachteil = new SortedListModel<>();
+    private JList listVorteilNachteil = new JList(modelVorteilNachteil);
+    private JScrollPane spListVorteilNachteil = new JScrollPane(listVorteilNachteil);
 
-    private static JCustomTextField tName = new JCustomTextField();
-    private static JCustomTextField tKarmaBonusKosten = new JCustomTextField();
-    private static JTextArea tBeschreibung = new JTextArea();
-    private static JScrollPane spBeschreibung = new JScrollPane(tBeschreibung);
-    private static JTextArea tDetails = new JTextArea();
-    private static JScrollPane spDetails = new JScrollPane(tDetails);
+    private JCustomTextField tName = new JCustomTextField();
+    private JCustomTextField tKarmaBonusKosten = new JCustomTextField();
+    private JTextArea tBeschreibung = new JTextArea();
+    private JScrollPane spBeschreibung = new JScrollPane(tBeschreibung);
+    private JTextArea tDetails = new JTextArea();
+    private JScrollPane spDetails = new JScrollPane(tDetails);
 
-    private static JButton bAktualisieren = new JButton("Liste aktualisieren");
-    private static JButton bLoeschen = new JButton("Löschen");
-    private static JButton bSpeichern = new JButton("Speichern");
+    private JButton bAktualisieren = new JButton("Liste aktualisieren");
+    private JButton bLoeschen = new JButton("Löschen");
+    private JButton bSpeichern = new JButton("Speichern");
 
 
-    public static JPanel getPanel() {
-        if(panel==null){
-            addListeners();
-        }
+    public JPanel getPanel() {
+//        if(panel==null){
+//            addListeners();
+//        }
         initPanel();
         return panel;
     }
 
-    private static void initPanel() {
+    @Override
+    public String getTitle() {
+        return TITLE;
+    }
+
+    private void initPanel() {
         panel = new JPanel();
-        panel.setName("Vorteile/Nachteile");
+        panel.setName(TITLE);
         panel.setSize(500, 350);
 
         setLayouts();
@@ -66,7 +73,7 @@ public class VorteilNachteilVerwaltung {
         setLimits();
     }
 
-    private static void addListeners(){
+    private void addListeners() {
         bAktualisieren.addActionListener(e -> loadList());
         bSpeichern.addActionListener(e -> actionSpeichern());
         bLoeschen.addActionListener(e -> actionLoeschen());
@@ -75,7 +82,7 @@ public class VorteilNachteilVerwaltung {
         listVorteilNachteil.addListSelectionListener(e -> actionListSelect());
     }
 
-    private static void actionListSelect() {
+    private void actionListSelect() {
         int selIndex = listVorteilNachteil.getSelectedIndex();
         if (selIndex > -1) {
             bLoeschen.setEnabled(true);
@@ -91,7 +98,7 @@ public class VorteilNachteilVerwaltung {
         }
     }
 
-    private static void actionSpeichern() {
+    private void actionSpeichern() {
         VorteilNachteil item = new VorteilNachteil();
         item.setVorteil((lVorteilNachteil.getSelectedItem() == VorteilNachteilEnum.VORTEIL));
         item.setName(tName.getText());
@@ -127,7 +134,7 @@ public class VorteilNachteilVerwaltung {
         }
     }
 
-    private static void actionLoeschen() {
+    private void actionLoeschen() {
         int option = JOptionPane.showConfirmDialog(panel, "Wollen sie wirklich löschen?", "Löschen", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null);
         int index = listVorteilNachteil.getSelectedIndex();
         if (option == JOptionPane.YES_OPTION && index > -1) {
@@ -139,7 +146,7 @@ public class VorteilNachteilVerwaltung {
         }
     }
 
-    private static void updateVorteilNachteilAuswahl() {
+    private void updateVorteilNachteilAuswahl() {
         if (lVorteilNachteil.getSelectedItem() == VorteilNachteilEnum.VORTEIL) {
             lKarmaBonusKosten.setText("Karmakosten:");
         }
@@ -148,7 +155,7 @@ public class VorteilNachteilVerwaltung {
         }
     }
 
-    private static void setLayouts() {
+    private void setLayouts() {
         panel.setLayout(new GridBagLayout());
         panelTop.setLayout(new GridLayout());
         panelLeft.setLayout(new GridBagLayout());
@@ -159,7 +166,7 @@ public class VorteilNachteilVerwaltung {
         panelKarmaBonusKosten.setLayout(new GridBagLayout());
     }
 
-    private static void setLimits() {
+    private void setLimits() {
         tName.setMaximumLength(30);
         tKarmaBonusKosten.setMaximumLength(3);
         tKarmaBonusKosten.setRegexFilter("\\d*");
@@ -175,7 +182,7 @@ public class VorteilNachteilVerwaltung {
         spListVorteilNachteil.setBorder(BorderFactory.createEmptyBorder());
     }
 
-    private static void loadList() {
+    private void loadList() {
         modelVorteilNachteil.clear();
         File vorteilNachteilOrdner = new File(CharController.getDirectory().getAbsolutePath() + "/srV/vn");
         vorteilNachteilOrdner.mkdirs();
@@ -188,7 +195,7 @@ public class VorteilNachteilVerwaltung {
         }
     }
 
-    private static void addComponents() {
+    private void addComponents() {
         loadList();
         panelName.add(lName, GBC.cvnwlName);
         panelName.add(tName, GBC.cvnwtName);

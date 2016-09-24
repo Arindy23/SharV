@@ -155,6 +155,10 @@ public enum Metatyp {
         return Language.getStringArray("metatyp." + name + "merkmale");
     }
 
+    public String getValue() {
+        return name;
+    }
+
     @Override
     public String toString() {
         return Language.getString("metatyp." + name);
