@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class DataHelper {
 
     private static final File CONFIG_PATH = new File(System.getProperty("user.home") + "/.srVHelper");
@@ -54,7 +55,6 @@ public class DataHelper {
         ini = new Ini();
         ini.put("options", "locale", "de");
         ini.put("options", "fontsize", "12");
-        System.out.println("Boop");
         storeIniFile();
     }
 

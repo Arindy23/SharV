@@ -1,6 +1,8 @@
-package de.arindy.shadowrun.gui;
+package de.arindy.shadowrun.gui.tabs;
 
 import de.arindy.shadowrun.entities.types.VorteilNachteil;
+import de.arindy.shadowrun.gui.helper.JCustomTextField;
+import de.arindy.shadowrun.gui.helper.Language;
 import de.arindy.shadowrun.gui.helper.SortedListModel;
 
 import javax.swing.*;
@@ -22,22 +24,6 @@ public class VorteilNachteilPanel {
 
 
     public VorteilNachteilPanel() {
-        panelMain = new JPanel();
-        panelMain.setName("Vorteile/Nachteile");
-        panelList = new JPanel();
-        panelDetails = new JPanel();
-        setLayouts();
-        initList();
-        panelMain.add(panelList);
-    }
-
-    private void setLayouts() {
-        panelMain.setLayout(new GridLayout());
-        panelList.setLayout(new GridLayout());
-    }
-
-    private void initList() {
-        panelList.add(scrollPane);
     }
 
     public SortedListModel<VorteilNachteil> getList() {

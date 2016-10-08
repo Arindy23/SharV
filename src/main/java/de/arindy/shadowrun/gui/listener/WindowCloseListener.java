@@ -2,6 +2,7 @@ package de.arindy.shadowrun.gui.listener;
 
 import de.arindy.shadowrun.controller.helper.DataHelper;
 import de.arindy.shadowrun.gui.actions.SaveCharFile;
+import de.arindy.shadowrun.gui.helper.Language;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -27,28 +28,28 @@ public class WindowCloseListener implements WindowListener {
         actions.add(action);
     }
 
-	/*public void removeAction(SaveCharFile action){
+    public void removeAction(SaveCharFile action) {
         actions.remove(action);
-	}*/
+    }
 
     @Override
     public void windowClosing(WindowEvent e) {
         if (DataHelper.hasUnsavedData()) {
-            int option = JOptionPane.showOptionDialog(frame, "Speichern", "Character speichern?", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, e);
+            int option = JOptionPane.showOptionDialog(frame, Language.getString("menu.datei.close.savePrompt.title"), Language.getString("menu.datei.close.savePrompt.message"), JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, e);
             if (option == JOptionPane.YES_OPTION) {
                 for (SaveCharFile action : actions) {
-                    if (action.saveCanceled(new ActionEvent(this, 0, "Save"))) {
+                    if (action.saveCanceled(new ActionEvent(this, 0, null))) {
                         return;
                     }
                 }
             } else if (option == JOptionPane.NO_OPTION) {
-                System.out.println("Nicht speichern");
-            } else {
-                return;
+                frame.dispose();
+                System.exit(0);
             }
+        } else {
+            frame.dispose();
+            System.exit(0);
         }
-        frame.dispose();
-        System.exit(0);
     }
 
     @Override

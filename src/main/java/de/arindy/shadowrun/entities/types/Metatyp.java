@@ -152,7 +152,7 @@ public enum Metatyp {
     }
 
     public String[] getMetamerkmale() {
-        return Language.getStringArray("metatyp." + name + "merkmale");
+        return Language.getString("metatyp." + name + ".merkmale").replaceFirst("%null%", "").split(",");
     }
 
     public String getValue() {

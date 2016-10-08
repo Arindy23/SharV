@@ -25,7 +25,6 @@ public class Charakter {
     private int prominenz;
     private int karma;
     private int gesamtkarma;
-    private int sonstiges;
 
     //Attribute:
     private int konstitution;
@@ -40,7 +39,8 @@ public class Charakter {
 
     private int edge;
     private int edgeAusgegeben;
-    private int essenz;
+    @JsonIgnore
+    private int essenz = 6;
     private int magieResonanz;
 
     private int schadenKoerper;
@@ -227,14 +227,6 @@ public class Charakter {
 
     public void setGesamtkarma(int gesamtkarma) {
         this.gesamtkarma = gesamtkarma;
-    }
-
-    public int getSonstiges() {
-        return sonstiges;
-    }
-
-    public void setSonstiges(int sonstiges) {
-        this.sonstiges = sonstiges;
     }
 
     public int getKonstitution() {

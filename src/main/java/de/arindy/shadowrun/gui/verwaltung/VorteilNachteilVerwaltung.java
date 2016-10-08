@@ -1,9 +1,10 @@
-package de.arindy.shadowrun.gui;
+package de.arindy.shadowrun.gui.verwaltung;
 
 import de.arindy.shadowrun.controller.CharController;
 import de.arindy.shadowrun.entities.types.VorteilNachteil;
 import de.arindy.shadowrun.entities.types.VorteilNachteilEnum;
 import de.arindy.shadowrun.gui.helper.JCustomTextField;
+import de.arindy.shadowrun.gui.helper.Language;
 import de.arindy.shadowrun.gui.helper.SortedListModel;
 import de.arindy.shadowrun.gui.types.DialogIntrfs;
 import de.arindy.shadowrun.gui.types.GBC;
@@ -18,7 +19,7 @@ import java.io.File;
  */
 public class VorteilNachteilVerwaltung implements DialogIntrfs {
     private final String srVvnFolder = "/srV/vn/";
-    private String TITLE = "Vorteile/Nachteile";
+    private String TITLE = Language.getString("verwaltung.vortnacht.title");
     private JPanel panel;
     private JPanel panelTop = new JPanel();
     private JPanel panelLeft = new JPanel();
@@ -47,6 +48,14 @@ public class VorteilNachteilVerwaltung implements DialogIntrfs {
     private JButton bAktualisieren = new JButton("Liste aktualisieren");
     private JButton bLoeschen = new JButton("Löschen");
     private JButton bSpeichern = new JButton("Speichern");
+    private JList list1;
+    private JComboBox comboBox1;
+    private JCustomTextField JCustomTextField1;
+    private JCustomTextField JCustomTextField2;
+    private JButton button1;
+    private JButton button2;
+    private JButton button3;
+    private JButton bCancel;
 
 
     public JPanel getPanel() {
@@ -66,7 +75,6 @@ public class VorteilNachteilVerwaltung implements DialogIntrfs {
         panel = new JPanel();
         panel.setName(TITLE);
         panel.setSize(500, 350);
-
         setLayouts();
         addComponents();
         updateVorteilNachteilAuswahl();
@@ -222,4 +230,5 @@ public class VorteilNachteilVerwaltung implements DialogIntrfs {
         panel.add(panelSpeichernLoeschen, GBC.cvnwpLoeschenSpeichern);
 
     }
+
 }

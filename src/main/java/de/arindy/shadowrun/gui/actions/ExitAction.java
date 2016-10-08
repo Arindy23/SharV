@@ -1,6 +1,5 @@
 package de.arindy.shadowrun.gui.actions;
 
-import de.arindy.shadowrun.controller.helper.DataHelper;
 import de.arindy.shadowrun.gui.helper.Language;
 
 import javax.swing.*;
@@ -24,7 +23,6 @@ public class ExitAction extends AbstractAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         //  Find the active window before creating and dispatching the event
-
         Window window = KeyboardFocusManager.getCurrentKeyboardFocusManager().getActiveWindow();
 
         if (window != null) {

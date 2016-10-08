@@ -21,7 +21,6 @@ public class DialogBauer extends AbstractAction {
         this.sheet = sheet;
     }
 
-
     @Override
     public void actionPerformed(ActionEvent e) {
         JPanel panel = dialog.getPanel();

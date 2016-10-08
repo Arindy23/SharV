@@ -5,6 +5,7 @@ import de.arindy.shadowrun.controller.helper.DataHelper;
 import de.arindy.shadowrun.gui.CharSheet;
 import net.sf.tinylaf.Theme;
 import net.sf.tinylaf.TinyLookAndFeel;
+import net.sf.tinylaf.util.SBReference;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -41,7 +42,8 @@ public class Main {
         int fontSize = DataHelper.getFontsize();
         Font font = loadFont(fontSize);
         setUIFont(new javax.swing.plaf.FontUIResource(((font != null) ? font : new Font("Consolas", Font.PLAIN, fontSize))));
-
+        UIManager.put("TextField.foreground", Color.red);
+        UIManager.put("Panel.foreground", Color.red);
         charSheet = new CharSheet(TITLE);
         setIcons();
     }
@@ -58,6 +60,11 @@ public class Main {
         //JFrame.setDefaultLookAndFeelDecorated(true);
         //JDialog.setDefaultLookAndFeelDecorated(true);
         Theme.loadTheme(CharSheet.class.getClassLoader().getResource("theme/Nightly.theme"));
+        Theme.titledBorderColor = new SBReference(Color.red, 255, 255, 255);
+        Theme.titledBorderFontColor = new SBReference(Color.red, 255, 255, 255);
+        Color textBg = new Color(35, 35, 35);
+        Theme.textBgColor = new SBReference(textBg, 255, 255, 255);
+
         try {
             UIManager.setLookAndFeel(new TinyLookAndFeel());
         } catch (UnsupportedLookAndFeelException e) {

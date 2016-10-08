@@ -1,7 +1,8 @@
 package de.arindy.shadowrun.gui;
 
 import de.arindy.shadowrun.entities.types.MagRes;
-import de.arindy.shadowrun.gui.helper.Language;
+import de.arindy.shadowrun.gui.tabs.MagPanel;
+import de.arindy.shadowrun.gui.tabs.ResPanel;
 
 import javax.swing.*;
 
@@ -10,6 +11,8 @@ import javax.swing.*;
  */
 public class MagResPanel {
     private JPanel magRes = new JPanel();
+    private MagPanel magPanel = new MagPanel();
+    private ResPanel resPanel = new ResPanel();
 
     public MagResPanel() {
         magRes.setName("-");
@@ -23,8 +26,8 @@ public class MagResPanel {
         if(type!=null){
             JTabbedPane tabbed = (JTabbedPane) magRes.getParent();
             tabbed.remove(magRes);
-            if (type == MagRes.MAGIE) magRes = getMagiePanel();
-            if (type == MagRes.RESONANZ) magRes = getResonanzPanel();
+            if (type == MagRes.MAGIE) magRes = magPanel.getPanel();
+            if (type == MagRes.RESONANZ) magRes = resPanel.getPanel();
             if (type == MagRes.NONE) magRes = new JPanel();
             tabbed.add(magRes, 0);
             tabbed.setTitleAt(0, type.toString());
@@ -36,15 +39,4 @@ public class MagResPanel {
             }
         }
     }
-
-    private JPanel getMagiePanel() {
-        JPanel mag = new JPanel();
-        mag.add(new JLabel(Language.getString("magres.m")));
-        return mag;
-    }
-
-    private JPanel getResonanzPanel() {
-        return new JPanel();
-    }
-
 }

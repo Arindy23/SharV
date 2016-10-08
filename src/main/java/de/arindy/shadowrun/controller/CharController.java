@@ -16,6 +16,8 @@ import de.arindy.shadowrun.gui.actions.SaveCharFile;
 import de.arindy.shadowrun.gui.helper.JCustomTextField;
 import de.arindy.shadowrun.gui.helper.Language;
 import de.arindy.shadowrun.gui.listener.WindowCloseListener;
+import de.arindy.shadowrun.gui.tabs.VorteilNachteilPanel;
+import de.arindy.shadowrun.gui.verwaltung.VorteilNachteilVerwaltung;
 import de.arindy.shadowrun.persistence.helper.JsonHandler;
 
 import javax.swing.*;
@@ -115,9 +117,11 @@ public class CharController {
     }
 
     public void updateTitle() {
-        String titleFront = (character != null && character.getName() != null && !character.getName().isEmpty()) ? character.getName() + " - " : "";
-        titleFront += (character != null && character.getStrassenname() != null && !character.getStrassenname().isEmpty()) ? " (" + character.getStrassenname() + ")" : "";
-        charSheet.getSheet().setTitle(((DataHelper.hasUnsavedData()) ? "*" : "") + titleFront + Main.TITLE);
+        if (!DataHelper.isLoading()) {
+            String titleFront = (character != null && character.getName() != null && !character.getName().isEmpty()) ? character.getName() : "";
+            titleFront += (character != null && character.getStrassenname() != null && !character.getStrassenname().isEmpty()) ? " (" + character.getStrassenname() + ")" + " - " : " - ";
+            charSheet.getSheet().setTitle(((DataHelper.hasUnsavedData()) ? "*" : "") + titleFront + Main.TITLE);
+        }
     }
 
     private void buildMenu(){
@@ -126,8 +130,7 @@ public class CharController {
         charSheet.getMenuCharakter().add(saveCharFile);
         charSheet.getMenuVerwaltung().add(new DialogBauer(charSheet.getSheet(), new VorteilNachteilVerwaltung()));
 
-        //noinspection ConstantConditions
-        final String path = "lang";
+        final String path = "lang/";
         final File jarFile = new File(getClass().getProtectionDomain().getCodeSource().getLocation().getPath());
 
         if (jarFile.isFile()) {  // Run with JAR file
@@ -136,16 +139,17 @@ public class CharController {
                 final Enumeration<JarEntry> entries = jar.entries(); //gives ALL entries in jar
                 while (entries.hasMoreElements()) {
                     final String name = entries.nextElement().getName();
-                    if (name.startsWith(path + "/")) { //filter according to the path
+                    if (name.startsWith(path)) { //filter according to the path
                         loadLanguageFile(new File(getClass().getClassLoader().getResource(name).getFile()));
                     }
                 }
                 jar.close();
-            } catch (IOException e) {
+            } catch (IOException | NullPointerException e) {
                 e.printStackTrace();
             }
         } else { // Run with IDE
-            for (File lang : new File(getClass().getClassLoader().getResource(path + "/").getFile()).listFiles()) {
+            //noinspection ConstantConditions
+            for (File lang : new File(getClass().getClassLoader().getResource(path).getFile()).listFiles()) {
                 loadLanguageFile(lang);
             }
         }
@@ -225,16 +229,14 @@ public class CharController {
         charSheet.gettIntuition().getDocument().addDocumentListener(documentListener);
         charSheet.gettCharisma().getDocument().addDocumentListener(documentListener);
         charSheet.gettMagieResonanz().getDocument().addDocumentListener(documentListener);
-        charSheet.gettEssenz().getDocument().addDocumentListener(documentListener);
         charSheet.gettEdge().getDocument().addDocumentListener(documentListener);
     }
 
     private void loadInitCharacter(){
+        DataHelper.setLoading(true);
         if (character == null) {
             if (DataHelper.getInitCharPath() != null && new File(DataHelper.getInitCharPath()).exists()) {
                 character = (Charakter) JsonHandler.readFile(new File(DataHelper.getInitCharPath()), Charakter.class);
-                mapChar();
-                updateTitle();
             } else {
                 character = new Charakter();
                 character.setMetatyp(Metatyp.MENSCH);
@@ -243,10 +245,10 @@ public class CharController {
                 mapKarma();
             }
         }
-        else{
-            mapChar();
-            updateTitle();
-        }
+        mapChar();
+        DataHelper.setLoading(false);
+        DataHelper.setUnsavedData(false);
+        updateTitle();
     }
 
     private void calcData() {
@@ -326,14 +328,14 @@ public class CharController {
         charSheet.gettProminenz().setText("" + character.getProminenz());
 
         mapKarma();
-
-        synchronized (this) {
-            try {
-                wait(100L);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+//
+//        synchronized (this) {
+//            try {
+//                wait(150L);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
         charSheet.gettKonstitution().setText("" + character.getKonstitution());
         System.out.print("kon:" + character.getKonstitution());
         charSheet.gettGeschicklichkeit().setText("" + character.getGeschicklichkeit());
@@ -342,13 +344,13 @@ public class CharController {
         System.out.print("rea" + character.getReaktion());
         charSheet.gettStaerke().setText("" + character.getStaerke());
         System.out.print("sta" + character.getStaerke());
-        synchronized (this) {
-            try {
-                wait(100L);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+//        synchronized (this) {
+//            try {
+//                wait(150L);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
         charSheet.gettWillenskraft().setText("" + character.getWillenskraft());
         System.out.print("wil" + character.getWillenskraft());
         charSheet.gettLogik().setText("" + character.getLogik());
@@ -486,7 +488,7 @@ public class CharController {
 
     private void textFieldChanged(JCustomTextField textField) {
         String text = textField.getText();
-        if (text.matches(textField.getRegexFilter())) {
+        if (text.matches(textField.getRegexFilter()) && !DataHelper.isLoading()) {
             if (textField == charSheet.gettName()) {
                 character.setName(text.replaceAll("\\(.*\\)?", "").trim());
                 Matcher m = Pattern.compile("\\(([^)]+)\\)").matcher(text);
@@ -517,24 +519,20 @@ public class CharController {
             if (textField == charSheet.gettIntuition()) character.setIntuition(Integer.valueOf(text));
             if (textField == charSheet.gettCharisma()) character.setCharisma(Integer.valueOf(text));
             if (textField == charSheet.gettMagieResonanz()) character.setMagieResonanz(Integer.valueOf(text));
-            if (textField == charSheet.gettEssenz()) character.setEssenz(Integer.valueOf(text));
             if (textField == charSheet.gettEdge()) {
                 character.setEdge(Integer.valueOf(text));
                 updateEdgeAusgegeben();
             }
+            mapCalc();
+            DataHelper.setUnsavedData(true);
+            updateTitle();
         }
 
-        mapCalc();
-        DataHelper.setUnsavedData(true);
-        updateTitle();
     }
 
     private void comboBoxChanged(JComboBox comboBox) {
         if (comboBox == charSheet.gettMetatyp()) {
-            character.setMetatyp((Metatyp) comboBox.getSelectedItem());
-            updateEdgeAusgegeben();
-            int sprintMod = (character.getMetatyp() == Metatyp.ZWERG || character.getMetatyp() == Metatyp.TROLL) ? 1 : 2;
-            charSheet.getlSprinten().setText(Language.getString("charSheet.attribute.neben.spr") + "(+" + sprintMod + "m)");
+            updateMetatyp(comboBox);
         }
         if (comboBox == charSheet.gettGeschlecht()) character.setGeschlecht((Geschlecht) comboBox.getSelectedItem());
         if (comboBox == charSheet.getlMagieResonanz()) {
@@ -544,6 +542,31 @@ public class CharController {
         }
         DataHelper.setUnsavedData(true);
         updateTitle();
+    }
+
+    private void updateMetatyp(JComboBox comboBox) {
+        character.setMetatyp((Metatyp) comboBox.getSelectedItem());
+        updateEdgeAusgegeben();
+        charSheet.getMetaMerkmalPopup().removeAll();
+        for (String merkmal : character.getMetatyp().getMetamerkmale()) {
+            if (!merkmal.isEmpty()) {
+                JMenuItem item = new JMenuItem(merkmal);
+                charSheet.getMetaMerkmalPopup().add(item);
+            }
+        }
+
+        charSheet.gettKonstitutionMax().setText("/" + character.getMetatyp().getKon()[1]);
+        charSheet.gettGeschicklichkeitMax().setText("/" + character.getMetatyp().getGes()[1]);
+        charSheet.gettReaktionMax().setText("/" + character.getMetatyp().getRea()[1]);
+        charSheet.gettStaerkeMax().setText("/" + character.getMetatyp().getStr()[1]);
+
+        charSheet.gettWillenskraftMax().setText("/" + character.getMetatyp().getWil()[1]);
+        charSheet.gettLogikMax().setText("/" + character.getMetatyp().getLog()[1]);
+        charSheet.gettIntuitionMax().setText("/" + character.getMetatyp().getIn()[1]);
+        charSheet.gettCharismaMax().setText("/" + character.getMetatyp().getCha()[1]);
+
+        int sprintMod = (character.getMetatyp() == Metatyp.ZWERG || character.getMetatyp() == Metatyp.TROLL) ? 1 : 2;
+        charSheet.getlSprinten().setText(Language.getString("charSheet.attribute.neben.spr") + "(+" + sprintMod + "m)");
     }
 
     private int checkBoxChanged(List<JCheckBox> arrayList, JCheckBox checkBox) {

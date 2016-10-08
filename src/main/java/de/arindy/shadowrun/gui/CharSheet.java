@@ -22,7 +22,7 @@ public class CharSheet {
     private JFrame sheet;
 
     private JPanel right;
-    private JTabbedPane tabbed = new JTabbedPane();
+    private JTabbedPane tabbed;
 
     private JMenuBar menu = new JMenuBar();
 
@@ -60,6 +60,11 @@ public class CharSheet {
     private JCustomTextField tReaktion;
     private JCustomTextField tStaerke;
 
+    private JCustomTextField tKonstitutionMax;
+    private JCustomTextField tGeschicklichkeitMax;
+    private JCustomTextField tReaktionMax;
+    private JCustomTextField tStaerkeMax;
+
     private JCustomTextField tKonstitutionFin;
     private JCustomTextField tGeschicklichkeitFin;
     private JCustomTextField tReaktionFin;
@@ -75,7 +80,13 @@ public class CharSheet {
     private JCustomTextField tIntuitionFin;
     private JCustomTextField tCharismaFin;
 
+    private JCustomTextField tWillenskraftMax;
+    private JCustomTextField tLogikMax;
+    private JCustomTextField tIntuitionMax;
+    private JCustomTextField tCharismaMax;
+
     private JCustomTextField tMagieResonanz;
+    private JCustomTextField tMagieResonanzMax;
 
     private JCustomTextField tInitiative;
     private JCustomTextField tAstralInitiative;
@@ -114,10 +125,12 @@ public class CharSheet {
 
     private JPanel edgeAusgegeben;
     private Zustandsmonitor zustandsmonitor;
-    private JTabbedPane tabbedPane1;
+    private JButton bMetaMerkmale;
 
     private ActionListener edgeListener;
     private List<JCheckBox> edgeCheckBox;
+
+    private JPopupMenu metaMerkmalPopup;
     //</editor-fold>
 
     public CharSheet(String frameTitle) {
@@ -132,6 +145,12 @@ public class CharSheet {
         sheet.setContentPane(mainPanel);
         sheet.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         sheet.setJMenuBar(menu);
+        metaMerkmalPopup = new JPopupMenu();
+        bMetaMerkmale.addActionListener(e -> {
+            if (metaMerkmalPopup.getSubElements().length > 0) {
+                metaMerkmalPopup.show(bMetaMerkmale, 0, bMetaMerkmale.getY());
+            }
+        });
         setInitMod(0);
         buildMenu();
         setComboBoxModels();
@@ -225,55 +244,57 @@ public class CharSheet {
         tCharismaFin.setMaximumLength(2);
         tCharismaFin.setRegexFilter("\\d*");
 
+        tKonstitutionMax.setMaximumLength(3);
+        tKonstitutionMax.setRegexFilter("/?\\d*");
+        tGeschicklichkeitMax.setMaximumLength(3);
+        tGeschicklichkeitMax.setRegexFilter("/?\\d*");
+        tReaktionMax.setMaximumLength(3);
+        tReaktionMax.setRegexFilter("/?\\d*");
+        tStaerkeMax.setMaximumLength(3);
+        tStaerkeMax.setRegexFilter("/?\\d*");
+        tWillenskraftMax.setMaximumLength(3);
+        tWillenskraftMax.setRegexFilter("/?\\d*");
+        tLogikMax.setMaximumLength(3);
+        tLogikMax.setRegexFilter("/?\\d*");
+        tIntuitionMax.setMaximumLength(3);
+        tIntuitionMax.setRegexFilter("/?\\d*");
+        tCharismaMax.setMaximumLength(3);
+        tCharismaMax.setRegexFilter("/?\\d*");
+
         tInitiative.setMaximumLength(2);
         tInitiative.setRegexFilter("\\d*");
-        tInitiative.setEditable(false);
         tAstralInitiative.setMaximumLength(2);
         tAstralInitiative.setRegexFilter("\\d*");
-        tAstralInitiative.setEditable(false);
         tMatrixInitiativeAR.setMaximumLength(2);
         tMatrixInitiativeAR.setRegexFilter("\\d*");
-        tMatrixInitiativeAR.setEditable(false);
         tMatrixInitiativekalt.setMaximumLength(2);
         tMatrixInitiativekalt.setRegexFilter("\\d*");
-        tMatrixInitiativekalt.setEditable(false);
         tMatrixInitiativeheiß.setMaximumLength(2);
         tMatrixInitiativeheiß.setRegexFilter("\\d*");
-        tMatrixInitiativeheiß.setEditable(false);
         tRiggingInitiative.setMaximumLength(2);
         tRiggingInitiative.setRegexFilter("\\d*");
-        tRiggingInitiative.setEditable(false);
         tRiggingInitiativekalt.setMaximumLength(2);
         tRiggingInitiativekalt.setRegexFilter("\\d*");
-        tRiggingInitiativekalt.setEditable(false);
         tRiggingInitiativeheiß.setMaximumLength(2);
         tRiggingInitiativeheiß.setRegexFilter("\\d*");
-        tRiggingInitiativeheiß.setEditable(false);
         tRiggingInitiativedirekt.setMaximumLength(2);
         tRiggingInitiativedirekt.setRegexFilter("\\d*");
-        tRiggingInitiativedirekt.setEditable(false);
 
         tSelbstbeherrschung.setMaximumLength(2);
         tSelbstbeherrschung.setRegexFilter("\\d*");
-        tSelbstbeherrschung.setEditable(false);
         tMenschenkenntnis.setMaximumLength(2);
         tMenschenkenntnis.setRegexFilter("\\d*");
-        tMenschenkenntnis.setEditable(false);
         tErinnerungsvermoegen.setMaximumLength(2);
         tErinnerungsvermoegen.setRegexFilter("\\d*");
-        tErinnerungsvermoegen.setEditable(false);
         tHebenTragen.setMaximumLength(2);
-        tHebenTragen.setEditable(false);
+        tHebenTragen.setRegexFilter("\\d*");
 
         tGehen.setMaximumLength(2);
         tGehen.setRegexFilter("\\d*");
-        tGehen.setEditable(false);
         tLaufen.setMaximumLength(2);
         tLaufen.setRegexFilter("\\d*");
-        tLaufen.setEditable(false);
         tSprinten.setMaximumLength(2);
         tSprinten.setRegexFilter("\\d*");
-        tSprinten.setEditable(false);
 
         tEssenz.setMaximumLength(2);
         tEssenz.setRegexFilter("\\d*");
@@ -283,13 +304,15 @@ public class CharSheet {
         tMagieResonanz.setMaximumLength(2);
         tMagieResonanz.setRegexFilter("\\d*");
 
+        tMagieResonanzMax.setMaximumLength(3);
+        tMagieResonanzMax.setRegexFilter("/\\d*");
+
         tLimitKoerper.setMaximumLength(2);
         tLimitKoerper.setRegexFilter("\\d*");
-        tLimitKoerper.setEditable(false);
         tLimitGeist.setMaximumLength(2);
-        tLimitGeist.setEditable(false);
+        tLimitKoerper.setRegexFilter("\\d*");
         tLimitSozial.setMaximumLength(2);
-        tLimitSozial.setEditable(false);
+        tLimitKoerper.setRegexFilter("\\d*");
     }
 
     private void setComboBoxModels(){
@@ -308,6 +331,7 @@ public class CharSheet {
             }
         }
     }
+
     private void centerText() {
         tName.setHorizontalAlignment(JTextField.CENTER);
         tCredit.setHorizontalAlignment(JTextField.RIGHT);
@@ -400,6 +424,10 @@ public class CharSheet {
 
     public JFrame getSheet() {
         return sheet;
+    }
+
+    public JPopupMenu getMetaMerkmalPopup() {
+        return metaMerkmalPopup;
     }
 
     public JTabbedPane getTabbed() {
@@ -534,6 +562,42 @@ public class CharSheet {
         return tCharismaFin;
     }
 
+    public JCustomTextField gettKonstitutionMax() {
+        return tKonstitutionMax;
+    }
+
+    public JCustomTextField gettGeschicklichkeitMax() {
+        return tGeschicklichkeitMax;
+    }
+
+    public JCustomTextField gettReaktionMax() {
+        return tReaktionMax;
+    }
+
+    public JCustomTextField gettStaerkeMax() {
+        return tStaerkeMax;
+    }
+
+    public JCustomTextField gettWillenskraftMax() {
+        return tWillenskraftMax;
+    }
+
+    public JCustomTextField gettLogikMax() {
+        return tLogikMax;
+    }
+
+    public JCustomTextField gettIntuitionMax() {
+        return tIntuitionMax;
+    }
+
+    public JCustomTextField gettCharismaMax() {
+        return tCharismaMax;
+    }
+
+    public JCustomTextField gettMagieResonanzMax() {
+        return tMagieResonanzMax;
+    }
+
     public JCustomTextField gettMagieResonanz() {
         return tMagieResonanz;
     }
@@ -659,6 +723,7 @@ public class CharSheet {
     }
 
     private void createUIComponents() {
+        tabbed = new JTabbedPane();
         edgeCheckBox = new ArrayList<>();
         edgeAusgegeben = new JPanel();
         for (int i = 0; i < 8; i++) {

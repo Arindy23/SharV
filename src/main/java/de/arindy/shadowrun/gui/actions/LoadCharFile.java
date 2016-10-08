@@ -34,7 +34,6 @@ public class LoadCharFile extends AbstractAction {
 
             int returnValue = fileChooser.showOpenDialog(charController.getCharSheet().getSheet());
             if (JFileChooser.APPROVE_OPTION == returnValue) {
-                //CharController.character = new Charakter();
                 CharController.character = (Charakter) JsonHandler.readFile(fileChooser.getSelectedFile(), Charakter.class);
                 DataHelper.setInitCharPath(fileChooser.getSelectedFile().getAbsolutePath());
                 charController.mapChar();
