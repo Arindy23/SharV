@@ -49,6 +49,7 @@ public class Zustandsmonitor {
         panel.setLayout(new GridLayout(4, 0));
         for (int i = 0; i < rows * 3; i++) {
             arrayList.add(new JCheckBox());
+            arrayList.get(i).setVisible(false);
         }
         for (int i = 0; i < rows * 4; i++) {
             if (i / rows == 0) panel.add(new JLabel("-" + (i + 1)));
@@ -63,6 +64,7 @@ public class Zustandsmonitor {
         for (int i = 0; i < konst; i++) {
             ueberzaehlig.add(new JCheckBox());
             ueberzaehlig.get(i).setHorizontalAlignment(JCheckBox.CENTER);
+            ueberzaehlig.get(i).setVisible(false);
             pueberzaehlig.add(ueberzaehlig.get(i));
         }
     }

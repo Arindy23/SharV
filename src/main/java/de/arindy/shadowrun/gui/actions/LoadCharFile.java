@@ -1,6 +1,7 @@
 package de.arindy.shadowrun.gui.actions;
 
 import de.arindy.shadowrun.controller.CharController;
+import de.arindy.shadowrun.controller.helper.ColorChanger;
 import de.arindy.shadowrun.controller.helper.DataHelper;
 import de.arindy.shadowrun.entities.Charakter;
 import de.arindy.shadowrun.gui.helper.Language;
@@ -8,6 +9,7 @@ import de.arindy.shadowrun.persistence.helper.JsonHandler;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 
 /**
@@ -15,6 +17,7 @@ import java.awt.event.ActionEvent;
  */
 public class LoadCharFile extends AbstractAction {
     private CharController charController;
+    private ColorChanger cc;
 
     public LoadCharFile(CharController charController) {
         super(Language.getString("menu.charakter.load"));
@@ -30,18 +33,24 @@ public class LoadCharFile extends AbstractAction {
         }
         if (option == JOptionPane.YES_OPTION) {
             JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setCurrentDirectory(DataHelper.CHARS_PATH);
             fileChooser.setFileFilter(new FileNameExtensionFilter("srVchar-" + Language.getString("menu.datei")+ " (*.srVchar)", "srVchar"));
 
             int returnValue = fileChooser.showOpenDialog(charController.getCharSheet().getSheet());
             if (JFileChooser.APPROVE_OPTION == returnValue) {
                 CharController.character = (Charakter) JsonHandler.readFile(fileChooser.getSelectedFile(), Charakter.class);
-                DataHelper.setInitCharPath(fileChooser.getSelectedFile().getAbsolutePath());
                 charController.mapChar();
                 DataHelper.setUnsavedData(false);
+                DataHelper.setLoading(false);
                 charController.updateTitle();
+                String[] colorStr = CharController.character.getColor().split(",");
+                Color color = new Color(Integer.valueOf(colorStr[0]), Integer.valueOf(colorStr[1]), Integer.valueOf(colorStr[2]), Integer.valueOf(colorStr[3]));
+                ColorChanger.changeColor(color, ColorChanger.HIGHLIGHTCOLOR);
+                DataHelper.setColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+
             }
         }
-        DataHelper.setLoading(false);
+
     }
 
 }

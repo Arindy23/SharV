@@ -1,5 +1,6 @@
 package de.arindy.shadowrun.gui;
 
+import de.arindy.shadowrun.controller.helper.ColorChanger;
 import de.arindy.shadowrun.controller.helper.DataHelper;
 import de.arindy.shadowrun.entities.types.Geschlecht;
 import de.arindy.shadowrun.entities.types.MagRes;
@@ -8,7 +9,7 @@ import de.arindy.shadowrun.gui.helper.JCustomTextField;
 import de.arindy.shadowrun.gui.helper.Language;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -120,6 +121,7 @@ public class CharSheet {
     private JMenu menuDatei;
     private JMenu menuCharakter;
     private JMenu menuVerwaltung;
+    private JMenu menuOptions;
     private JMenu menuSprache;
     private JMenu menuSchriftgroesse;
 
@@ -157,7 +159,8 @@ public class CharSheet {
 
         centerText();
         sheet.pack();
-        sheet.setResizable(false);
+        //sheet.setResizable(false);
+        sheet.setMinimumSize(sheet.getPreferredSize());
         if (DataHelper.getLocation() != null) {
             sheet.setLocation(DataHelper.getLocation());
         } else {
@@ -165,6 +168,7 @@ public class CharSheet {
         }
         DataHelper.setLocation(null);
         sheet.setVisible(true);
+        ColorChanger.addComponent(sheet);
     }
 
     private void buildMenu() {
@@ -177,7 +181,7 @@ public class CharSheet {
         menuVerwaltung = new JMenu(Language.getString("menu.verwaltung"));
         menu.add(menuVerwaltung);
 
-        JMenu menuOptions = new JMenu(Language.getString("menu.options"));
+        menuOptions = new JMenu(Language.getString("menu.options"));
         menu.add(menuOptions);
 
         menuSprache = new JMenu(Language.getString("menu.options.sprache"));
@@ -208,7 +212,6 @@ public class CharSheet {
         tProminenz.setRegexFilter("\\d*");
         tCredit.setMaximumLength(10);
         tCredit.setRegexFilter("\\d*");
-        tCredit.setForeground(java.awt.Color.ORANGE);
 
         tKonstitution.setMaximumLength(2);
         tKonstitution.setRegexFilter("\\d*");
@@ -319,17 +322,6 @@ public class CharSheet {
         tMetatyp.setModel(new DefaultComboBoxModel<>(Metatyp.values()));
         tGeschlecht.setModel(new DefaultComboBoxModel<>(Geschlecht.values()));
         lMagieResonanz.setModel(new DefaultComboBoxModel<>(MagRes.values()));
-        removeComboBoxBorder(tMetatyp);
-        removeComboBoxBorder(tGeschlecht);
-        removeComboBoxBorder(lMagieResonanz);
-    }
-
-    private void removeComboBoxBorder(JComboBox combo) {
-        for (int i = 0; i < combo.getComponentCount(); i++) {
-            if (combo.getComponent(i) instanceof JComponent) {
-                ((JComponent) combo.getComponent(i)).setBorder(new EmptyBorder(0, 0, 0, 0));
-            }
-        }
     }
 
     private void centerText() {
@@ -351,6 +343,26 @@ public class CharSheet {
         tLogik.setHorizontalAlignment(JTextField.CENTER);
         tIntuition.setHorizontalAlignment(JTextField.CENTER);
         tCharisma.setHorizontalAlignment(JTextField.CENTER);
+
+        ColorChanger.addNonHighlightComp(tKonstitution);
+        ColorChanger.addNonHighlightComp(tGeschicklichkeit);
+        ColorChanger.addNonHighlightComp(tReaktion);
+        ColorChanger.addNonHighlightComp(tStaerke);
+
+        ColorChanger.addNonHighlightComp(tWillenskraft);
+        ColorChanger.addNonHighlightComp(tLogik);
+        ColorChanger.addNonHighlightComp(tIntuition);
+        ColorChanger.addNonHighlightComp(tCharisma);
+
+        ColorChanger.addNonHighlightComp(tKonstitutionMax);
+        ColorChanger.addNonHighlightComp(tGeschicklichkeitMax);
+        ColorChanger.addNonHighlightComp(tReaktionMax);
+        ColorChanger.addNonHighlightComp(tStaerkeMax);
+
+        ColorChanger.addNonHighlightComp(tWillenskraftMax);
+        ColorChanger.addNonHighlightComp(tLogikMax);
+        ColorChanger.addNonHighlightComp(tIntuitionMax);
+        ColorChanger.addNonHighlightComp(tCharismaMax);
 
         tKonstitutionFin.setHorizontalAlignment(JTextField.CENTER);
         tGeschicklichkeitFin.setHorizontalAlignment(JTextField.CENTER);
@@ -383,12 +395,30 @@ public class CharSheet {
         tRiggingInitiativekalt.setHorizontalAlignment(JTextField.CENTER);
         tRiggingInitiativedirekt.setHorizontalAlignment(JTextField.CENTER);
 
+        addHighlightComp(lInitiativeW);
+        addHighlightComp(lAstralInitiativeW);
+        addHighlightComp(lMatrixInitiativeARW);
+        addHighlightComp(lMatrixInitiativeheißW);
+        addHighlightComp(lMatrixInitiativekaltW);
+        addHighlightComp(lRiggingInitiativeW);
+        addHighlightComp(lRiggingInitiativeheißW);
+        addHighlightComp(lRiggingInitiativekaltW);
+        addHighlightComp(lRiggingInitiativedirektW);
+
         tEssenz.setHorizontalAlignment(JTextField.CENTER);
         tEdge.setHorizontalAlignment(JTextField.CENTER);
 
         tLimitKoerper.setHorizontalAlignment(JTextField.CENTER);
         tLimitGeist.setHorizontalAlignment(JTextField.CENTER);
         tLimitSozial.setHorizontalAlignment(JTextField.CENTER);
+    }
+
+    private void addHighlightComp(Component comp) {
+        if (UIManager.getLookAndFeel().getName().equalsIgnoreCase("TinyLookAndFeel")) {
+            comp.setForeground(new Color(DataHelper.getHighlightColorR(), DataHelper.getHighlightColorG(), DataHelper.getHighlightColorB(), DataHelper.getHighlightColorAlpha()));
+            ColorChanger.addHighlightComp(comp);
+        }
+
     }
 
     public void setEnabledInputsPersoenlich(boolean bool) {
@@ -706,6 +736,10 @@ public class CharSheet {
         return menuCharakter;
     }
 
+    public JMenu getMenuOptions() {
+        return menuOptions;
+    }
+
     public JMenu getMenuSprache() {
         return menuSprache;
     }
@@ -726,9 +760,13 @@ public class CharSheet {
         tabbed = new JTabbedPane();
         edgeCheckBox = new ArrayList<>();
         edgeAusgegeben = new JPanel();
+        edgeAusgegeben.setLayout(new GridLayout());
         for (int i = 0; i < 8; i++) {
             edgeCheckBox.add(new JCheckBox());
             edgeAusgegeben.add(edgeCheckBox.get(i));
+            edgeCheckBox.get(i).setVisible(false);
         }
+        lMagieResonanz = new JComboBox<MagRes>();
+        lMagieResonanz.setPreferredSize(new Dimension((int) (DataHelper.getFontsize() / 1.35 * Language.getString("magres.r").length()), -1));
     }
 }

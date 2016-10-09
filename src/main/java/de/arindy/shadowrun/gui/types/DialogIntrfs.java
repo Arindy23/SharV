@@ -12,4 +12,7 @@ public interface DialogIntrfs {
     JPanel getPanel();
 
     String getTitle();
+
+    void update();
+
 }

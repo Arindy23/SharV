@@ -8,6 +8,7 @@ import de.arindy.shadowrun.entities.types.Metatyp;
 import java.util.List;
 
 public class Charakter {
+    private String color;
     //Allgemein:
     private String name;
     private String strassenname;
@@ -100,6 +101,14 @@ public class Charakter {
     private int laufen;
     @JsonIgnore
     private int sprinten;
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
 
     public String getName() {
         return name;

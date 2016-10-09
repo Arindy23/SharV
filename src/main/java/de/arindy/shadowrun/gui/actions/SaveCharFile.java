@@ -31,6 +31,7 @@ public class SaveCharFile extends AbstractAction {
     public void actionPerformed(ActionEvent e) {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(new FileNameExtensionFilter("srVchar-" + Language.getString("menu.datei") + " (*.srVchar)", "srVchar"));
+        fileChooser.setCurrentDirectory(DataHelper.CHARS_PATH);
         String suggestedName = (CharController.character.getName() != null && !CharController.character.getName().isEmpty()) ? CharController.character.getName().replaceAll(" ", "_") : "";
         suggestedName = (CharController.character.getStrassenname() != null && !CharController.character.getStrassenname().isEmpty()) ? CharController.character.getStrassenname() : suggestedName;
         fileChooser.setSelectedFile(new File(suggestedName + ".srVchar"));
@@ -42,8 +43,8 @@ public class SaveCharFile extends AbstractAction {
             }
             if (override == JOptionPane.YES_OPTION) {
                 File file = (fileChooser.getSelectedFile().getAbsolutePath().endsWith(".srVchar")) ? fileChooser.getSelectedFile() : new File(fileChooser.getSelectedFile().getAbsolutePath() + ".srVchar");
+                CharController.character.setColor(DataHelper.getHighlightColorR() + "," + DataHelper.getHighlightColorG() + "," + DataHelper.getHighlightColorB() + "," + DataHelper.getHighlightColorAlpha());
                 JsonHandler.writeFile(file, CharController.character);
-                DataHelper.setInitCharPath(fileChooser.getSelectedFile().getAbsolutePath());
                 DataHelper.setUnsavedData(false);
                 charController.updateTitle();
             } else {

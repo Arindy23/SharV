@@ -1,5 +1,7 @@
 package de.arindy.shadowrun.gui.actions;
 
+import de.arindy.shadowrun.controller.helper.ColorChanger;
+import de.arindy.shadowrun.gui.helper.Language;
 import de.arindy.shadowrun.gui.types.DialogIntrfs;
 
 import javax.swing.*;
@@ -13,19 +15,21 @@ public class DialogBauer extends AbstractAction {
 
     private JFrame sheet;
     private DialogIntrfs dialog;
-    private JDialog dia;
+    private JPanel panel;
 
     public DialogBauer(JFrame sheet, DialogIntrfs dialog) {
         super(dialog.getTitle());
         this.dialog = dialog;
         this.sheet = sheet;
+        this.panel = dialog.getPanel();
+        if (!dialog.getTitle().equalsIgnoreCase(Language.getString("menu.options.highlightColorChooser.title")))
+            ColorChanger.addComponent(panel);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        JPanel panel = dialog.getPanel();
-        dia = new JDialog(sheet, dialog.getTitle(), Dialog.ModalityType.APPLICATION_MODAL);
-
+        JDialog dia = new JDialog(sheet, dialog.getTitle(), Dialog.ModalityType.APPLICATION_MODAL);
+        dialog.update();
         dia.setResizable(false);
         dia.add(panel);
         dia.pack();

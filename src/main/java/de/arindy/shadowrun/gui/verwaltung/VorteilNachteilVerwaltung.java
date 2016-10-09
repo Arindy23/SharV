@@ -71,6 +71,11 @@ public class VorteilNachteilVerwaltung implements DialogIntrfs {
         return TITLE;
     }
 
+    @Override
+    public void update() {
+
+    }
+
     private void initPanel() {
         panel = new JPanel();
         panel.setName(TITLE);
@@ -230,5 +235,4 @@ public class VorteilNachteilVerwaltung implements DialogIntrfs {
         panel.add(panelSpeichernLoeschen, GBC.cvnwpLoeschenSpeichern);
 
     }
-
 }

@@ -1,6 +1,7 @@
 package de.arindy.shadowrun;
 
 import de.arindy.shadowrun.controller.CharController;
+import de.arindy.shadowrun.controller.helper.ColorChanger;
 import de.arindy.shadowrun.controller.helper.DataHelper;
 import de.arindy.shadowrun.gui.CharSheet;
 import net.sf.tinylaf.Theme;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 public class Main {
-    public static String TITLE = "Shadowrun V Helper";
+    public static String TITLE = "SharV";
     private static CharSheet charSheet;
 
     public static void main(String[] args) {
@@ -42,8 +43,6 @@ public class Main {
         int fontSize = DataHelper.getFontsize();
         Font font = loadFont(fontSize);
         setUIFont(new javax.swing.plaf.FontUIResource(((font != null) ? font : new Font("Consolas", Font.PLAIN, fontSize))));
-        UIManager.put("TextField.foreground", Color.red);
-        UIManager.put("Panel.foreground", Color.red);
         charSheet = new CharSheet(TITLE);
         setIcons();
     }
@@ -55,21 +54,41 @@ public class Main {
     }
 
     private static void initLookAndFeel() {
-        Toolkit.getDefaultToolkit().setDynamicLayout(true);
-        System.setProperty("sun.awt.noerasebackground", "true");
-        //JFrame.setDefaultLookAndFeelDecorated(true);
-        //JDialog.setDefaultLookAndFeelDecorated(true);
-        Theme.loadTheme(CharSheet.class.getClassLoader().getResource("theme/Nightly.theme"));
-        Theme.titledBorderColor = new SBReference(Color.red, 255, 255, 255);
-        Theme.titledBorderFontColor = new SBReference(Color.red, 255, 255, 255);
-        Color textBg = new Color(35, 35, 35);
-        Theme.textBgColor = new SBReference(textBg, 255, 255, 255);
+        if (DataHelper.getLookAndFeel() != null && DataHelper.getLookAndFeel().equalsIgnoreCase("TinyLookAndFeel")) {
+            Toolkit.getDefaultToolkit().setDynamicLayout(true);
+            System.setProperty("sun.awt.noerasebackground", "true");
+            Theme.loadTheme(CharSheet.class.getClassLoader().getResource("theme/Nightly.theme"));
+            SBReference font = new SBReference(ColorChanger.nonHighlightColor, 255, 255, 255);
+            SBReference dfont = new SBReference(new Color(90, 90, 90), 255, 255, 255);
+            SBReference bg = new SBReference(Theme.backColor.getColor(), 255, 255, 255);
+            SBReference textbg = new SBReference(new Color(15, 15, 15), 255, 255, 255);
+            Theme.menuFontColor = font;
+            Theme.menuItemFontColor = font;
+            Theme.menuItemDisabledFgColor = dfont;
+            Theme.menuItemRolloverColor = font;
+            Theme.menuRolloverBgColor = font;
+            Theme.labelFontColor = font;
+            Theme.checkFontColor = font;
+            Theme.radioFontColor = font;
+            Theme.tabPaneBorderColor = bg;
+            Theme.tipBgColor = bg;
+            Theme.textBgColor = textbg;
+            Theme.comboBgColor = textbg;
+            Theme.comboBorderColor = bg;
 
-        try {
-            UIManager.setLookAndFeel(new TinyLookAndFeel());
-        } catch (UnsupportedLookAndFeelException e) {
-            e.printStackTrace();
+            try {
+                UIManager.setLookAndFeel(new TinyLookAndFeel());
+            } catch (UnsupportedLookAndFeelException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+                e.printStackTrace();
+            }
         }
+        ColorChanger.changeColor(new Color(DataHelper.getHighlightColorR(), DataHelper.getHighlightColorG(), DataHelper.getHighlightColorB(), DataHelper.getHighlightColorAlpha()), ColorChanger.HIGHLIGHTCOLOR);
     }
 
     private static Font loadFont(float size) {

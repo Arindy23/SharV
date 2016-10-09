@@ -10,23 +10,31 @@ import java.util.Locale;
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class DataHelper {
 
+    public static final File CHARS_PATH = new File(System.getProperty("user.home") + "/.srVHelper/chars");
     private static final File CONFIG_PATH = new File(System.getProperty("user.home") + "/.srVHelper");
     private static boolean unsavedData = false;
     private static boolean loading = false;
     private static boolean uiChange = true;
     private static Point location;
     private static Locale locale;
-    private static String initCharPath;
+    private static String lookAndFeel;
     private static int fontsize;
     private static File iniFile = new File(CONFIG_PATH.getAbsolutePath() + "/srV.ini");
     private static Ini ini;
+    private static int highlightColorR;
+    private static int highlightColorG;
+    private static int highlightColorB;
+    private static int highlightColorAlpha;
 
     public static void init() {
         System.out.println(iniFile);
         CONFIG_PATH.mkdir();
+        CHARS_PATH.mkdir();
         setupIni();
         String tempCharPath = ini.fetch("lastFile", "filePath");
-        initCharPath = (tempCharPath != null && !tempCharPath.isEmpty()) ? tempCharPath : null;
+        lookAndFeel = ini.fetch("options", "lookAndFeel");
+        loadColor();
+        storeIniFile();
 
         locale = new Locale(ini.fetch("options", "locale"));
         try {
@@ -35,6 +43,18 @@ public class DataHelper {
             fontsize = 12;
         }
 
+    }
+
+    private static void loadColor() {
+        String[] colorStr = ini.fetch("options", "color").split(",");
+        if (colorStr.length >= 3) {
+            highlightColorR = Integer.valueOf(colorStr[0]);
+            highlightColorG = Integer.valueOf(colorStr[1]);
+            highlightColorB = Integer.valueOf(colorStr[2]);
+            if (colorStr.length == 4) {
+                highlightColorAlpha = Integer.valueOf(colorStr[3]);
+            }
+        }
     }
 
     private static void setupIni() {
@@ -110,13 +130,38 @@ public class DataHelper {
         storeIniFile();
     }
 
-    public static String getInitCharPath() {
-        return initCharPath;
+    public static int getHighlightColorR() {
+        return highlightColorR;
     }
 
-    public static void setInitCharPath(String initCharPath) {
-        DataHelper.initCharPath = initCharPath;
-        ini.put("lastFile", "filePath", initCharPath);
+    public static int getHighlightColorG() {
+        return highlightColorG;
+    }
+
+    public static int getHighlightColorB() {
+        return highlightColorB;
+    }
+
+    public static int getHighlightColorAlpha() {
+        return highlightColorAlpha;
+    }
+
+    public static void setColor(int R, int G, int B, int ALPHA) {
+        DataHelper.highlightColorR = R;
+        DataHelper.highlightColorG = G;
+        DataHelper.highlightColorB = B;
+        DataHelper.highlightColorAlpha = ALPHA;
+        ini.put("options", "color", R + "," + G + "," + B + "," + ALPHA);
+        storeIniFile();
+    }
+
+    public static String getLookAndFeel() {
+        return lookAndFeel;
+    }
+
+    public static void setLookAndFeel(String lookAndFeel) {
+        DataHelper.lookAndFeel = lookAndFeel;
+        ini.put("options", "lookAndFeel", lookAndFeel);
         storeIniFile();
     }
 

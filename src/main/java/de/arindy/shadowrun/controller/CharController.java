@@ -8,7 +8,9 @@ import de.arindy.shadowrun.entities.types.Geschlecht;
 import de.arindy.shadowrun.entities.types.MagRes;
 import de.arindy.shadowrun.entities.types.Metatyp;
 import de.arindy.shadowrun.entities.types.VorteilNachteil;
-import de.arindy.shadowrun.gui.*;
+import de.arindy.shadowrun.gui.CharSheet;
+import de.arindy.shadowrun.gui.MagResPanel;
+import de.arindy.shadowrun.gui.Zustandsmonitor;
 import de.arindy.shadowrun.gui.actions.DialogBauer;
 import de.arindy.shadowrun.gui.actions.ExitAction;
 import de.arindy.shadowrun.gui.actions.LoadCharFile;
@@ -17,6 +19,7 @@ import de.arindy.shadowrun.gui.helper.JCustomTextField;
 import de.arindy.shadowrun.gui.helper.Language;
 import de.arindy.shadowrun.gui.listener.WindowCloseListener;
 import de.arindy.shadowrun.gui.tabs.VorteilNachteilPanel;
+import de.arindy.shadowrun.gui.verwaltung.HiglightColorChooser;
 import de.arindy.shadowrun.gui.verwaltung.VorteilNachteilVerwaltung;
 import de.arindy.shadowrun.persistence.helper.JsonHandler;
 
@@ -40,6 +43,7 @@ public class CharController {
 
     //<editor-fold desc="Variablen">
     public static Charakter character;
+    JCheckBoxMenuItem laf;
     private CharSheet charSheet;
     private MagResPanel magResPanel;
     private Zustandsmonitor zustandsmonitor;
@@ -52,9 +56,7 @@ public class CharController {
     private ActionListener geistigListener;
     private SaveCharFile saveCharFile = new SaveCharFile(this);
     private LoadCharFile loadCharFile = new LoadCharFile(this);
-
     private List<JCheckBox> edgeCheckBox;
-
     private List<JCheckBox> koerperlich;
     private List<JCheckBox> geistig;
     private List<JCheckBox> ueberzaehlig;
@@ -119,7 +121,8 @@ public class CharController {
     public void updateTitle() {
         if (!DataHelper.isLoading()) {
             String titleFront = (character != null && character.getName() != null && !character.getName().isEmpty()) ? character.getName() : "";
-            titleFront += (character != null && character.getStrassenname() != null && !character.getStrassenname().isEmpty()) ? " (" + character.getStrassenname() + ")" + " - " : " - ";
+            if (!titleFront.isEmpty())
+                titleFront += (character != null && character.getStrassenname() != null && !character.getStrassenname().isEmpty()) ? " (" + character.getStrassenname() + ")" + " - " : " - ";
             charSheet.getSheet().setTitle(((DataHelper.hasUnsavedData()) ? "*" : "") + titleFront + Main.TITLE);
         }
     }
@@ -168,6 +171,28 @@ public class CharController {
             item.addActionListener(e -> changeFontsize(fontsize));
             charSheet.getMenuSchriftgroesse().add(item);
         }
+        laf = new JCheckBoxMenuItem(Language.getString("menu.options.customTheme"));
+        laf.addActionListener(e -> changeLookAndFeel());
+        DialogBauer highlightColor = new DialogBauer(charSheet.getSheet(), new HiglightColorChooser());
+        if (UIManager.getLookAndFeel().getName().equalsIgnoreCase("TinyLookAndFeel")) {
+            laf.setSelected(true);
+            highlightColor.setEnabled(true);
+        } else {
+            laf.setSelected(false);
+            highlightColor.setEnabled(false);
+
+        }
+        charSheet.getMenuOptions().add(laf);
+        charSheet.getMenuOptions().add(highlightColor);
+    }
+
+    private void changeLookAndFeel() {
+        if (laf.isSelected()) {
+            DataHelper.setLookAndFeel("TinyLookAndFeel");
+        } else {
+            DataHelper.setLookAndFeel("System");
+        }
+        reloadUI();
     }
 
     private void loadLanguageFile(File lang) {
@@ -195,6 +220,11 @@ public class CharController {
     private void reloadUI() {
         DataHelper.setUiChange(true);
         Window window = KeyboardFocusManager.getCurrentKeyboardFocusManager().getActiveWindow();
+
+        while (window.getClass() != JFrame.class) {
+            window = window.getOwner();
+        }
+
         DataHelper.setLocation(window.getLocation());
         window.dispose();
         synchronized (this){
@@ -235,15 +265,11 @@ public class CharController {
     private void loadInitCharacter(){
         DataHelper.setLoading(true);
         if (character == null) {
-            if (DataHelper.getInitCharPath() != null && new File(DataHelper.getInitCharPath()).exists()) {
-                character = (Charakter) JsonHandler.readFile(new File(DataHelper.getInitCharPath()), Charakter.class);
-            } else {
                 character = new Charakter();
                 character.setMetatyp(Metatyp.MENSCH);
                 character.setGeschlecht(Geschlecht.WEIBLICH);
                 character.setMagRes(MagRes.NONE);
                 mapKarma();
-            }
         }
         mapChar();
         DataHelper.setLoading(false);
@@ -415,8 +441,10 @@ public class CharController {
             }
             if (character != null && character.getMetatyp() != null && character.getMetatyp().getEdg()[1] < i + 1) {
                 edgeCheckBox.get(i).setBorderPaintedFlat(true);
+                edgeCheckBox.get(i).setVisible(false);
             } else {
                 edgeCheckBox.get(i).setBorderPaintedFlat(false);
+                edgeCheckBox.get(i).setVisible(true);
             }
             if (character != null && character.getEdgeAusgegeben() >= i + 1) {
                 edgeCheckBox.get(i).setSelected(true);
@@ -432,9 +460,11 @@ public class CharController {
             if (character != null && character.getKonstitution() < i + 1) {
                 ueberzaehlig.get(i).setEnabled(false);
                 ueberzaehlig.get(i).setBorderPaintedFlat(true);
+                ueberzaehlig.get(i).setVisible(false);
             } else {
                 ueberzaehlig.get(i).setEnabled(true);
                 ueberzaehlig.get(i).setBorderPaintedFlat(false);
+                ueberzaehlig.get(i).setVisible(true);
             }
             if (character != null && character.getSchadenUeberzaehlig() >= i + 1) {
                 ueberzaehlig.get(i).setSelected(true);
@@ -450,9 +480,11 @@ public class CharController {
             if (character != null && ((int) ceil((8 + ((double) character.getKonstitution() / 2)))) < i + 1) {
                 koerperlich.get(i).setEnabled(false);
                 koerperlich.get(i).setBorderPaintedFlat(true);
+                koerperlich.get(i).setVisible(false);
             } else {
                 koerperlich.get(i).setEnabled(true);
                 koerperlich.get(i).setBorderPaintedFlat(false);
+                koerperlich.get(i).setVisible(true);
             }
             if (character != null && character.getSchadenKoerper() >= i + 1) {
                 koerperlich.get(i).setSelected(true);
@@ -468,9 +500,11 @@ public class CharController {
             if (character != null && ((int) ceil((8 + ((double) character.getWillenskraft() / 2)))) < i + 1) {
                 geistig.get(i).setEnabled(false);
                 geistig.get(i).setBorderPaintedFlat(true);
+                geistig.get(i).setVisible(false);
             } else {
                 geistig.get(i).setEnabled(true);
                 geistig.get(i).setBorderPaintedFlat(false);
+                geistig.get(i).setVisible(true);
             }
             if (character != null && character.getSchadenKoerper() >= i + 1) {
                 geistig.get(i).setSelected(true);

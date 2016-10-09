@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="de.arindy.shadowrun.gui.CharSheet">
-  <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="true" same-size-vertically="false" hgap="2" vgap="-1">
+  <grid id="27dc6" binding="mainPanel" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="2" vgap="-1">
     <margin top="2" left="2" bottom="2" right="2"/>
     <constraints>
-      <xy x="20" y="20" width="1206" height="1100"/>
+      <xy x="20" y="20" width="1206" height="1144"/>
     </constraints>
     <properties>
       <opaque value="true"/>
@@ -11,7 +11,7 @@
     </properties>
     <border type="none"/>
     <children>
-      <grid id="d9861" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="d9861" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -22,7 +22,7 @@
           <grid id="8deb8" layout-manager="GridLayoutManager" row-count="11" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="1" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <enabled value="true"/>
@@ -43,7 +43,6 @@
                     </constraints>
                     <properties>
                       <enabled value="true"/>
-                      <foreground color="-6645094"/>
                       <horizontalAlignment value="4"/>
                       <text resource-bundle="lang/language" key="charSheet.persDaten.name"/>
                     </properties>
@@ -54,7 +53,6 @@
                       <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <background color="-14474461"/>
                       <enabled value="true"/>
                     </properties>
                     <border type="empty"/>
@@ -76,7 +74,6 @@
                     </constraints>
                     <properties>
                       <enabled value="true"/>
-                      <foreground color="-6645094"/>
                       <horizontalAlignment value="10"/>
                       <iconTextGap value="4"/>
                       <text resource-bundle="lang/language" key="charSheet.persDaten.metatyp"/>
@@ -87,10 +84,10 @@
                       <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <background color="-14474461"/>
                       <editable value="false"/>
                       <enabled value="true"/>
                       <model/>
+                      <opaque value="true"/>
                     </properties>
                   </component>
                   <component id="31cc9" class="javax.swing.JLabel">
@@ -99,7 +96,6 @@
                     </constraints>
                     <properties>
                       <enabled value="true"/>
-                      <foreground color="-6645094"/>
                       <text resource-bundle="lang/language" key="charSheet.persDaten.cred"/>
                     </properties>
                   </component>
@@ -125,7 +121,6 @@
                     </constraints>
                     <properties>
                       <autoscrolls value="false"/>
-                      <background color="-14474461"/>
                       <borderPainted value="true"/>
                       <contentAreaFilled value="true"/>
                       <inheritsPopupMenu value="false"/>
@@ -149,7 +144,6 @@
                     </constraints>
                     <properties>
                       <enabled value="true"/>
-                      <foreground color="-6645094"/>
                       <text resource-bundle="lang/language" key="charSheet.persDaten.alter"/>
                     </properties>
                   </component>
@@ -159,7 +153,6 @@
                       <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <background color="-14474461"/>
                       <columns value="4"/>
                     </properties>
                     <border type="empty"/>
@@ -171,7 +164,6 @@
                     </constraints>
                     <properties>
                       <enabled value="true"/>
-                      <foreground color="-6645094"/>
                       <text resource-bundle="lang/language" key="charSheet.persDaten.groesse"/>
                     </properties>
                   </component>
@@ -181,7 +173,6 @@
                       <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <background color="-14474461"/>
                       <columns value="4"/>
                     </properties>
                     <border type="empty"/>
@@ -193,7 +184,6 @@
                     </constraints>
                     <properties>
                       <enabled value="true"/>
-                      <foreground color="-6645094"/>
                       <horizontalAlignment value="4"/>
                       <text resource-bundle="lang/language" key="charSheet.persDaten.gewicht"/>
                     </properties>
@@ -204,7 +194,6 @@
                       <grid row="0" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <background color="-14474461"/>
                       <columns value="4"/>
                     </properties>
                     <border type="empty"/>
@@ -216,7 +205,6 @@
                     </constraints>
                     <properties>
                       <enabled value="true"/>
-                      <foreground color="-6645094"/>
                       <iconTextGap value="4"/>
                       <text resource-bundle="lang/language" key="charSheet.persDaten.geschlecht"/>
                     </properties>
@@ -226,7 +214,6 @@
                       <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <background color="-14474461"/>
                       <enabled value="true"/>
                     </properties>
                   </component>
@@ -251,7 +238,6 @@
                     </constraints>
                     <properties>
                       <enabled value="true"/>
-                      <foreground color="-6645094"/>
                       <text resource-bundle="lang/language" key="charSheet.persDaten.ethnie"/>
                     </properties>
                   </component>
@@ -261,7 +247,6 @@
                       <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <background color="-14474461"/>
                       <columns value="11"/>
                     </properties>
                     <border type="empty"/>
@@ -273,7 +258,6 @@
                     </constraints>
                     <properties>
                       <enabled value="true"/>
-                      <foreground color="-6645094"/>
                       <horizontalAlignment value="4"/>
                       <text resource-bundle="lang/language" key="charSheet.persDaten.konzept"/>
                     </properties>
@@ -284,7 +268,6 @@
                       <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <background color="-14474461"/>
                       <columns value="20"/>
                     </properties>
                     <border type="empty"/>
@@ -306,7 +289,6 @@
                     </constraints>
                     <properties>
                       <enabled value="true"/>
-                      <foreground color="-6645094"/>
                       <text resource-bundle="lang/language" key="charSheet.persDaten.strassenruf"/>
                     </properties>
                   </component>
@@ -316,7 +298,6 @@
                       <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <background color="-14474461"/>
                       <columns value="3"/>
                     </properties>
                     <border type="empty"/>
@@ -328,7 +309,6 @@
                     </constraints>
                     <properties>
                       <enabled value="true"/>
-                      <foreground color="-6645094"/>
                       <text resource-bundle="lang/language" key="charSheet.persDaten.schlechterRuf"/>
                     </properties>
                   </component>
@@ -338,7 +318,6 @@
                       <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <background color="-14474461"/>
                       <columns value="3"/>
                     </properties>
                     <border type="empty"/>
@@ -350,7 +329,6 @@
                     </constraints>
                     <properties>
                       <enabled value="true"/>
-                      <foreground color="-6645094"/>
                       <text resource-bundle="lang/language" key="charSheet.persDaten.prominenz"/>
                     </properties>
                   </component>
@@ -360,7 +338,6 @@
                       <grid row="0" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <background color="-14474461"/>
                       <columns value="3"/>
                     </properties>
                     <border type="empty"/>
@@ -392,7 +369,6 @@
                     </constraints>
                     <properties>
                       <enabled value="true"/>
-                      <foreground color="-6645094"/>
                       <text resource-bundle="lang/language" key="charSheet.persDaten.karma"/>
                     </properties>
                   </component>
@@ -401,7 +377,6 @@
                       <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
-                      <background color="-14803426"/>
                       <borderPainted value="false"/>
                       <enabled value="true"/>
                     </properties>
@@ -458,7 +433,7 @@
           <grid id="8507d" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="0" vgap="2">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <autoscrolls value="false"/>
@@ -491,7 +466,6 @@
                         </constraints>
                         <properties>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                           <horizontalAlignment value="0"/>
                           <text resource-bundle="lang/language" key="charSheet.attribute.koerper.kon"/>
                         </properties>
@@ -504,7 +478,6 @@
                         </constraints>
                         <properties>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                           <horizontalAlignment value="0"/>
                           <text resource-bundle="lang/language" key="charSheet.attribute.koerper.ges"/>
                         </properties>
@@ -517,7 +490,6 @@
                         </constraints>
                         <properties>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                           <horizontalAlignment value="0"/>
                           <text resource-bundle="lang/language" key="charSheet.attribute.koerper.rea"/>
                         </properties>
@@ -530,7 +502,6 @@
                         </constraints>
                         <properties>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                           <horizontalAlignment value="0"/>
                           <text resource-bundle="lang/language" key="charSheet.attribute.koerper.sta"/>
                         </properties>
@@ -543,7 +514,6 @@
                         <properties>
                           <columns value="3"/>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                         </properties>
                         <border type="empty"/>
                         <children/>
@@ -556,7 +526,6 @@
                         <properties>
                           <columns value="3"/>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                         </properties>
                         <border type="empty"/>
                         <children/>
@@ -569,7 +538,6 @@
                         <properties>
                           <columns value="3"/>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                         </properties>
                         <border type="empty"/>
                         <children/>
@@ -582,7 +550,6 @@
                         <properties>
                           <columns value="3"/>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                         </properties>
                         <border type="empty"/>
                         <children/>
@@ -681,7 +648,6 @@
                           <columns value="3"/>
                           <editable value="false"/>
                           <focusable value="false"/>
-                          <foreground color="-6645094"/>
                           <name value=""/>
                           <opaque value="false"/>
                           <text value=""/>
@@ -698,7 +664,6 @@
                           <columns value="3"/>
                           <editable value="false"/>
                           <focusable value="false"/>
-                          <foreground color="-6645094"/>
                           <name value=""/>
                           <opaque value="false"/>
                           <text value=""/>
@@ -715,7 +680,6 @@
                           <columns value="3"/>
                           <editable value="false"/>
                           <focusable value="false"/>
-                          <foreground color="-6645094"/>
                           <name value=""/>
                           <opaque value="false"/>
                           <text value=""/>
@@ -732,7 +696,6 @@
                           <columns value="3"/>
                           <editable value="false"/>
                           <focusable value="false"/>
-                          <foreground color="-6645094"/>
                           <name value=""/>
                           <opaque value="false"/>
                           <text value=""/>
@@ -758,7 +721,6 @@
                         </constraints>
                         <properties>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                           <horizontalAlignment value="0"/>
                           <text resource-bundle="lang/language" key="charSheet.attribute.geist.wil"/>
                         </properties>
@@ -771,7 +733,6 @@
                         </constraints>
                         <properties>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                           <horizontalAlignment value="0"/>
                           <text resource-bundle="lang/language" key="charSheet.attribute.geist.log"/>
                         </properties>
@@ -784,7 +745,6 @@
                         </constraints>
                         <properties>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                           <horizontalAlignment value="0"/>
                           <text resource-bundle="lang/language" key="charSheet.attribute.geist.int"/>
                         </properties>
@@ -797,7 +757,6 @@
                         </constraints>
                         <properties>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                           <horizontalAlignment value="0"/>
                           <text resource-bundle="lang/language" key="charSheet.attribute.geist.cha"/>
                         </properties>
@@ -810,7 +769,6 @@
                         <properties>
                           <columns value="3"/>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                         </properties>
                         <border type="empty"/>
                         <children/>
@@ -823,7 +781,6 @@
                         <properties>
                           <columns value="3"/>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                         </properties>
                         <border type="empty"/>
                         <children/>
@@ -836,7 +793,6 @@
                         <properties>
                           <columns value="3"/>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                         </properties>
                         <border type="empty"/>
                         <children/>
@@ -849,7 +805,6 @@
                         <properties>
                           <columns value="3"/>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                         </properties>
                         <border type="empty"/>
                         <children/>
@@ -946,7 +901,6 @@
                           <columns value="3"/>
                           <editable value="false"/>
                           <focusable value="false"/>
-                          <foreground color="-6645094"/>
                           <name value=""/>
                           <opaque value="false"/>
                           <text value=""/>
@@ -963,7 +917,6 @@
                           <columns value="3"/>
                           <editable value="false"/>
                           <focusable value="false"/>
-                          <foreground color="-6645094"/>
                           <name value=""/>
                           <opaque value="false"/>
                           <text value=""/>
@@ -980,7 +933,6 @@
                           <columns value="3"/>
                           <editable value="false"/>
                           <focusable value="false"/>
-                          <foreground color="-6645094"/>
                           <name value=""/>
                           <opaque value="false"/>
                           <text value=""/>
@@ -997,7 +949,6 @@
                           <columns value="3"/>
                           <editable value="false"/>
                           <focusable value="false"/>
-                          <foreground color="-6645094"/>
                           <name value=""/>
                           <opaque value="false"/>
                           <text value=""/>
@@ -1021,7 +972,6 @@
                         </constraints>
                         <properties>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                           <horizontalAlignment value="0"/>
                           <text resource-bundle="lang/language" key="charSheet.attribute.neben.sel"/>
                         </properties>
@@ -1032,7 +982,6 @@
                         </constraints>
                         <properties>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                           <horizontalAlignment value="0"/>
                           <text resource-bundle="lang/language" key="charSheet.attribute.neben.men"/>
                         </properties>
@@ -1043,7 +992,6 @@
                         </constraints>
                         <properties>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                           <horizontalAlignment value="0"/>
                           <text resource-bundle="lang/language" key="charSheet.attribute.neben.eri"/>
                         </properties>
@@ -1054,7 +1002,6 @@
                         </constraints>
                         <properties>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                           <horizontalAlignment value="0"/>
                           <text resource-bundle="lang/language" key="charSheet.attribute.neben.hetr"/>
                         </properties>
@@ -1081,7 +1028,6 @@
                                 </constraints>
                                 <properties>
                                   <enabled value="true"/>
-                                  <foreground color="-6645094"/>
                                   <horizontalAlignment value="4"/>
                                   <horizontalTextPosition value="0"/>
                                   <text resource-bundle="lang/language" key="charSheet.attribute.neben.geh"/>
@@ -1117,7 +1063,6 @@
                                 </constraints>
                                 <properties>
                                   <enabled value="true"/>
-                                  <foreground color="-6645094"/>
                                   <horizontalAlignment value="4"/>
                                   <horizontalTextPosition value="0"/>
                                   <text resource-bundle="lang/language" key="charSheet.attribute.neben.lau"/>
@@ -1153,7 +1098,6 @@
                                 </constraints>
                                 <properties>
                                   <enabled value="true"/>
-                                  <foreground color="-6645094"/>
                                   <horizontalAlignment value="0"/>
                                   <horizontalTextPosition value="0"/>
                                   <text resource-bundle="lang/language" key="charSheet.attribute.neben.spr"/>
@@ -1298,9 +1242,9 @@
                     <properties/>
                     <border type="none" title-resource-bundle="lang/language" title-key="charSheet.attribute.magres" title-justification="1"/>
                     <children>
-                      <component id="f6d70" class="javax.swing.JComboBox" binding="lMagieResonanz">
+                      <component id="f6d70" class="javax.swing.JComboBox" binding="lMagieResonanz" custom-create="true">
                         <constraints>
-                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
                           <enabled value="true"/>
@@ -1343,7 +1287,6 @@
                         <properties>
                           <columns value="3"/>
                           <editable value="false"/>
-                          <foreground color="-6645094"/>
                           <name value=""/>
                           <opaque value="false"/>
                           <text value=""/>
@@ -1367,7 +1310,6 @@
                         </constraints>
                         <properties>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                           <horizontalAlignment value="0"/>
                           <text resource-bundle="lang/language" key="charSheet.attribute.init.ini"/>
                         </properties>
@@ -1401,7 +1343,6 @@
                         </constraints>
                         <properties>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                           <horizontalAlignment value="0"/>
                           <text resource-bundle="lang/language" key="charSheet.attribute.init.aini"/>
                         </properties>
@@ -1435,7 +1376,6 @@
                         </constraints>
                         <properties>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                           <horizontalAlignment value="0"/>
                           <text resource-bundle="lang/language" key="charSheet.attribute.init.minia"/>
                         </properties>
@@ -1469,7 +1409,6 @@
                         </constraints>
                         <properties>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                           <horizontalAlignment value="0"/>
                           <text resource-bundle="lang/language" key="charSheet.attribute.init.minik"/>
                         </properties>
@@ -1503,7 +1442,6 @@
                         </constraints>
                         <properties>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                           <horizontalAlignment value="0"/>
                           <text resource-bundle="lang/language" key="charSheet.attribute.init.minih"/>
                         </properties>
@@ -1537,7 +1475,6 @@
                         </constraints>
                         <properties>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                           <horizontalAlignment value="0"/>
                           <text resource-bundle="lang/language" key="charSheet.attribute.init.rinia"/>
                         </properties>
@@ -1571,7 +1508,6 @@
                         </constraints>
                         <properties>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                           <horizontalAlignment value="0"/>
                           <text resource-bundle="lang/language" key="charSheet.attribute.init.rinik"/>
                         </properties>
@@ -1605,7 +1541,6 @@
                         </constraints>
                         <properties>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                           <horizontalAlignment value="0"/>
                           <text resource-bundle="lang/language" key="charSheet.attribute.init.rinih"/>
                         </properties>
@@ -1639,7 +1574,6 @@
                         </constraints>
                         <properties>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                           <horizontalAlignment value="0"/>
                           <text resource-bundle="lang/language" key="charSheet.attribute.init.rinid"/>
                         </properties>
@@ -1758,7 +1692,6 @@
                         </constraints>
                         <properties>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                           <horizontalAlignment value="0"/>
                           <text resource-bundle="lang/language" key="charSheet.attribute.essedg.ess"/>
                         </properties>
@@ -1786,7 +1719,6 @@
                         </constraints>
                         <properties>
                           <enabled value="true"/>
-                          <foreground color="-6645094"/>
                           <horizontalAlignment value="0"/>
                           <text resource-bundle="lang/language" key="charSheet.attribute.essedg.edg"/>
                         </properties>
@@ -1839,7 +1771,7 @@
           <grid id="2a4c3" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="true" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties/>
             <border type="none" title-resource-bundle="lang/language" title-key="charSheet.limits" title-justification="1"/>
@@ -1858,7 +1790,6 @@
                     </constraints>
                     <properties>
                       <enabled value="true"/>
-                      <foreground color="-6645094"/>
                       <horizontalAlignment value="0"/>
                       <text resource-bundle="lang/language" key="charSheet.limits.koerper"/>
                     </properties>
@@ -1893,7 +1824,6 @@
                     </constraints>
                     <properties>
                       <enabled value="true"/>
-                      <foreground color="-6645094"/>
                       <horizontalAlignment value="0"/>
                       <text resource-bundle="lang/language" key="charSheet.limits.geist"/>
                     </properties>
@@ -1928,7 +1858,6 @@
                     </constraints>
                     <properties>
                       <enabled value="true"/>
-                      <foreground color="-6645094"/>
                       <horizontalAlignment value="0"/>
                       <text resource-bundle="lang/language" key="charSheet.limits.sozial"/>
                     </properties>
@@ -1951,12 +1880,17 @@
               </grid>
             </children>
           </grid>
+          <vspacer id="59c7d">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="2" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </vspacer>
         </children>
       </grid>
-      <grid id="7a68f" binding="right" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="7a68f" binding="right" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="true" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
-          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="1" row-span="2" col-span="1" vsize-policy="3" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
         <border type="none"/>
@@ -1968,16 +1902,33 @@
           </nested-form>
           <tabbedpane id="79bbb" binding="tabbed" custom-create="true">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+              <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="7" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
                 <preferred-size width="200" height="200"/>
               </grid>
+            </constraints>
+            <properties>
+              <tabLayoutPolicy value="1"/>
+              <tabPlacement value="4"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </tabbedpane>
+          <grid id="95079" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints>
+              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties/>
             <border type="none"/>
             <children/>
-          </tabbedpane>
+          </grid>
         </children>
       </grid>
+      <vspacer id="37e06">
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="2" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+        </constraints>
+      </vspacer>
     </children>
   </grid>
 </form>
