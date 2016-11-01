@@ -62,6 +62,8 @@ public class Main {
             SBReference dfont = new SBReference(new Color(90, 90, 90), 255, 255, 255);
             SBReference bg = new SBReference(Theme.backColor.getColor(), 255, 255, 255);
             SBReference textbg = new SBReference(new Color(15, 15, 15), 255, 255, 255);
+            Theme.buttonCheckColor = font;
+            Theme.menuIconColor = font;
             Theme.menuFontColor = font;
             Theme.menuItemFontColor = font;
             Theme.menuItemDisabledFgColor = dfont;

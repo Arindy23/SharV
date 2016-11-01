@@ -52,7 +52,6 @@ public class ColorChanger {
                     comp.setForeground(color);
                 }
                 SBReference sbr = new SBReference(color, 255, 255, 255);
-                Theme.menuIconColor = sbr;
                 Theme.titledBorderColor = sbr;
                 Theme.titledBorderFontColor = sbr;
                 Theme.textTextColor = sbr;
@@ -76,7 +75,6 @@ public class ColorChanger {
                     tabSelCol = tabSelCol.darker();
                 }
                 Theme.tabSelectedColor = new SBReference(tabSelCol, 255, 255, 255);
-                Theme.buttonCheckColor = sbr;
                 try {
                     UIManager.setLookAndFeel(new TinyLookAndFeel());
                 } catch (UnsupportedLookAndFeelException e1) {
