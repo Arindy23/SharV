@@ -22,6 +22,14 @@
             <artifactId>sharv-persistence</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.ini4j</groupId>
+            <artifactId>ini4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.tinylaf</groupId>
+            <artifactId>tinylaf</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
