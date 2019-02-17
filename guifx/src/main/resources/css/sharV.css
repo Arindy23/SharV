@@ -1,0 +1,130 @@
+{
+    -sharV-background: #1c1d1e;
+    -sharV-background-input: #171819;
+    -sharV-border: #38393a;
+    -sharV-text: #8f9091;
+}
+
+.root {
+    -fx-background: -sharV-background;
+    -fx-font-family: 'Inconsolata';
+    -fx-font-size: 15px;
+}
+
+.text-field {
+    -fx-background-color: -sharv-background-input;
+    -fx-text-fill: -sharv-highlight;
+}
+
+.menu-bar {
+    -fx-background-color: -sharV-background;
+}
+
+.menu-bar > .container > .menu-button {
+    -fx-background-color: -sharV-background;
+}
+
+.menu-bar > .container > .menu-button > .label {
+    -fx-text-fill: -sharV-text;
+}
+
+.menu-bar > .container > .menu-button:hover,
+.menu-bar > .container > .menu-button:focused,
+.menu-bar > .container > .menu-button:showing {
+    -fx-background-color: -sharV-background;
+}
+
+.menu-bar > .container > .menu-button:hover > .label,
+.menu-bar > .container > .menu-button:focused > .label,
+.menu-bar > .container > .menu-button:showing > .label {
+    -fx-text-fill: -sharV-highlight;
+}
+
+.menu-item {
+    -fx-background-color: -sharV-background;
+}
+
+.menu-item .label {
+    -fx-text-fill: -sharV-text;
+}
+
+.menu-item:focused {
+    -fx-background-color: -sharV-background;
+}
+
+.menu-item:focused .label {
+    -fx-text-fill: -sharV-highlight;
+}
+
+.context-menu {
+    -fx-background-color: -sharV-background;
+}
+
+.label {
+    -fx-text-fill: -sharV-text;
+}
+
+.value-label {
+    -fx-text-fill: -sharv-highlight;
+}
+
+.combo-box {
+    -fx-background-color: -sharv-background-input;
+    -fx-text-fill: -sharV-highlight;
+}
+
+.combo-box .list-cell {
+    -fx-background: -sharv-background-input;
+    -fx-text-fill: -sharV-highlight;
+}
+
+.combo-box-popup .list-view {
+    -fx-background-color: -sharv-background;
+}
+
+.combo-box-popup .list-view .list-cell {
+    -fx-background-color: -sharv-background;
+}
+
+.combo-box-popup .list-view .list-cell:filled:selected, .combo-box-popup .list-view .list-cell:filled:selected:hover {
+    -fx-background: -fx-accent;
+    -fx-background-color: -fx-selection-bar;
+    -fx-text-fill: -fx-selection-bar-text;
+}
+
+.combo-box-popup .list-view .list-cell:filled:hover {
+    -fx-background-color: -sharv-highlight;
+    -fx-text-fill: -sharV-background;
+}
+
+.bordered-titled-title {
+    -fx-translate-x: 8;
+    -fx-translate-y: -10;
+    -fx-padding: 0 0 0 4;
+    -fx-background-color: -sharV-background;
+    -fx-text-fill: -sharV-highlight;
+}
+
+.bordered-titled-border {
+    -fx-content-display: top;
+    -fx-border-insets: 2 0 0 0;
+    -fx-border-color: -sharV-highlight;
+    -fx-border-width: 2;
+}
+
+.bordered-titled-content {
+    -fx-padding: 18 5 5 5;
+}
+
+.context-menu{
+    -fx-background-color: -sharV-background;
+}
+
+.color-picker {
+    -fx-background-color: -sharV-background;
+}
+
+.color-picker .color-picker-label .text {
+    visibility: false;
+}
+

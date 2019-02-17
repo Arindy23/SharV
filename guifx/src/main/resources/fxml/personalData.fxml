@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.arindy.sharv.jfx.BorderedTitledPane?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderedTitledPane prefHeight="400.0" prefWidth="500.0" title="%title" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.arindy.sharv.PersonalDataPane">
+    <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
+        <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+        </padding>
+        <HBox alignment="CENTER_LEFT">
+            <Label text="%name" HBox.hgrow="SOMETIMES">
+                <padding>
+                    <Insets right="5.0" />
+                </padding>
+            </Label>
+            <TextField alignment="CENTER" HBox.hgrow="SOMETIMES" />
+        </HBox>
+        <Separator>
+            <padding>
+                <Insets bottom="2.5" top="2.5" />
+            </padding>
+        </Separator>
+        <HBox alignment="CENTER_LEFT">
+            <Label text="%metatype" HBox.hgrow="ALWAYS">
+                <padding>
+                    <Insets right="5.0" />
+                </padding>
+            </Label>
+            <ComboBox HBox.hgrow="SOMETIMES" />
+         <Region HBox.hgrow="SOMETIMES" />
+         <Label text="%karma">
+            <padding>
+               <Insets right="5.0" />
+            </padding></Label>
+         <Label styleClass="value-label" text="0" />
+         <Label text="/" />
+         <Label styleClass="value-label" text="0" />
+            <Region HBox.hgrow="SOMETIMES" />
+            <Label alignment="CENTER_RIGHT" text="%credits" HBox.hgrow="ALWAYS">
+                <padding>
+                    <Insets right="5.0" />
+                </padding>
+            </Label>
+            <Label alignment="CENTER_RIGHT" prefHeight="16.0" prefWidth="125.0" styleClass="value-label" text="00000" HBox.hgrow="ALWAYS">
+                <padding>
+                    <Insets right="5.0" />
+                </padding>
+            </Label>
+        </HBox>
+        <Separator>
+            <padding>
+                <Insets bottom="2.5" top="2.5" />
+            </padding>
+        </Separator>
+        <HBox alignment="CENTER_LEFT">
+            <Label text="%sex" HBox.hgrow="ALWAYS">
+                <padding>
+                    <Insets right="5.0" />
+                </padding>
+            </Label>
+            <ComboBox />
+            <Region HBox.hgrow="ALWAYS" />
+            <Label text="%age">
+                <padding>
+                    <Insets right="5.0" />
+                </padding>
+            </Label>
+            <TextField alignment="CENTER" prefWidth="50.0" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Label layoutX="100.0" layoutY="15.0" text="%size">
+                <padding>
+                    <Insets right="5.0" />
+                </padding>
+            </Label>
+            <TextField alignment="CENTER" prefWidth="50.0" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Label text="%weight">
+                <padding>
+                    <Insets right="5.0" />
+                </padding>
+            </Label>
+            <TextField alignment="CENTER" prefWidth="50.0" />
+        </HBox>
+      <Separator>
+         <padding>
+            <Insets bottom="2.5" top="2.5" />
+         </padding>
+      </Separator>
+    </VBox>
+</BorderedTitledPane>

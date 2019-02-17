@@ -11,26 +11,11 @@ import java.io.IOException;
  */
 public class JsonHandler {
 
-    public static Object readFile(File file, Class T) {
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            Object castedClass = T.newInstance();
-            return castedClass.getClass().cast(mapper.readValue(file, T));
-        } catch (IOException | InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public static <T> T readFile(File file, Class<T> T) throws IOException {
+        return new ObjectMapper().readValue(file, T);
     }
 
-    public static void writeFile(File file, Object o) {
-        ObjectMapper mapper = new ObjectMapper();
-
-        try {
-            mapper.enable(SerializationFeature.INDENT_OUTPUT);
-            mapper.writeValue(file, o);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+    public static void writeFile(File file, Object o) throws IOException {
+            new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT).writeValue(file, o);
     }
 }

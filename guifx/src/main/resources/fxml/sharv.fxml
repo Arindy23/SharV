@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane fx:id="root" minHeight="600.0" minWidth="1024.0" stylesheets="@../css/sharV.css"
+            xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="de.arindy.sharv.SharV">
+    <VBox AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0"
+          AnchorPane.topAnchor="0.0">
+        <HBox prefHeight="14.0">
+            <MenuBar>
+                <Menu mnemonicParsing="false" text="File">
+                    <MenuItem mnemonicParsing="false" text="Close"/>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Character">
+                    <MenuItem mnemonicParsing="false" text="Load"/>
+                    <MenuItem mnemonicParsing="false" text="Save"/>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Control">
+                    <MenuItem mnemonicParsing="false" text="Qualities"/>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Options">
+                    <Menu mnemonicParsing="false" text="Language">
+                        <RadioMenuItem fx:id="lang_de" mnemonicParsing="false" onAction="#changeLocale" text="German"/>
+                        <RadioMenuItem fx:id="lang_en" mnemonicParsing="false" onAction="#changeLocale" text="English"/>
+                    </Menu>
+                </Menu>
+            </MenuBar>
+            <ColorPicker fx:id="color" onAction="#changeColor" prefHeight="50.0" prefWidth="48.0"/>
+        </HBox>
+        <HBox VBox.vgrow="ALWAYS">
+            <fx:include source="character.fxml" HBox.hgrow="ALWAYS"/>
+            <Separator orientation="VERTICAL" visible="false"/>
+            <Pane prefHeight="500.0" prefWidth="510.0" HBox.hgrow="ALWAYS"/>
+        </HBox>
+    </VBox>
+</AnchorPane>
