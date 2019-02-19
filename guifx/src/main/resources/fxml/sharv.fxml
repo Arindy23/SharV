@@ -2,34 +2,41 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane fx:id="root" minHeight="600.0" minWidth="1024.0" stylesheets="@../css/sharV.css"
+<AnchorPane fx:id="root" minHeight="800.0" minWidth="1200.0"
             xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="de.arindy.sharv.SharV">
+            fx:controller="de.arindy.sharv.gui.SharV">
     <VBox AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0"
           AnchorPane.topAnchor="0.0">
         <HBox prefHeight="14.0">
             <MenuBar>
-                <Menu mnemonicParsing="false" text="File">
-                    <MenuItem mnemonicParsing="false" text="Close"/>
+                <Menu mnemonicParsing="false" fx:id="file">
+                    <MenuItem mnemonicParsing="false" fx:id="close" onAction="#exit"/>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Character">
-                    <MenuItem mnemonicParsing="false" text="Load"/>
-                    <MenuItem mnemonicParsing="false" text="Save"/>
+                <Menu mnemonicParsing="false" fx:id="character">
+                    <MenuItem mnemonicParsing="false" onAction="#loadCharacter" fx:id="characterLoad"/>
+                    <MenuItem mnemonicParsing="false" onAction="#saveCharacter" fx:id="characterSave"/>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Control">
-                    <MenuItem mnemonicParsing="false" text="Qualities"/>
+                <Menu mnemonicParsing="false" fx:id="control">
+                    <MenuItem mnemonicParsing="false" fx:id="controlQualities"/>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Options">
-                    <Menu mnemonicParsing="false" text="Language">
-                        <RadioMenuItem fx:id="lang_de" mnemonicParsing="false" onAction="#changeLocale" text="German"/>
-                        <RadioMenuItem fx:id="lang_en" mnemonicParsing="false" onAction="#changeLocale" text="English"/>
+                <Menu mnemonicParsing="false" fx:id="options">
+                    <Menu mnemonicParsing="false" fx:id="language">
+                        <RadioMenuItem fx:id="lang_de" mnemonicParsing="false" onAction="#changeLocale" />
+                        <RadioMenuItem fx:id="lang_en" mnemonicParsing="false" onAction="#changeLocale" />
                     </Menu>
+                    <Menu mnemonicParsing="false" fx:id="style">
+                        <RadioMenuItem fx:id="style_sharV" mnemonicParsing="false" onAction="#changeStyle"
+                                       text="SharV"/>
+                        <RadioMenuItem fx:id="style_modena" mnemonicParsing="false" onAction="#changeStyle"
+                                       text="Modena"/>
+                    </Menu>
+                    <RadioMenuItem fx:id="debugLogging" mnemonicParsing="false" onAction="#switchDebugLog" />
                 </Menu>
             </MenuBar>
             <ColorPicker fx:id="color" onAction="#changeColor" prefHeight="50.0" prefWidth="48.0"/>
         </HBox>
         <HBox VBox.vgrow="ALWAYS">
-            <fx:include source="character.fxml" HBox.hgrow="ALWAYS"/>
+            <fx:include source="character.fxml" HBox.hgrow="SOMETIMES"/>
             <Separator orientation="VERTICAL" visible="false"/>
             <Pane prefHeight="500.0" prefWidth="510.0" HBox.hgrow="ALWAYS"/>
         </HBox>

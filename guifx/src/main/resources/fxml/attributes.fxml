@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.arindy.sharv.gui.jfx.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderedTitledPane prefHeight="480.0" prefWidth="600.0" title="%title" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.arindy.sharv.gui.AttributesPane">
+    <VBox prefHeight="200.0" prefWidth="100.0">
+        <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+        </padding>
+        <GridPane VBox.vgrow="ALWAYS">
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" />
+                <ColumnConstraints hgrow="ALWAYS" />
+                <ColumnConstraints hgrow="ALWAYS" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints vgrow="ALWAYS" />
+            </rowConstraints>
+            <VBox alignment="CENTER" GridPane.columnSpan="2" GridPane.vgrow="ALWAYS">
+                <padding>
+                    <Insets bottom="10.0" right="2.5" top="5.0" />
+                </padding>
+                <BorderedTitledPane title="%physical.title" VBox.vgrow="ALWAYS">
+                    <VBox>
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="26.0" text="%physical.body">
+                                    <padding>
+                                        <Insets right="5.0" />
+                                    </padding>
+                                </Label>
+                            </HBox>
+                            <ContentAwareTextField fx:id="body" alignment="CENTER" maxLength="2" onInputMethodTextChanged="#onBody" prefWidth="40.0" regex="\\d*" HBox.hgrow="NEVER" />
+                            <Label minHeight="26.0" text="/" HBox.hgrow="NEVER" />
+                            <Label fx:id="bodyMax" minHeight="26.0" prefWidth="25.0" text="0" HBox.hgrow="NEVER" />
+                            <Region prefWidth="5.0" HBox.hgrow="NEVER" />
+                            <Label fx:id="bodyEffective" alignment="CENTER_RIGHT" minHeight="26.0" prefWidth="25.0" styleClass="value-label" text="0" HBox.hgrow="NEVER" />
+                        </HBox>
+                        <Separator />
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="26.0" text="%physical.agility">
+                                    <padding>
+                                        <Insets right="5.0" />
+                                    </padding>
+                                </Label>
+                            </HBox>
+                            <ContentAwareTextField fx:id="agility" alignment="CENTER" maxLength="2" onInputMethodTextChanged="#onAgility" prefWidth="40.0" regex="\\d*" HBox.hgrow="NEVER" />
+                            <Label minHeight="26.0" text="/" HBox.hgrow="NEVER" />
+                            <Label fx:id="agilityMax" minHeight="26.0" prefWidth="25.0" text="0" HBox.hgrow="NEVER" />
+                            <Region prefWidth="5.0" HBox.hgrow="NEVER" />
+                            <Label fx:id="agilityEffective" alignment="CENTER_RIGHT" minHeight="26.0" prefWidth="25.0" styleClass="value-label" text="0" HBox.hgrow="NEVER" />
+                        </HBox>
+                        <Separator />
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="26.0" text="%physical.reaction">
+                                    <padding>
+                                        <Insets right="5.0" />
+                                    </padding>
+                                </Label>
+                            </HBox>
+                            <ContentAwareTextField fx:id="reaction" alignment="CENTER" maxLength="2" onInputMethodTextChanged="#onReaction" prefWidth="40.0" regex="\\d*" HBox.hgrow="NEVER" />
+                            <Label minHeight="26.0" text="/" HBox.hgrow="NEVER" />
+                            <Label fx:id="reactionMax" minHeight="26.0" prefWidth="25.0" text="0" HBox.hgrow="NEVER" />
+                            <Region prefWidth="5.0" HBox.hgrow="NEVER" />
+                            <Label fx:id="reactionEffective" alignment="CENTER_RIGHT" minHeight="26.0" prefWidth="25.0" styleClass="value-label" text="0" HBox.hgrow="NEVER" />
+                        </HBox>
+                        <Separator />
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="26.0" text="%physical.strength">
+                                    <padding>
+                                        <Insets right="5.0" />
+                                    </padding>
+                                </Label>
+                            </HBox>
+                            <ContentAwareTextField fx:id="strength" alignment="CENTER" maxLength="2" onInputMethodTextChanged="#onStrength" prefWidth="40.0" regex="\\d*" HBox.hgrow="NEVER" />
+                            <Label minHeight="26.0" text="/" HBox.hgrow="NEVER" />
+                            <Label fx:id="strengthMax" minHeight="26.0" prefWidth="25.0" text="0" HBox.hgrow="NEVER" />
+                            <Region prefWidth="5.0" HBox.hgrow="NEVER" />
+                            <Label fx:id="strengthEffective" alignment="CENTER_RIGHT" minHeight="26.0" prefWidth="25.0" styleClass="value-label" text="0" HBox.hgrow="NEVER" />
+                        </HBox>
+                        <padding>
+                            <Insets left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                    </VBox>
+                </BorderedTitledPane>
+                <Separator visible="false">
+                    <padding>
+                        <Insets bottom="2.5" top="2.5" />
+                    </padding>
+                </Separator>
+                <BorderedTitledPane title="%mental.title" VBox.vgrow="ALWAYS">
+                    <VBox>
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="26.0" text="%mental.willpower">
+                                    <padding>
+                                        <Insets right="5.0" />
+                                    </padding>
+                                </Label>
+                            </HBox>
+                            <ContentAwareTextField fx:id="willpower" alignment="CENTER" maxLength="2" onInputMethodTextChanged="#onWillpower" prefWidth="40.0" regex="\\d*" HBox.hgrow="NEVER" />
+                            <Label minHeight="26.0" text="/" HBox.hgrow="NEVER" />
+                            <Label fx:id="willpowerMax" minHeight="26.0" prefWidth="25.0" text="0" HBox.hgrow="NEVER" />
+                            <Region prefWidth="5.0" HBox.hgrow="NEVER" />
+                            <Label fx:id="willpowerEffective" alignment="CENTER_RIGHT" minHeight="26.0" prefWidth="25.0" styleClass="value-label" text="0" HBox.hgrow="NEVER" />
+                        </HBox>
+                        <Separator />
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="26.0" text="%mental.logic">
+                                    <padding>
+                                        <Insets right="5.0" />
+                                    </padding>
+                                </Label>
+                            </HBox>
+                            <ContentAwareTextField fx:id="logic" alignment="CENTER" maxLength="2" onInputMethodTextChanged="#onLogic" prefWidth="40.0" regex="\\d*" HBox.hgrow="NEVER" />
+                            <Label minHeight="26.0" text="/" HBox.hgrow="NEVER" />
+                            <Label fx:id="logicMax" minHeight="26.0" prefWidth="25.0" text="0" HBox.hgrow="NEVER" />
+                            <Region prefWidth="5.0" HBox.hgrow="NEVER" />
+                            <Label fx:id="logicEffective" alignment="CENTER_RIGHT" minHeight="26.0" prefWidth="25.0" styleClass="value-label" text="0" HBox.hgrow="NEVER" />
+                        </HBox>
+                        <Separator />
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="26.0" text="%mental.intuition">
+                                    <padding>
+                                        <Insets right="5.0" />
+                                    </padding>
+                                </Label>
+                            </HBox>
+                            <ContentAwareTextField fx:id="intuition" alignment="CENTER" maxLength="2" onInputMethodTextChanged="#onIntuition" prefWidth="40.0" regex="\\d*" HBox.hgrow="NEVER" />
+                            <Label minHeight="26.0" text="/" HBox.hgrow="NEVER" />
+                            <Label fx:id="intuitionMax" minHeight="26.0" prefWidth="25.0" text="0" HBox.hgrow="NEVER" />
+                            <Region prefWidth="5.0" HBox.hgrow="NEVER" />
+                            <Label fx:id="intuitionEffective" alignment="CENTER_RIGHT" minHeight="26.0" prefWidth="25.0" styleClass="value-label" text="0" HBox.hgrow="NEVER" />
+                        </HBox>
+                        <Separator />
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="26.0" text="%mental.charisma">
+                                    <padding>
+                                        <Insets right="5.0" />
+                                    </padding>
+                                </Label>
+                            </HBox>
+                            <ContentAwareTextField fx:id="charisma" alignment="CENTER" maxLength="2" onInputMethodTextChanged="#onCharisma" prefWidth="40.0" regex="\\d*" HBox.hgrow="NEVER" />
+                            <Label minHeight="26.0" text="/" HBox.hgrow="NEVER" />
+                            <Label fx:id="charismaMax" minHeight="26.0" prefWidth="25.0" text="0" HBox.hgrow="NEVER" />
+                            <Region prefWidth="5.0" HBox.hgrow="NEVER" />
+                            <Label fx:id="charismaEffective" alignment="CENTER_RIGHT" minHeight="26.0" prefWidth="25.0" styleClass="value-label" text="0" HBox.hgrow="NEVER" />
+                        </HBox>
+                        <padding>
+                            <Insets left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                    </VBox>
+                </BorderedTitledPane>
+                <Separator visible="false">
+                    <padding>
+                        <Insets bottom="2.5" top="2.5" />
+                    </padding>
+                </Separator>
+                <BorderedTitledPane title="%side.title" VBox.vgrow="ALWAYS">
+                    <VBox>
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="26.0" text="%side.composure">
+                                    <padding>
+                                        <Insets right="5.0" />
+                                    </padding>
+                                </Label>
+                            </HBox>
+                            <Label fx:id="composure" alignment="CENTER_RIGHT" minHeight="26.0" prefWidth="25.0" styleClass="value-label" text="0" HBox.hgrow="NEVER" />
+                        </HBox>
+                        <Separator />
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="26.0" text="%side.judgeIntentions">
+                                    <padding>
+                                        <Insets right="5.0" />
+                                    </padding>
+                                </Label>
+                            </HBox>
+                            <Label fx:id="judgeIntentions" alignment="CENTER_RIGHT" minHeight="26.0" prefWidth="25.0" styleClass="value-label" text="0" HBox.hgrow="NEVER" />
+                        </HBox>
+                        <Separator />
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="26.0" text="%side.memory">
+                                    <padding>
+                                        <Insets right="5.0" />
+                                    </padding>
+                                </Label>
+                            </HBox>
+                            <Label fx:id="memory" alignment="CENTER_RIGHT" minHeight="26.0" prefWidth="25.0" styleClass="value-label" text="0" HBox.hgrow="NEVER" />
+                        </HBox>
+                        <Separator />
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="26.0" text="%side.liftCarry">
+                                    <padding>
+                                        <Insets right="5.0" />
+                                    </padding>
+                                </Label>
+                            </HBox>
+                            <Label fx:id="liftCarry" alignment="CENTER_RIGHT" minHeight="26.0" prefWidth="25.0" styleClass="value-label" text="0" HBox.hgrow="NEVER" />
+                        </HBox>
+                        <Separator />
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Label alignment="CENTER" contentDisplay="CENTER" minHeight="26.0" text="%side.movement.walk">
+                                <padding>
+                                    <Insets right="5.0" />
+                                </padding>
+                            </Label>
+                            <Label fx:id="walk" alignment="CENTER_RIGHT" minHeight="26.0" prefWidth="25.0" styleClass="value-label" text="0" HBox.hgrow="NEVER" />
+                            <Region HBox.hgrow="ALWAYS" />
+                            <Label alignment="CENTER" contentDisplay="CENTER" minHeight="26.0" text="%side.movement.run">
+                                <padding>
+                                    <Insets right="5.0" />
+                                </padding>
+                            </Label>
+                            <Label fx:id="run" alignment="CENTER_RIGHT" minHeight="26.0" prefWidth="25.0" styleClass="value-label" text="0" HBox.hgrow="NEVER" />
+                            <Region HBox.hgrow="ALWAYS" />
+                        </HBox>
+                        <Separator />
+                        <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
+                            <Label alignment="CENTER" contentDisplay="CENTER" minHeight="26.0" text="%side.movement.sprint">
+                                <padding>
+                                    <Insets right="5.0" />
+                                </padding>
+                            </Label>
+                            <Label fx:id="sprint" alignment="CENTER_RIGHT" minHeight="26.0" prefWidth="25.0" styleClass="value-label" text="0" HBox.hgrow="NEVER" />
+                        </HBox>
+                        <padding>
+                            <Insets left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                    </VBox>
+                </BorderedTitledPane>
+            </VBox>
+            <VBox alignment="CENTER" GridPane.columnIndex="2" GridPane.vgrow="ALWAYS">
+                <padding>
+                    <Insets bottom="10.0" left="2.5" top="5.0" />
+                </padding>
+                <BorderedTitledPane title="%special.title" VBox.vgrow="ALWAYS">
+                    <VBox>
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                <ComboBox fx:id="special" onAction="#onSpecial" prefWidth="150.0" />
+                            </HBox>
+                            <ContentAwareTextField fx:id="specialValue" alignment="CENTER" maxLength="2" onInputMethodTextChanged="#onSpecialValue" prefWidth="40.0" regex="\\d*" />
+                            <Region prefWidth="5.0" HBox.hgrow="NEVER" />
+                        </HBox>
+                        <Separator />
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="26.0" text="%special.edge">
+                                    <padding>
+                                        <Insets right="5.0" />
+                                    </padding>
+                                </Label>
+                            </HBox>
+                            <ContentAwareTextField fx:id="edge" alignment="CENTER" maxLength="2" onInputMethodTextChanged="#onEdge" prefWidth="40.0" regex="\\d*" />
+                            <Region prefWidth="5.0" HBox.hgrow="NEVER" />
+                        </HBox>
+                        <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
+                            <CheckBox mnemonicParsing="false" />
+                        </HBox>
+                        <padding>
+                            <Insets bottom="7.0" left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                    </VBox>
+                </BorderedTitledPane>
+                <Separator visible="false">
+                    <padding>
+                        <Insets bottom="2.5" top="2.5" />
+                    </padding>
+                </Separator>
+                <BorderedTitledPane title="%initiative.title" VBox.vgrow="ALWAYS">
+                    <VBox>
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="26.0" text="%initiative.physical">
+                                    <padding>
+                                        <Insets right="5.0" />
+                                    </padding>
+                                </Label>
+                            </HBox>
+                            <Label fx:id="initiativePhysicalDice" alignment="CENTER_RIGHT" minHeight="26.0" text="1" />
+                            <Label alignment="CENTER_RIGHT" ellipsisString="" minHeight="26.0" text="%dice6">
+                                <padding>
+                                    <Insets right="5.0" />
+                                </padding>
+                            </Label>
+                            <Label alignment="CENTER_RIGHT" minHeight="26.0" text="+" HBox.hgrow="NEVER" />
+                            <Label fx:id="initiativePhysical" alignment="CENTER_RIGHT" minHeight="26.0" prefWidth="25.0" styleClass="value-label" text="0" />
+                        </HBox>
+                        <Separator />
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="26.0" text="%initiative.astral">
+                                    <padding>
+                                        <Insets right="5.0" />
+                                    </padding>
+                                </Label>
+                            </HBox>
+                            <Label fx:id="initiativeAstralDice" alignment="CENTER_RIGHT" minHeight="26.0" text="2" />
+                            <Label alignment="CENTER_RIGHT" ellipsisString="" minHeight="26.0" text="%dice6">
+                                <padding>
+                                    <Insets right="5.0" />
+                                </padding>
+                            </Label>
+                            <Label alignment="CENTER_RIGHT" minHeight="26.0" text="+" HBox.hgrow="NEVER" />
+                            <Label fx:id="initiativeAstral" alignment="CENTER_RIGHT" minHeight="26.0" prefWidth="25.0" styleClass="value-label" text="0" />
+                        </HBox>
+                        <Separator />
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="26.0" text="%initiative.matrixAR">
+                                    <padding>
+                                        <Insets right="5.0" />
+                                    </padding>
+                                </Label>
+                            </HBox>
+                            <Label fx:id="initiativeMatrixARDice" alignment="CENTER_RIGHT" minHeight="26.0" text="1" />
+                            <Label alignment="CENTER_RIGHT" ellipsisString="" minHeight="26.0" text="%dice6">
+                                <padding>
+                                    <Insets right="5.0" />
+                                </padding>
+                            </Label>
+                            <Label alignment="CENTER_RIGHT" minHeight="26.0" text="+" HBox.hgrow="NEVER" />
+                            <Label fx:id="initiativeMatrixAR" alignment="CENTER_RIGHT" minHeight="26.0" prefWidth="25.0" styleClass="value-label" text="0" />
+                        </HBox>
+                        <Separator />
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="26.0" text="%initiative.matrixVRcold">
+                                    <padding>
+                                        <Insets right="5.0" />
+                                    </padding>
+                                </Label>
+                            </HBox>
+                            <Label fx:id="initiativeMatrixVRcoldDice" alignment="CENTER_RIGHT" minHeight="26.0" text="3" />
+                            <Label alignment="CENTER_RIGHT" ellipsisString="" minHeight="26.0" text="%dice6">
+                                <padding>
+                                    <Insets right="5.0" />
+                                </padding>
+                            </Label>
+                            <Label alignment="CENTER_RIGHT" minHeight="26.0" text="+" HBox.hgrow="NEVER" />
+                            <Label fx:id="initiativeMatrixVRcold" alignment="CENTER_RIGHT" minHeight="26.0" prefWidth="25.0" styleClass="value-label" text="0" />
+                        </HBox>
+                        <Separator />
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="26.0" text="%initiative.matrixVRhot">
+                                    <padding>
+                                        <Insets right="5.0" />
+                                    </padding>
+                                </Label>
+                            </HBox>
+                            <Label fx:id="initiativeMatrixVRhotDice" alignment="CENTER_RIGHT" minHeight="26.0" text="4" />
+                            <Label alignment="CENTER_RIGHT" ellipsisString="" minHeight="26.0" text="%dice6">
+                                <padding>
+                                    <Insets right="5.0" />
+                                </padding>
+                            </Label>
+                            <Label alignment="CENTER_RIGHT" minHeight="26.0" text="+" HBox.hgrow="NEVER" />
+                            <Label fx:id="initiativeMatrixVRhot" alignment="CENTER_RIGHT" minHeight="26.0" prefWidth="25.0" styleClass="value-label" text="0" />
+                        </HBox>
+                        <Separator />
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="26.0" text="%initiative.riggingAR">
+                                    <padding>
+                                        <Insets right="5.0" />
+                                    </padding>
+                                </Label>
+                            </HBox>
+                            <Label fx:id="initiativeRiggingARDice" alignment="CENTER_RIGHT" minHeight="26.0" text="1" />
+                            <Label alignment="CENTER_RIGHT" ellipsisString="" minHeight="26.0" text="%dice6">
+                                <padding>
+                                    <Insets right="5.0" />
+                                </padding>
+                            </Label>
+                            <Label alignment="CENTER_RIGHT" minHeight="26.0" text="+" HBox.hgrow="NEVER" />
+                            <Label fx:id="initiativeRiggingAR" alignment="CENTER_RIGHT" minHeight="26.0" prefWidth="25.0" styleClass="value-label" text="0" />
+                        </HBox>
+                        <Separator />
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="26.0" text="%initiative.riggingVRcold">
+                                    <padding>
+                                        <Insets right="5.0" />
+                                    </padding>
+                                </Label>
+                            </HBox>
+                            <Label fx:id="initiativeRiggingVRcoldDice" alignment="CENTER_RIGHT" minHeight="26.0" text="3" />
+                            <Label alignment="CENTER_RIGHT" ellipsisString="" minHeight="26.0" text="%dice6">
+                                <padding>
+                                    <Insets right="5.0" />
+                                </padding>
+                            </Label>
+                            <Label alignment="CENTER_RIGHT" minHeight="26.0" text="+" HBox.hgrow="NEVER" />
+                            <Label fx:id="initiativeRiggingVRcold" alignment="CENTER_RIGHT" minHeight="26.0" prefWidth="25.0" styleClass="value-label" text="0" />
+                        </HBox>
+                        <Separator />
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="26.0" text="%initiative.riggingVRhot">
+                                    <padding>
+                                        <Insets right="5.0" />
+                                    </padding>
+                                </Label>
+                            </HBox>
+                            <Label fx:id="initiativeRiggingVRhotDice" alignment="CENTER_RIGHT" minHeight="26.0" text="4" />
+                            <Label alignment="CENTER_RIGHT" ellipsisString="" minHeight="26.0" text="%dice6">
+                                <padding>
+                                    <Insets right="5.0" />
+                                </padding>
+                            </Label>
+                            <Label alignment="CENTER_RIGHT" minHeight="26.0" text="+" HBox.hgrow="NEVER" />
+                            <Label fx:id="initiativeRiggingVRhot" alignment="CENTER_RIGHT" minHeight="26.0" prefWidth="25.0" styleClass="value-label" text="0" />
+                        </HBox>
+                        <Separator />
+                        <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                            <HBox alignment="CENTER" HBox.hgrow="ALWAYS">
+                                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="26.0" text="%initiative.riggingDirect">
+                                    <padding>
+                                        <Insets right="5.0" />
+                                    </padding>
+                                </Label>
+                            </HBox>
+                            <Label fx:id="initiativeRiggingDirectDice" alignment="CENTER_RIGHT" minHeight="26.0" text="4" />
+                            <Label alignment="CENTER_RIGHT" ellipsisString="" minHeight="26.0" text="%dice6">
+                                <padding>
+                                    <Insets right="5.0" />
+                                </padding>
+                            </Label>
+                            <Label alignment="CENTER_RIGHT" minHeight="26.0" text="+" HBox.hgrow="NEVER" />
+                            <Label fx:id="initiativeRiggingDirect" alignment="CENTER_RIGHT" minHeight="26.0" prefWidth="25.0" styleClass="value-label" text="0" />
+                        </HBox>
+                        <padding>
+                            <Insets left="5.0" right="5.0" top="5.0" />
+                        </padding>
+                    </VBox>
+                </BorderedTitledPane>
+                <Separator visible="false">
+                    <padding>
+                        <Insets bottom="2.5" top="2.5" />
+                    </padding>
+                </Separator>
+                <BorderedTitledPane title="%essence.title" VBox.vgrow="ALWAYS">
+                    <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                        <Region HBox.hgrow="ALWAYS" />
+                        <Label alignment="CENTER" contentDisplay="CENTER" minHeight="26.0" text="%essence.title">
+                            <padding>
+                                <Insets right="5.0" />
+                            </padding>
+                        </Label>
+                        <Label fx:id="essence" alignment="CENTER_RIGHT" minHeight="26.0" styleClass="value-label" text="0" />
+                        <Region HBox.hgrow="ALWAYS" />
+                    </HBox>
+                </BorderedTitledPane>
+            </VBox>
+        </GridPane>
+        <BorderedTitledPane title="%limits.title" VBox.vgrow="SOMETIMES">
+            <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                <padding>
+                    <Insets left="5.0" right="5.0" top="5.0" />
+                </padding>
+                <Region HBox.hgrow="ALWAYS" />
+                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="26.0" text="%limits.physical">
+                    <padding>
+                        <Insets right="5.0" />
+                    </padding>
+                </Label>
+                <Label fx:id="physicalLimit" alignment="CENTER_RIGHT" minHeight="26.0" prefWidth="25.0" styleClass="value-label" text="0" HBox.hgrow="NEVER" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="26.0" text="%limits.mental">
+                    <padding>
+                        <Insets right="5.0" />
+                    </padding>
+                </Label>
+                <Label fx:id="mentalLimit" alignment="CENTER_RIGHT" minHeight="26.0" prefWidth="25.0" styleClass="value-label" text="0" HBox.hgrow="NEVER" />
+                <Region HBox.hgrow="ALWAYS" />
+                <Label alignment="CENTER" contentDisplay="CENTER" minHeight="26.0" text="%limits.social">
+                    <padding>
+                        <Insets right="5.0" />
+                    </padding>
+                </Label>
+                <Label fx:id="socialLimit" alignment="CENTER_RIGHT" minHeight="26.0" prefWidth="25.0" styleClass="value-label" text="0" HBox.hgrow="NEVER" />
+                <Region HBox.hgrow="ALWAYS" />
+            </HBox>
+        </BorderedTitledPane>
+    </VBox>
+</BorderedTitledPane>

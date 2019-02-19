@@ -11,9 +11,22 @@
 
     <artifactId>sharv-guifx</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>sharv-api</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.parent.groupId}</groupId>
+            <artifactId>sharv-core</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+    </dependencies>
+
     <properties>
         <vendor>arindy</vendor>
-        <mainClass>de.arindy.sharv.SharV</mainClass>
+        <mainClass>de.arindy.sharv.gui.SharV</mainClass>
     </properties>
 
     <build>

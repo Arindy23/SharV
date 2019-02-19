@@ -1,92 +1,151 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.arindy.sharv.jfx.BorderedTitledPane?>
+<?import de.arindy.sharv.gui.jfx.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<BorderedTitledPane prefHeight="400.0" prefWidth="500.0" title="%title" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.arindy.sharv.PersonalDataPane">
-    <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
+<?import javafx.scene.text.TextFlow?>
+<BorderedTitledPane title="%title" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.arindy.sharv.gui.PersonalDataPane">
+    <VBox alignment="CENTER" VBox.vgrow="ALWAYS">
         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+            <Insets left="5.0" right="5.0" top="5.0" />
         </padding>
-        <HBox alignment="CENTER_LEFT">
-            <Label text="%name" HBox.hgrow="SOMETIMES">
+        <HBox alignment="CENTER_LEFT" VBox.vgrow="SOMETIMES">
+            <Label minHeight="26.0" text="%name" HBox.hgrow="SOMETIMES">
                 <padding>
                     <Insets right="5.0" />
                 </padding>
             </Label>
-            <TextField alignment="CENTER" HBox.hgrow="SOMETIMES" />
+            <ContentAwareTextField fx:id="name" alignment="CENTER" maxLength="28" onInputMethodTextChanged="#onName" HBox.hgrow="SOMETIMES" />
+            <Region prefWidth="25" />
+            <Label minHeight="26.0" text="%streetname" HBox.hgrow="SOMETIMES">
+                <padding>
+                    <Insets right="5.0" />
+                </padding>
+            </Label>
+            <ContentAwareTextField fx:id="streetname" alignment="CENTER" maxLength="28" onInputMethodTextChanged="#onStreetname" HBox.hgrow="SOMETIMES" />
         </HBox>
         <Separator>
             <padding>
                 <Insets bottom="2.5" top="2.5" />
             </padding>
         </Separator>
-        <HBox alignment="CENTER_LEFT">
-            <Label text="%metatype" HBox.hgrow="ALWAYS">
-                <padding>
-                    <Insets right="5.0" />
-                </padding>
-            </Label>
-            <ComboBox HBox.hgrow="SOMETIMES" />
-         <Region HBox.hgrow="SOMETIMES" />
-         <Label text="%karma">
-            <padding>
-               <Insets right="5.0" />
-            </padding></Label>
-         <Label styleClass="value-label" text="0" />
-         <Label text="/" />
-         <Label styleClass="value-label" text="0" />
-            <Region HBox.hgrow="SOMETIMES" />
-            <Label alignment="CENTER_RIGHT" text="%credits" HBox.hgrow="ALWAYS">
-                <padding>
-                    <Insets right="5.0" />
-                </padding>
-            </Label>
-            <Label alignment="CENTER_RIGHT" prefHeight="16.0" prefWidth="125.0" styleClass="value-label" text="00000" HBox.hgrow="ALWAYS">
-                <padding>
-                    <Insets right="5.0" />
-                </padding>
-            </Label>
+        <HBox alignment="CENTER_LEFT" VBox.vgrow="SOMETIMES">
+            <VBox prefHeight="0.0" prefWidth="490.0" HBox.hgrow="ALWAYS">
+                <HBox alignment="CENTER_LEFT" VBox.vgrow="ALWAYS">
+                    <Label minHeight="26.0" text="%metatype" HBox.hgrow="ALWAYS">
+                        <padding>
+                            <Insets right="5.0" />
+                        </padding>
+                    </Label>
+                    <ComboBox fx:id="metatype" onAction="#onMetatype" HBox.hgrow="SOMETIMES" />
+                    <Region HBox.hgrow="SOMETIMES" />
+                    <Label minHeight="26.0" text="%karma">
+                        <padding>
+                            <Insets right="5.0" />
+                        </padding>
+                    </Label>
+                    <Label fx:id="karma" alignment="CENTER_RIGHT" minHeight="26.0" prefWidth="40.0" styleClass="value-label" text="0" />
+                    <Label minHeight="26.0" text="/" />
+                    <Label fx:id="karmaMax" minHeight="26.0" prefWidth="40.0" styleClass="value-label" text="0" />
+                    <Region HBox.hgrow="SOMETIMES" />
+                    <Label alignment="CENTER_RIGHT" minHeight="26.0" text="%nuyen" HBox.hgrow="ALWAYS">
+                        <padding>
+                            <Insets right="5.0" />
+                        </padding>
+                    </Label>
+                    <Label fx:id="nuyen" alignment="CENTER_RIGHT" minHeight="26.0" prefWidth="90.0" styleClass="value-label" text="0" HBox.hgrow="ALWAYS">
+                        <padding>
+                            <Insets right="5.0" />
+                        </padding>
+                    </Label>
+                </HBox>
+                <TextFlow fx:id="racialBonuses" />
+            </VBox>
         </HBox>
         <Separator>
             <padding>
                 <Insets bottom="2.5" top="2.5" />
             </padding>
         </Separator>
-        <HBox alignment="CENTER_LEFT">
-            <Label text="%sex" HBox.hgrow="ALWAYS">
+        <HBox alignment="CENTER_LEFT" VBox.vgrow="SOMETIMES">
+            <Label minHeight="26.0" text="%sex" HBox.hgrow="ALWAYS">
                 <padding>
                     <Insets right="5.0" />
                 </padding>
             </Label>
-            <ComboBox />
+            <ComboBox fx:id="sex" onAction="#onSex" />
             <Region HBox.hgrow="ALWAYS" />
-            <Label text="%age">
+            <Label minHeight="26.0" text="%age">
                 <padding>
                     <Insets right="5.0" />
                 </padding>
             </Label>
-            <TextField alignment="CENTER" prefWidth="50.0" />
+            <ContentAwareTextField fx:id="age" alignment="CENTER" maxLength="3" onInputMethodTextChanged="#onAge" prefWidth="40.0" regex="\\d*" />
             <Region HBox.hgrow="ALWAYS" />
-            <Label layoutX="100.0" layoutY="15.0" text="%size">
+            <Label layoutX="100.0" layoutY="15.0" minHeight="26.0" text="%height">
                 <padding>
                     <Insets right="5.0" />
                 </padding>
             </Label>
-            <TextField alignment="CENTER" prefWidth="50.0" />
+            <ContentAwareTextField fx:id="height" alignment="CENTER" maxLength="3" onInputMethodTextChanged="#onHeight" prefWidth="40.0" regex="\\d*" />
             <Region HBox.hgrow="ALWAYS" />
-            <Label text="%weight">
+            <Label minHeight="26.0" text="%weight">
                 <padding>
                     <Insets right="5.0" />
                 </padding>
             </Label>
-            <TextField alignment="CENTER" prefWidth="50.0" />
+            <ContentAwareTextField fx:id="weight" alignment="CENTER" maxLength="3" onInputMethodTextChanged="#onWeight" prefWidth="40.0" regex="\\d*" />
         </HBox>
-      <Separator>
-         <padding>
-            <Insets bottom="2.5" top="2.5" />
-         </padding>
-      </Separator>
+        <Separator>
+            <padding>
+                <Insets bottom="2.5" top="2.5" />
+            </padding>
+        </Separator>
+        <HBox alignment="CENTER_LEFT" VBox.vgrow="SOMETIMES">
+            <Label minHeight="26.0" text="%ethnicity" HBox.hgrow="SOMETIMES">
+                <padding>
+                    <Insets right="5.0" />
+                </padding>
+            </Label>
+            <ContentAwareTextField fx:id="ethnicity" maxLength="12" onInputMethodTextChanged="#onEthnicity" prefWidth="100.0" HBox.hgrow="SOMETIMES">
+                <HBox.margin>
+                    <Insets right="10.0" />
+                </HBox.margin>
+            </ContentAwareTextField>
+            <Label minHeight="26.0" text="%concept" HBox.hgrow="SOMETIMES">
+                <padding>
+                    <Insets right="5.0" />
+                </padding>
+            </Label>
+            <ContentAwareTextField fx:id="concept" maxLength="45" onInputMethodTextChanged="#onConcept" HBox.hgrow="ALWAYS" />
+        </HBox>
+        <Separator>
+            <padding>
+                <Insets bottom="2.5" top="2.5" />
+            </padding>
+        </Separator>
+        <HBox alignment="CENTER_LEFT" VBox.vgrow="SOMETIMES">
+            <Label minHeight="26.0" text="%streetCred">
+                <padding>
+                    <Insets right="5.0" />
+                </padding>
+            </Label>
+            <ContentAwareTextField fx:id="streetCred" alignment="CENTER" maxLength="2" onInputMethodTextChanged="#onStreetCred" prefWidth="30.0" regex="\\d*" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Label layoutX="100.0" layoutY="15.0" minHeight="26.0" text="%notoriety">
+                <padding>
+                    <Insets right="5.0" />
+                </padding>
+            </Label>
+            <ContentAwareTextField fx:id="notoriety" alignment="CENTER" maxLength="2" onInputMethodTextChanged="#onNotoriety" prefWidth="30.0" regex="\\d*" />
+            <Region HBox.hgrow="ALWAYS" />
+            <Label minHeight="26.0" text="%publicAwareness">
+                <padding>
+                    <Insets right="5.0" />
+                </padding>
+            </Label>
+            <ContentAwareTextField fx:id="publicAwareness" alignment="CENTER" maxLength="2" onInputMethodTextChanged="#onPublicAwareness" prefWidth="30.0" regex="\\d*" />
+        </HBox>
     </VBox>
 </BorderedTitledPane>

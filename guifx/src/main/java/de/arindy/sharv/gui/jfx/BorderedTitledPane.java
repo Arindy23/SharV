@@ -1,4 +1,4 @@
-package de.arindy.sharv.jfx;
+package de.arindy.sharv.gui.jfx;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
@@ -50,6 +50,7 @@ public class BorderedTitledPane extends StackPane {
         this.content.set(contentNode);
     }
 
+    //<editor-fold desc="Getter/Setter">
     public String getTitle() {
         return title.get();
     }
@@ -97,5 +98,6 @@ public class BorderedTitledPane extends StackPane {
     public void setGraphic(Node graphic) {
         this.graphic.set(graphic);
     }
+    //</editor-fold>
 
 }
