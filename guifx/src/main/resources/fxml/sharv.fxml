@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.arindy.sharv.gui.CharacterPane?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane fx:id="root" minHeight="800.0" minWidth="1200.0"
@@ -12,7 +13,7 @@
                 <Menu mnemonicParsing="false" fx:id="file">
                     <MenuItem mnemonicParsing="false" fx:id="close" onAction="#exit"/>
                 </Menu>
-                <Menu mnemonicParsing="false" fx:id="character">
+                <Menu mnemonicParsing="false" fx:id="characterMenu">
                     <MenuItem mnemonicParsing="false" onAction="#loadCharacter" fx:id="characterLoad"/>
                     <MenuItem mnemonicParsing="false" onAction="#saveCharacter" fx:id="characterSave"/>
                 </Menu>
@@ -36,7 +37,7 @@
             <ColorPicker fx:id="color" onAction="#changeColor" prefHeight="50.0" prefWidth="48.0"/>
         </HBox>
         <HBox VBox.vgrow="ALWAYS">
-            <fx:include source="character.fxml" HBox.hgrow="SOMETIMES"/>
+            <CharacterPane fx:id="character" HBox.hgrow="SOMETIMES"/>
             <Separator orientation="VERTICAL" visible="false"/>
             <Pane prefHeight="500.0" prefWidth="510.0" HBox.hgrow="ALWAYS"/>
         </HBox>

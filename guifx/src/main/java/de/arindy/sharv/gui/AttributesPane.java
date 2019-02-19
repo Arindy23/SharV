@@ -1,63 +1,116 @@
 package de.arindy.sharv.gui;
 
 import de.arindy.sharv.Logger;
-import de.arindy.sharv.api.gui.Attributes;
+import de.arindy.sharv.api.gui.AttributesListener;
+import de.arindy.sharv.api.gui.AttributesView;
+import de.arindy.sharv.gui.jfx.BorderedTitledPane;
 import de.arindy.sharv.gui.jfx.ContentAwareTextField;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.InputMethodEvent;
 
-public class AttributesPane implements Attributes {
+import static de.arindy.sharv.gui.JavaFXUtil.extractInteger;
+import static de.arindy.sharv.gui.JavaFXUtil.getSelectedItem;
+
+public class AttributesPane extends BorderedTitledPane implements AttributesView {
 
     private Logger LOG = Logger.get(getClass().getName());
 
+    private AttributesListener attributesListener;
+
     //<editor-fold desc="Variables">
-    public Label bodyMax;
-    public Label bodyEffective;
-    public Label agilityMax;
-    public Label agilityEffective;
-    public Label reactionMax;
-    public Label reactionEffective;
-    public Label strengthMax;
-    public Label strengthEffective;
-    public Label willpowerMax;
-    public Label willpowerEffective;
-    public Label logicMax;
-    public Label logicEffective;
-    public Label intuitionMax;
-    public Label intuitionEffective;
-    public Label charismaMax;
-    public Label charismaEffective;
-    public Label composure;
-    public Label judgeIntentions;
-    public Label memory;
-    public Label liftCarry;
-    public Label walk;
-    public Label run;
-    public Label sprint;
-    public Label initiativePhysical;
-    public Label initiativeAstral;
-    public Label initiativeMatrixAR;
-    public Label initiativeMatrixVRcold;
-    public Label initiativeMatrixVRhot;
-    public Label initiativeRiggingAR;
-    public Label initiativeRiggingVRcold;
-    public Label initiativeRiggingVRhot;
-    public Label initiativeRiggingDirect;
-    public Label initiativePhysicalDice;
-    public Label initiativeAstralDice;
-    public Label initiativeMatrixARDice;
-    public Label initiativeMatrixVRcoldDice;
-    public Label initiativeMatrixVRhotDice;
-    public Label initiativeRiggingARDice;
-    public Label initiativeRiggingVRcoldDice;
-    public Label initiativeRiggingVRhotDice;
-    public Label initiativeRiggingDirectDice;
-    public Label essence;
-    public Label physicalLimit;
-    public Label mentalLimit;
-    public Label socialLimit;
+    @FXML
+    private Label bodyMax;
+    @FXML
+    private Label bodyEffective;
+    @FXML
+    private Label agilityMax;
+    @FXML
+    private Label agilityEffective;
+    @FXML
+    private Label reactionMax;
+    @FXML
+    private Label reactionEffective;
+    @FXML
+    private Label strengthMax;
+    @FXML
+    private Label strengthEffective;
+    @FXML
+    private Label willpowerMax;
+    @FXML
+    private Label willpowerEffective;
+    @FXML
+    private Label logicMax;
+    @FXML
+    private Label logicEffective;
+    @FXML
+    private Label intuitionMax;
+    @FXML
+    private Label intuitionEffective;
+    @FXML
+    private Label charismaMax;
+    @FXML
+    private Label charismaEffective;
+    @FXML
+    private Label composure;
+    @FXML
+    private Label judgeIntentions;
+    @FXML
+    private Label memory;
+    @FXML
+    private Label liftCarry;
+    @FXML
+    private Label walk;
+    @FXML
+    private Label run;
+    @FXML
+    private Label sprint;
+    @FXML
+    private Label initiativePhysical;
+    @FXML
+    private Label initiativeAstral;
+    @FXML
+    private Label initiativeMatrixAR;
+    @FXML
+    private Label initiativeMatrixVRcold;
+    @FXML
+    private Label initiativeMatrixVRhot;
+    @FXML
+    private Label initiativeRiggingAR;
+    @FXML
+    private Label initiativeRiggingVRcold;
+    @FXML
+    private Label initiativeRiggingVRhot;
+    @FXML
+    private Label initiativeRiggingDirect;
+    @FXML
+    private Label initiativePhysicalDice;
+    @FXML
+    private Label initiativeAstralDice;
+    @FXML
+    private Label initiativeMatrixARDice;
+    @FXML
+    private Label initiativeMatrixVRcoldDice;
+    @FXML
+    private Label initiativeMatrixVRhotDice;
+    @FXML
+    private Label initiativeRiggingARDice;
+    @FXML
+    private Label initiativeRiggingVRcoldDice;
+    @FXML
+    private Label initiativeRiggingVRhotDice;
+    @FXML
+    private Label initiativeRiggingDirectDice;
+    @FXML
+    private Label essence;
+    @FXML
+    private Label physicalLimit;
+    @FXML
+    private Label mentalLimit;
+    @FXML
+    private Label socialLimit;
 
     public ComboBox<String> special;
     public ContentAwareTextField specialValue;
@@ -72,383 +125,467 @@ public class AttributesPane implements Attributes {
     public ContentAwareTextField edge;
     //</editor-fold>
 
-    public void onBody(InputMethodEvent inputMethodEvent) {
-        LOG.entering(inputMethodEvent);
+    public AttributesPane() {
+        super("attributes");
     }
 
-    public void onAgility(InputMethodEvent inputMethodEvent) {
+    public void onBody(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
+        if (listenerRegistered()) {
+            attributesListener.changeBody(extractInteger(inputMethodEvent));
+        }
     }
 
-    public void onReaction(InputMethodEvent inputMethodEvent) {
+    public void onAgility(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
-
+        if (listenerRegistered()) {
+            attributesListener.changeAgility(extractInteger(inputMethodEvent));
+        }
     }
 
-    public void onStrength(InputMethodEvent inputMethodEvent) {
+    public void onReaction(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
+        if (listenerRegistered()) {
+            attributesListener.changeReaction(extractInteger(inputMethodEvent));
+        }
     }
 
-    public void onWillpower(InputMethodEvent inputMethodEvent) {
+    public void onStrength(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
-
+        if (listenerRegistered()) {
+            attributesListener.changeStrength(extractInteger(inputMethodEvent));
+        }
     }
 
-    public void onLogic(InputMethodEvent inputMethodEvent) {
+    public void onWillpower(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
-
+        if (listenerRegistered()) {
+            attributesListener.changeWillpower(extractInteger(inputMethodEvent));
+        }
     }
 
-    public void onIntuition(InputMethodEvent inputMethodEvent) {
+    public void onLogic(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
-
+        if (listenerRegistered()) {
+            attributesListener.changeLogic(extractInteger(inputMethodEvent));
+        }
     }
 
-    public void onCharisma(InputMethodEvent inputMethodEvent) {
+    public void onIntuition(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
-
+        if (listenerRegistered()) {
+            attributesListener.changeIntuition(extractInteger(inputMethodEvent));
+        }
     }
 
-    public void onSpecial(ActionEvent actionEvent) {
+    public void onCharisma(final InputMethodEvent inputMethodEvent) {
+        LOG.entering(inputMethodEvent);
+        if (listenerRegistered()) {
+            attributesListener.changeCharisma(extractInteger(inputMethodEvent));
+        }
+    }
+
+    public void onSpecial(final ActionEvent actionEvent) {
         LOG.entering(actionEvent);
-
+        if (listenerRegistered()) {
+            attributesListener.changeSpecial(getSelectedItem(special));
+        }
     }
 
-    public void onSpecialValue(InputMethodEvent inputMethodEvent) {
+    public void onSpecialValue(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
-
+        if (listenerRegistered()) {
+            attributesListener.changeSpecialValue(extractInteger(inputMethodEvent));
+        }
     }
 
-    public void onEdge(InputMethodEvent inputMethodEvent) {
+    public void onEdge(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
-
+        if (listenerRegistered()) {
+            attributesListener.changeEdge(extractInteger(inputMethodEvent));
+        }
     }
 
     @Override
-    public Attributes setBodyMax(int bodyMax) {
+    public AttributesView setBodyMax(final int bodyMax) {
+        LOG.entering(bodyMax);
         this.bodyMax.setText(String.valueOf(bodyMax));
         this.body.setMaxValue(bodyMax);
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setBodyEffective(int bodyEffective) {
+    public AttributesView setBodyEffective(final int bodyEffective) {
+        LOG.entering(bodyEffective);
         this.bodyEffective.setText(String.valueOf(bodyEffective));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setAgilityMax(int agilityMax) {
+    public AttributesView setAgilityMax(final int agilityMax) {
+        LOG.entering(agilityMax);
         this.agilityMax.setText(String.valueOf(agilityMax));
         this.agility.setMaxValue(agilityMax);
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setAgilityEffective(int agilityEffective) {
+    public AttributesView setAgilityEffective(final int agilityEffective) {
+        LOG.entering(agilityEffective);
         this.agilityEffective.setText(String.valueOf(agilityEffective));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setReactionMax(int reactionMax) {
+    public AttributesView setReactionMax(final int reactionMax) {
+        LOG.entering(reactionMax);
         this.reactionMax.setText(String.valueOf(reactionMax));
         this.reaction.setMaxValue(reactionMax);
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setReactionEffective(int reactionEffective) {
+    public AttributesView setReactionEffective(final int reactionEffective) {
+        LOG.entering(reactionEffective);
         this.reactionEffective.setText(String.valueOf(reactionEffective));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setStrengthMax(int strengthMax) {
+    public AttributesView setStrengthMax(final int strengthMax) {
+        LOG.entering(strengthMax);
         this.strengthMax.setText(String.valueOf(strengthMax));
         this.strength.setMaxValue(strengthMax);
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setStrengthEffective(int strengthEffective) {
+    public AttributesView setStrengthEffective(final int strengthEffective) {
+        LOG.entering(strengthEffective);
         this.strengthEffective.setText(String.valueOf(strengthEffective));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setWillpowerMax(int willpowerMax) {
+    public AttributesView setWillpowerMax(final int willpowerMax) {
+        LOG.entering(willpowerMax);
         this.willpowerMax.setText(String.valueOf(willpowerMax));
         this.willpower.setMaxValue(willpowerMax);
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setWillpowerEffective(int willpowerEffective) {
+    public AttributesView setWillpowerEffective(final int willpowerEffective) {
+        LOG.entering(willpowerEffective);
         this.willpowerEffective.setText(String.valueOf(willpowerEffective));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setLogicMax(int logicMax) {
+    public AttributesView setLogicMax(final int logicMax) {
+        LOG.entering(logicMax);
         this.logicMax.setText(String.valueOf(logicMax));
         this.logic.setMaxValue(logicMax);
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setLogicEffective(int logicEffective) {
+    public AttributesView setLogicEffective(final int logicEffective) {
+        LOG.entering(logicEffective);
         this.logicEffective.setText(String.valueOf(logicEffective));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setIntuitionMax(int intuitionMax) {
+    public AttributesView setIntuitionMax(final int intuitionMax) {
+        LOG.entering(intuitionMax);
         this.intuitionMax.setText(String.valueOf(intuitionMax));
         this.intuition.setMaxValue(intuitionMax);
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setIntuitionEffective(int intuitionEffective) {
+    public AttributesView setIntuitionEffective(final int intuitionEffective) {
+        LOG.entering(intuitionEffective);
         this.intuitionEffective.setText(String.valueOf(intuitionEffective));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setCharismaMax(int charismaMax) {
+    public AttributesView setCharismaMax(final int charismaMax) {
+        LOG.entering(charismaMax);
         this.charismaMax.setText(String.valueOf(charismaMax));
         this.charisma.setMaxValue(charismaMax);
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setCharismaEffective(int charismaEffective) {
+    public AttributesView setCharismaEffective(final int charismaEffective) {
+        LOG.entering(charismaEffective);
         this.charismaEffective.setText(String.valueOf(charismaEffective));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setComposure(int composure) {
+    public AttributesView setComposure(final int composure) {
+        LOG.entering(composure);
         this.composure.setText(String.valueOf(composure));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setJudgeIntentions(int judgeIntentions) {
+    public AttributesView setJudgeIntentions(final int judgeIntentions) {
+        LOG.entering(judgeIntentions);
         this.judgeIntentions.setText(String.valueOf(judgeIntentions));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setMemory(int memory) {
+    public AttributesView setMemory(final int memory) {
+        LOG.entering(memory);
         this.memory.setText(String.valueOf(memory));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setLiftCarry(int liftCarry) {
+    public AttributesView setLiftCarry(final int liftCarry) {
+        LOG.entering(liftCarry);
         this.liftCarry.setText(String.valueOf(liftCarry));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setWalk(int walk) {
+    public AttributesView setWalk(final int walk) {
+        LOG.entering(walk);
         this.walk.setText(String.valueOf(walk));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setRun(int run) {
+    public AttributesView setRun(final int run) {
+        LOG.entering(run);
         this.run.setText(String.valueOf(run));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setSprint(int sprint) {
+    public AttributesView setSprint(final int sprint) {
+        LOG.entering(sprint);
         this.sprint.setText(String.valueOf(sprint));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setInitiativePhysical(int initiativePhysical) {
+    public AttributesView setInitiativePhysical(final int initiativePhysical) {
+        LOG.entering(initiativePhysical);
         this.initiativePhysical.setText(String.valueOf(initiativePhysical));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setInitiativeAstral(int initiativeAstral) {
+    public AttributesView setInitiativeAstral(final int initiativeAstral) {
+        LOG.entering(initiativeAstral);
         this.initiativeAstral.setText(String.valueOf(initiativeAstral));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setInitiativeMatrixAR(int initiativeMatrixAR) {
+    public AttributesView setInitiativeMatrixAR(final int initiativeMatrixAR) {
+        LOG.entering(initiativeMatrixAR);
         this.initiativeMatrixAR.setText(String.valueOf(initiativeMatrixAR));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setInitiativeMatrixVRcold(int initiativeMatrixVRcold) {
+    public AttributesView setInitiativeMatrixVRcold(final int initiativeMatrixVRcold) {
+        LOG.entering(initiativeMatrixVRcold);
         this.initiativeMatrixVRcold.setText(String.valueOf(initiativeMatrixVRcold));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setInitiativeMatrixVRhot(int initiativeMatrixVRhot) {
+    public AttributesView setInitiativeMatrixVRhot(final int initiativeMatrixVRhot) {
+        LOG.entering(initiativeMatrixVRhot);
         this.initiativeMatrixVRhot.setText(String.valueOf(initiativeMatrixVRhot));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setInitiativeRiggingAR(int initiativeRiggingAR) {
+    public AttributesView setInitiativeRiggingAR(final int initiativeRiggingAR) {
+        LOG.entering(initiativeRiggingAR);
         this.initiativeRiggingAR.setText(String.valueOf(initiativeRiggingAR));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setInitiativeRiggingVRcold(int initiativeRiggingVRcold) {
+    public AttributesView setInitiativeRiggingVRcold(final int initiativeRiggingVRcold) {
+        LOG.entering(initiativeRiggingVRcold);
         this.initiativeRiggingVRcold.setText(String.valueOf(initiativeRiggingVRcold));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setInitiativeRiggingVRhot(int initiativeRiggingVRhot) {
+    public AttributesView setInitiativeRiggingVRhot(final int initiativeRiggingVRhot) {
+        LOG.entering(initiativeRiggingVRhot);
         this.initiativeRiggingVRhot.setText(String.valueOf(initiativeRiggingVRhot));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setInitiativeRiggingDirect(int initiativeRiggingDirect) {
+    public AttributesView setInitiativeRiggingDirect(final int initiativeRiggingDirect) {
+        LOG.entering(initiativeRiggingDirect);
         this.initiativeRiggingDirect.setText(String.valueOf(initiativeRiggingDirect));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setInitiativePhysicalDice(int initiativePhysicalDice) {
+    public AttributesView setInitiativePhysicalDice(final int initiativePhysicalDice) {
         return setInitiativePhysicalDice(initiativePhysicalDice, false);
     }
 
     @Override
-    public Attributes setInitiativePhysicalDice(int initiativePhysicalDice, boolean highlight) {
+    public AttributesView setInitiativePhysicalDice(final int initiativePhysicalDice, boolean highlight) {
+        LOG.entering(initiativePhysicalDice, highlight);
         this.initiativePhysicalDice.setText(String.valueOf(initiativePhysicalDice));
         highlight(this.initiativePhysicalDice, highlight);
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setInitiativeAstralDice(int initiativeAstralDice) {
+    public AttributesView setInitiativeAstralDice(final int initiativeAstralDice) {
         return setInitiativeAstralDice(initiativeAstralDice, false);
     }
 
     @Override
-    public Attributes setInitiativeAstralDice(int initiativeAstralDice, boolean highlight) {
+    public AttributesView setInitiativeAstralDice(final int initiativeAstralDice, boolean highlight) {
+        LOG.entering(initiativeAstralDice, highlight);
         this.initiativeAstralDice.setText(String.valueOf(initiativeAstralDice));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setInitiativeMatrixARDice(int initiativeMatrixARDice) {
+    public AttributesView setInitiativeMatrixARDice(final int initiativeMatrixARDice) {
         return setInitiativeMatrixARDice(initiativeMatrixARDice, false);
     }
 
     @Override
-    public Attributes setInitiativeMatrixARDice(int initiativeMatrixARDice, boolean highlight) {
+    public AttributesView setInitiativeMatrixARDice(final int initiativeMatrixARDice, boolean highlight) {
+        LOG.entering(initiativeMatrixARDice, highlight);
         this.initiativeMatrixARDice.setText(String.valueOf(initiativeMatrixARDice));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setInitiativeMatrixVRcoldDice(int initiativeMatrixVRcoldDice) {
+    public AttributesView setInitiativeMatrixVRcoldDice(final int initiativeMatrixVRcoldDice) {
         return setInitiativeMatrixVRcoldDice(initiativeMatrixVRcoldDice, false);
     }
 
     @Override
-    public Attributes setInitiativeMatrixVRcoldDice(int initiativeMatrixVRcoldDice, boolean highlight) {
+    public AttributesView setInitiativeMatrixVRcoldDice(final int initiativeMatrixVRcoldDice, boolean highlight) {
+        LOG.entering(initiativeMatrixVRcoldDice, highlight);
         this.initiativeMatrixVRcoldDice.setText(String.valueOf(initiativeMatrixVRcoldDice));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setInitiativeMatrixVRhotDice(int initiativeMatrixVRhotDice) {
+    public AttributesView setInitiativeMatrixVRhotDice(final int initiativeMatrixVRhotDice) {
         return setInitiativeMatrixVRhotDice(initiativeMatrixVRhotDice, false);
     }
 
     @Override
-    public Attributes setInitiativeMatrixVRhotDice(int initiativeMatrixVRhotDice, boolean highlight) {
+    public AttributesView setInitiativeMatrixVRhotDice(final int initiativeMatrixVRhotDice, boolean highlight) {
+        LOG.entering(initiativeMatrixVRhotDice, highlight);
         this.initiativeMatrixVRhotDice.setText(String.valueOf(initiativeMatrixVRhotDice));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setInitiativeRiggingARDice(int initiativeRiggingARDice) {
+    public AttributesView setInitiativeRiggingARDice(final int initiativeRiggingARDice) {
         return setInitiativeRiggingARDice(initiativeRiggingARDice, false);
     }
 
     @Override
-    public Attributes setInitiativeRiggingARDice(int initiativeRiggingARDice, boolean highlight) {
+    public AttributesView setInitiativeRiggingARDice(final int initiativeRiggingARDice, boolean highlight) {
+        LOG.entering(initiativeRiggingARDice, highlight);
         this.initiativeRiggingARDice.setText(String.valueOf(initiativeRiggingARDice));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setInitiativeRiggingVRcoldDice(int initiativeRiggingVRcoldDice) {
+    public AttributesView setInitiativeRiggingVRcoldDice(final int initiativeRiggingVRcoldDice) {
         return setInitiativeRiggingVRcoldDice(initiativeRiggingVRcoldDice, false);
     }
 
     @Override
-    public Attributes setInitiativeRiggingVRcoldDice(int initiativeRiggingVRcoldDice, boolean highlight) {
+    public AttributesView setInitiativeRiggingVRcoldDice(final int initiativeRiggingVRcoldDice, boolean highlight) {
+        LOG.entering(initiativeRiggingVRcoldDice, highlight);
         this.initiativeRiggingVRcoldDice.setText(String.valueOf(initiativeRiggingVRcoldDice));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setInitiativeRiggingVRhotDice(int initiativeRiggingVRhotDice) {
+    public AttributesView setInitiativeRiggingVRhotDice(final int initiativeRiggingVRhotDice) {
         return setInitiativeRiggingVRhotDice(initiativeRiggingVRhotDice, false);
     }
 
     @Override
-    public Attributes setInitiativeRiggingVRhotDice(int initiativeRiggingVRhotDice, boolean highlight) {
+    public AttributesView setInitiativeRiggingVRhotDice(final int initiativeRiggingVRhotDice, boolean highlight) {
+        LOG.entering(initiativeRiggingVRhotDice, highlight);
         this.initiativeRiggingVRhotDice.setText(String.valueOf(initiativeRiggingVRhotDice));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setInitiativeRiggingDirectDice(int initiativeRiggingDirectDice) {
+    public AttributesView setInitiativeRiggingDirectDice(final int initiativeRiggingDirectDice) {
         return setInitiativeRiggingDirectDice(initiativeRiggingDirectDice, false);
     }
 
     @Override
-    public Attributes setInitiativeRiggingDirectDice(int initiativeRiggingDirectDice, boolean highlight) {
+    public AttributesView setInitiativeRiggingDirectDice(final int initiativeRiggingDirectDice, boolean highlight) {
+        LOG.entering(initiativeRiggingDirectDice, highlight);
         this.initiativeRiggingDirectDice.setText(String.valueOf(initiativeRiggingDirectDice));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setEssence(int essence) {
+    public AttributesView setEssence(final int essence) {
+        LOG.entering(essence);
         this.essence.setText(String.valueOf(essence));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setPhysicalLimit(int physicalLimit) {
+    public AttributesView setPhysicalLimit(final int physicalLimit) {
+        LOG.entering(physicalLimit);
         this.physicalLimit.setText(String.valueOf(physicalLimit));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setMentalLimit(int mentalLimit) {
+    public AttributesView setMentalLimit(final int mentalLimit) {
+        LOG.entering(mentalLimit);
         this.mentalLimit.setText(String.valueOf(mentalLimit));
-        return this;
+        return LOG.returning(this);
     }
 
     @Override
-    public Attributes setSocialLimit(int socialLimit) {
+    public AttributesView setSocialLimit(final int socialLimit) {
+        LOG.entering(socialLimit);
         this.socialLimit.setText(String.valueOf(socialLimit));
-        return this;
+        return LOG.returning(this);
     }
 
-    private static void highlight(Label label, boolean highlight) {
+    @Override
+    public AttributesView registerListener(final AttributesListener attributesListener) {
+        this.attributesListener = attributesListener;
+        return LOG.returning(this);
+    }
+
+    private boolean listenerRegistered() {
+        return attributesListener != null;
+    }
+
+    private static void highlight(final Label label, final boolean highlight) {
         if (highlight) {
             label.getStyleClass().add("value-label");
         } else {

@@ -11,4 +11,6 @@ public interface PersonalDataView {
     PersonalDataView setKarmaMax(int karmaMax);
 
     PersonalDataView setNuyen(int nuyen);
+
+    PersonalDataView registerListener(PersonalDataListener personalDataListener);
 }

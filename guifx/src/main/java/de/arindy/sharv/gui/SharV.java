@@ -1,9 +1,11 @@
 package de.arindy.sharv.gui;
 
 import de.arindy.sharv.Logger;
+import de.arindy.sharv.api.gui.CharacterView;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -30,6 +32,9 @@ public class SharV extends Application implements Initializable {
 
     private static String activeStyle = "style_sharV";
 
+    @FXML
+    public CharacterView character;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -39,7 +44,7 @@ public class SharV extends Application implements Initializable {
     //<editor-fold desc="Menu">
     public Menu file;
     public MenuItem close;
-    public Menu character;
+    public Menu characterMenu;
     public MenuItem characterLoad;
     public MenuItem characterSave;
     public Menu control;
@@ -102,12 +107,13 @@ public class SharV extends Application implements Initializable {
                 break;
         }
         initializeMenuText();
+        character.getPersonalData().setNuyen(99999);
     }
 
     private void initializeMenuText() {
         setText(file, "file");
         setText(close, "close");
-        setText(character, "character");
+        setText(characterMenu, "character.menu");
         setText(characterLoad, "character.load");
         setText(characterSave, "character.save");
         setText(control, "control");
