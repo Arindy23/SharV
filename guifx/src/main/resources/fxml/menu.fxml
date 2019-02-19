@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.HBox?>
+<fx:root prefHeight="30.0" type="HBox" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+    <MenuBar>
+        <Menu fx:id="file" mnemonicParsing="false" text="%file">
+            <MenuItem fx:id="close" mnemonicParsing="false" onAction="#exit" text="%close"/>
+        </Menu>
+        <Menu fx:id="characterMenu" mnemonicParsing="false" text="%character.menu">
+            <MenuItem fx:id="characterLoad" mnemonicParsing="false" onAction="#loadCharacter" text="%character.load"/>
+            <MenuItem fx:id="characterSave" mnemonicParsing="false" onAction="#saveCharacter" text="%character.save"/>
+        </Menu>
+        <Menu fx:id="control" mnemonicParsing="false" text="%control">
+            <MenuItem fx:id="controlQualities" mnemonicParsing="false" text="%control.qualities"/>
+        </Menu>
+        <Menu fx:id="options" mnemonicParsing="false" text="%options">
+            <Menu fx:id="language" mnemonicParsing="false" text="%language">
+                <RadioMenuItem fx:id="lang_de" mnemonicParsing="false" onAction="#changeLocale" text="%locale.german"/>
+                <RadioMenuItem fx:id="lang_en" mnemonicParsing="false" onAction="#changeLocale" text="%locale.english"/>
+            </Menu>
+            <Menu fx:id="style" mnemonicParsing="false" text="%style">
+                <RadioMenuItem fx:id="style_sharV" mnemonicParsing="false" onAction="#changeStyle" text="SharV"/>
+                <RadioMenuItem fx:id="style_modena" mnemonicParsing="false" onAction="#changeStyle" text="Modena"/>
+            </Menu>
+            <RadioMenuItem fx:id="debugLogging" mnemonicParsing="false" onAction="#switchDebugLog"
+                           text="%options.debugToggle"/>
+        </Menu>
+    </MenuBar>
+    <ColorPicker fx:id="color" onAction="#changeColor" prefHeight="32.0" prefWidth="45.0"/>
+</fx:root>

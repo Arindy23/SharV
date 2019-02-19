@@ -1,45 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import de.arindy.sharv.gui.CharacterPane?>
-<?import javafx.scene.control.*?>
+<?import de.arindy.sharv.gui.SharVMenu?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.*?>
-<AnchorPane fx:id="root" minHeight="800.0" minWidth="1200.0"
-            xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="de.arindy.sharv.gui.SharV">
-    <VBox AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0"
-          AnchorPane.topAnchor="0.0">
-        <HBox prefHeight="14.0">
-            <MenuBar>
-                <Menu mnemonicParsing="false" fx:id="file">
-                    <MenuItem mnemonicParsing="false" fx:id="close" onAction="#exit"/>
-                </Menu>
-                <Menu mnemonicParsing="false" fx:id="characterMenu">
-                    <MenuItem mnemonicParsing="false" onAction="#loadCharacter" fx:id="characterLoad"/>
-                    <MenuItem mnemonicParsing="false" onAction="#saveCharacter" fx:id="characterSave"/>
-                </Menu>
-                <Menu mnemonicParsing="false" fx:id="control">
-                    <MenuItem mnemonicParsing="false" fx:id="controlQualities"/>
-                </Menu>
-                <Menu mnemonicParsing="false" fx:id="options">
-                    <Menu mnemonicParsing="false" fx:id="language">
-                        <RadioMenuItem fx:id="lang_de" mnemonicParsing="false" onAction="#changeLocale" />
-                        <RadioMenuItem fx:id="lang_en" mnemonicParsing="false" onAction="#changeLocale" />
-                    </Menu>
-                    <Menu mnemonicParsing="false" fx:id="style">
-                        <RadioMenuItem fx:id="style_sharV" mnemonicParsing="false" onAction="#changeStyle"
-                                       text="SharV"/>
-                        <RadioMenuItem fx:id="style_modena" mnemonicParsing="false" onAction="#changeStyle"
-                                       text="Modena"/>
-                    </Menu>
-                    <RadioMenuItem fx:id="debugLogging" mnemonicParsing="false" onAction="#switchDebugLog" />
-                </Menu>
-            </MenuBar>
-            <ColorPicker fx:id="color" onAction="#changeColor" prefHeight="50.0" prefWidth="48.0"/>
-        </HBox>
-        <HBox VBox.vgrow="ALWAYS">
-            <CharacterPane fx:id="character" HBox.hgrow="SOMETIMES"/>
-            <Separator orientation="VERTICAL" visible="false"/>
-            <Pane prefHeight="500.0" prefWidth="510.0" HBox.hgrow="ALWAYS"/>
-        </HBox>
-    </VBox>
+<AnchorPane fx:id="root" minHeight="800.0" minWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.arindy.sharv.gui.SharV">
+    <SharVMenu fx:id="menu" prefHeight="30.0"/>
+    <HBox AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0"
+          AnchorPane.topAnchor="30.0">
+        <CharacterPane fx:id="character" HBox.hgrow="SOMETIMES"/>
+        <Separator orientation="VERTICAL" visible="false"/>
+        <Pane prefHeight="500.0" prefWidth="510.0" HBox.hgrow="ALWAYS"/>
+    </HBox>
 </AnchorPane>
