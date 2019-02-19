@@ -11,6 +11,7 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 
 /**
  * Created by arindy on 15.05.16.
@@ -38,16 +39,18 @@ public class LoadCharFile extends AbstractAction {
 
             int returnValue = fileChooser.showOpenDialog(charController.getCharSheet().getSheet());
             if (JFileChooser.APPROVE_OPTION == returnValue) {
-                CharController.character = (Charakter) JsonHandler.readFile(fileChooser.getSelectedFile(), Charakter.class);
-                charController.mapChar();
-                DataHelper.setUnsavedData(false);
-                DataHelper.setLoading(false);
-                charController.updateTitle();
-                String[] colorStr = CharController.character.getColor().split(",");
-                Color color = new Color(Integer.valueOf(colorStr[0]), Integer.valueOf(colorStr[1]), Integer.valueOf(colorStr[2]), Integer.valueOf(colorStr[3]));
-                ColorChanger.changeColor(color, ColorChanger.HIGHLIGHTCOLOR);
-                DataHelper.setColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
-
+                try {
+                    CharController.character = JsonHandler.readFile(fileChooser.getSelectedFile(), Charakter.class);
+                    charController.mapChar();
+                    DataHelper.setUnsavedData(false);
+                    DataHelper.setLoading(false);
+                    charController.updateTitle();
+                    String[] colorStr = CharController.character.getColor().split(",");
+                    Color color = new Color(Integer.valueOf(colorStr[0]), Integer.valueOf(colorStr[1]), Integer.valueOf(colorStr[2]), Integer.valueOf(colorStr[3]));
+                    ColorChanger.changeColor(color, ColorChanger.HIGHLIGHTCOLOR);
+                    DataHelper.setColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+                } catch (IOException ignore) {
+                }
             }
         }
 

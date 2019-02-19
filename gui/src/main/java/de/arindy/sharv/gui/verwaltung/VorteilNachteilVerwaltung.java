@@ -13,6 +13,7 @@ import de.arindy.sharv.persistence.JsonHandler;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by arindy on 28.07.16.
@@ -134,8 +135,11 @@ public class VorteilNachteilVerwaltung implements DialogIntrfs {
                     option = JOptionPane.showConfirmDialog(panel, "ID schon vergeben. Wollen Sie sie ersetzen?", "ID vergeben", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null);
                 }
                 if (option == JOptionPane.YES_OPTION) {
-                    JsonHandler.writeFile(file, item);
-                    done = true;
+                    try {
+                        JsonHandler.writeFile(file, item);
+                        done = true;
+                    } catch (IOException ignore) {
+                    }
                 }
             } else {
                 done = true;
@@ -200,11 +204,12 @@ public class VorteilNachteilVerwaltung implements DialogIntrfs {
         File vorteilNachteilOrdner = new File(CharController.getDirectory().getAbsolutePath() + "/srV/vn");
         vorteilNachteilOrdner.mkdirs();
         for (File file : vorteilNachteilOrdner.listFiles((dir, name) -> name.toLowerCase().endsWith(".srvvn"))) {
-            VorteilNachteil item = (VorteilNachteil) JsonHandler.readFile(file, VorteilNachteil.class);
-            if (item != null) {
+            try {
+                VorteilNachteil item = JsonHandler.readFile(file, VorteilNachteil.class);
                 item.setId(file.getName().split("\\.")[0]);
+                modelVorteilNachteil.add(item);
+            } catch (IOException ignore) {
             }
-            modelVorteilNachteil.add(item);
         }
     }
 

@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by arindy on 15.05.16.
@@ -44,9 +45,12 @@ public class SaveCharFile extends AbstractAction {
             if (override == JOptionPane.YES_OPTION) {
                 File file = (fileChooser.getSelectedFile().getAbsolutePath().endsWith(".srVchar")) ? fileChooser.getSelectedFile() : new File(fileChooser.getSelectedFile().getAbsolutePath() + ".srVchar");
                 CharController.character.setColor(DataHelper.getHighlightColorR() + "," + DataHelper.getHighlightColorG() + "," + DataHelper.getHighlightColorB() + "," + DataHelper.getHighlightColorAlpha());
-                JsonHandler.writeFile(file, CharController.character);
-                DataHelper.setUnsavedData(false);
-                charController.updateTitle();
+                try {
+                    JsonHandler.writeFile(file, CharController.character);
+                    DataHelper.setUnsavedData(false);
+                    charController.updateTitle();
+                } catch (IOException ignore) {
+                }
             } else {
                 cancel = true;
                 return;

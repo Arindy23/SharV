@@ -420,10 +420,11 @@ public class CharController {
             for (String id : list) {
                 File file = new File(getDirectory().getAbsolutePath() + "/srV/vn/" + id.split("\\?")[0] + ".srVvn");
                 if (file.exists()) {
-                    VorteilNachteil item = (VorteilNachteil) JsonHandler.readFile(file, VorteilNachteil.class);
-                    if (item != null) {
+                    try {
+                        VorteilNachteil item = JsonHandler.readFile(file, VorteilNachteil.class);
                         item.setZusatzInfo((id.split("\\?").length > 1) ? id.split("\\?")[1] : "");
                         vorteilNachteilPanel.getList().add(item);
+                    } catch (IOException ignore) {
                     }
                 }
             }
