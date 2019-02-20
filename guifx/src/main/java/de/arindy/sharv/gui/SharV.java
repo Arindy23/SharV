@@ -3,6 +3,7 @@ package de.arindy.sharv.gui;
 import de.arindy.sharv.Logger;
 import de.arindy.sharv.api.gui.CharacterView;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -64,6 +65,10 @@ public class SharV extends Application implements Initializable {
         LOG.entering(url, resourceBundle);
         menu.changeStyle();
         menu.setHighlightColor("#ff0000");
+    }
+
+    public static void performAction(final Runnable action) {
+        Platform.runLater(action);
     }
 
     static FXMLLoader getLoader() {
