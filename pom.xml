@@ -11,11 +11,10 @@
 
     <modules>
         <module>core</module>
-        <module>gui</module>
-        <module>persistence</module>
-        <module>chummer</module>
-        <module>guifx</module>
         <module>api</module>
+        <module>persistence</module>
+        <module>guifx</module>
+        <module>chummer</module>
     </modules>
 
     <properties>
