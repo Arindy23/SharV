@@ -112,39 +112,39 @@ public enum Metatyp {
     }
 
     public int[] getKon() {
-        return kon;
+        return kon.clone();
     }
 
     public int[] getGes() {
-        return ges;
+        return ges.clone();
     }
 
     public int[] getRea() {
-        return rea;
+        return rea.clone();
     }
 
     public int[] getStr() {
-        return str;
+        return str.clone();
     }
 
     public int[] getWil() {
-        return wil;
+        return wil.clone();
     }
 
     public int[] getLog() {
-        return log;
+        return log.clone();
     }
 
     public int[] getIn() {
-        return in;
+        return in.clone();
     }
 
     public int[] getCha() {
-        return cha;
+        return cha.clone();
     }
 
     public int[] getEdg() {
-        return edg;
+        return edg.clone();
     }
 
     public int getEss() {

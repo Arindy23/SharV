@@ -110,6 +110,28 @@ public interface AttributesView {
 
     AttributesView setSocialLimit(int socialLimit);
 
+    AttributesView setSpecial(String special);
+
+    AttributesView setSpecialValue(int specialValue);
+
+    AttributesView setBody(int body);
+
+    AttributesView setAgility(int agility);
+
+    AttributesView setReaction(int reaction);
+
+    AttributesView setStrength(int strength);
+
+    AttributesView setWillpower(int willpower);
+
+    AttributesView setLogic(int logic);
+
+    AttributesView setIntuition(int intuition);
+
+    AttributesView setCharisma(int charisma);
+
+    AttributesView setEdge(int edge);
+
     AttributesView registerListener(AttributesListener attributesListener);
 
 }

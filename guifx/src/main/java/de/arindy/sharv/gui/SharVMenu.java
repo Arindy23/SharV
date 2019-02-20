@@ -24,8 +24,6 @@ public class SharVMenu extends HBox implements Initializable {
 
     private final Logger LOG = Logger.get(getClass().getName());
 
-    private static String activeStyle = "style_sharV";
-
     //<editor-fold desc="Menu">
     @FXML
     private Menu file;
@@ -112,8 +110,7 @@ public class SharVMenu extends HBox implements Initializable {
 
     public void changeStyle(final ActionEvent event) {
         LOG.entering(event);
-        activeStyle = ((RadioMenuItem) event.getSource()).getId();
-        changeStyle();
+        changeStyle(((RadioMenuItem) event.getSource()).getId());
     }
 
     public void switchDebugLog(final ActionEvent actionEvent) {
@@ -136,7 +133,7 @@ public class SharVMenu extends HBox implements Initializable {
         new ExitAction().perform();
     }
 
-    void changeStyle() {
+    void changeStyle(final String activeStyle) {
         LOG.entering();
         if (activeStyle.isEmpty() || Objects.equals(activeStyle, style_sharV.getId())) {
             setStyleSheet("/css/sharV.css");

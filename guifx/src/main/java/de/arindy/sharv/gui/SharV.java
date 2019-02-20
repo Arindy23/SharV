@@ -63,7 +63,7 @@ public class SharV extends Application implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         LOG.entering(url, resourceBundle);
-        menu.changeStyle();
+        menu.changeStyle("");
         menu.setHighlightColor("#ff0000");
     }
 

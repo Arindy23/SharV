@@ -151,7 +151,7 @@ public class Logger {
                 stackTrace = stacktraceWriter.toString();
             }
             return String.format(
-                    "[%-7s] : %s : [%s] : %s\n%s",
+                    "[%-7s] : %s : [%s] : %s%n%s",
                     record.getLevel(),
                     DateTimeFormatter.ofPattern("YYY.MM.dd-HH.mm.ss").format(ZonedDateTime.now(Clock.systemUTC())),
                     record.getLoggerName(),

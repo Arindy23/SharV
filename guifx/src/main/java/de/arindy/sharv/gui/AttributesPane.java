@@ -576,6 +576,83 @@ public class AttributesPane extends BorderedTitledPane implements AttributesView
     }
 
     @Override
+    public AttributesView setSpecial(final String special) {
+        LOG.entering(special);
+        this.special.getSelectionModel().select(special);
+        return LOG.returning(this);
+    }
+
+    @Override
+    public AttributesView setSpecialValue(final int specialValue) {
+        LOG.entering(specialValue);
+        this.specialValue.setText(String.valueOf(specialValue));
+        return LOG.returning(this);
+    }
+
+    @Override
+    public AttributesView setBody(final int body) {
+        LOG.entering(body);
+        this.body.setText(String.valueOf(body));
+        return LOG.returning(this);
+    }
+
+    @Override
+    public AttributesView setAgility(final int agility) {
+        LOG.entering(agility);
+        this.agility.setText(String.valueOf(agility));
+        return LOG.returning(this);
+    }
+
+    @Override
+    public AttributesView setReaction(final int reaction) {
+        LOG.entering(reaction);
+        this.reaction.setText(String.valueOf(reaction));
+        return LOG.returning(this);
+    }
+
+    @Override
+    public AttributesView setStrength(final int strength) {
+        LOG.entering(strength);
+        this.strength.setText(String.valueOf(strength));
+        return LOG.returning(this);
+    }
+
+    @Override
+    public AttributesView setWillpower(final int willpower) {
+        LOG.entering(willpower);
+        this.willpower.setText(String.valueOf(willpower));
+        return LOG.returning(this);
+    }
+
+    @Override
+    public AttributesView setLogic(final int logic) {
+        LOG.entering(logic);
+        this.logic.setText(String.valueOf(logic));
+        return LOG.returning(this);
+    }
+
+    @Override
+    public AttributesView setIntuition(final int intuition) {
+        LOG.entering(intuition);
+        this.intuition.setText(String.valueOf(intuition));
+        return LOG.returning(this);
+    }
+
+    @Override
+    public AttributesView setCharisma(final int charisma) {
+        LOG.entering(charisma);
+        this.charisma.setText(String.valueOf(charisma));
+        return LOG.returning(this);
+    }
+
+    @Override
+    public AttributesView setEdge(final int edge) {
+        LOG.entering(edge);
+        this.edge.setText(String.valueOf(edge));
+        return LOG.returning(this);
+    }
+
+    @Override
     public AttributesView registerListener(final AttributesListener attributesListener) {
         this.attributesListener = attributesListener;
         return LOG.returning(this);

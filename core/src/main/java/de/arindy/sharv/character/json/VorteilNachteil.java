@@ -2,6 +2,8 @@ package de.arindy.sharv.character.json;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.Objects;
+
 public class VorteilNachteil implements Comparable {
 
     private String name;
@@ -77,9 +79,30 @@ public class VorteilNachteil implements Comparable {
 
     @Override
     public String toString() {
-        String ret = (vorteil) ? prefixVorteil + name : prefixNachteil + name;
-        ret += (zusatzInfo != null && !zusatzInfo.isEmpty()) ? ":" + zusatzInfo : "";
+        String ret = vorteil ? prefixVorteil + name : prefixNachteil + name;
+        ret += zusatzInfo != null && !zusatzInfo.isEmpty() ? ":" + zusatzInfo : "";
         return ret;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        VorteilNachteil that = (VorteilNachteil) o;
+        return isVorteil() == that.isVorteil() &&
+                getKarmaBonusKosten() == that.getKarmaBonusKosten() &&
+                Objects.equals(getName(), that.getName()) &&
+                Objects.equals(getBeschreibung(), that.getBeschreibung()) &&
+                Objects.equals(getId(), that.getId()) &&
+                Objects.equals(getZusatzInfo(), that.getZusatzInfo()) &&
+                Objects.equals(prefixVorteil, that.prefixVorteil) &&
+                Objects.equals(prefixNachteil, that.prefixNachteil) &&
+                Objects.equals(getDetails(), that.getDetails());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getBeschreibung(), getId(), getZusatzInfo(), prefixVorteil, prefixNachteil, isVorteil(), getKarmaBonusKosten(), getDetails());
     }
 
     @Override

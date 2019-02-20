@@ -2,8 +2,6 @@ package de.arindy.sharv.character;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import java.util.List;
-
 public class Charakter {
     private String color;
     //Allgemein:
@@ -44,8 +42,6 @@ public class Charakter {
     private int schadenKoerper;
     private int schadenGeist;
     private int schadenUeberzaehlig;
-
-    private List<String> vorteileNachteile;
 
     //Matrixattribute:
     @JsonIgnore
@@ -409,10 +405,6 @@ public class Charakter {
 
     public void setLimitSozial(int limitSozial) {
         this.limitSozial = limitSozial;
-    }
-
-    public List<String> getVorteileNachteile() {
-        return vorteileNachteile;
     }
 
     public int getInitiative() {
