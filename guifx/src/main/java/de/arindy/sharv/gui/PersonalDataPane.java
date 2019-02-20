@@ -120,7 +120,7 @@ public class PersonalDataPane extends BorderedTitledPane implements PersonalData
     public void onAge(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
         if (listenerRegistered()) {
-            personalDataListener.changeAge(extractText(inputMethodEvent));
+        personalDataListener.changeAge(extractInteger(inputMethodEvent));
         }
     }
 

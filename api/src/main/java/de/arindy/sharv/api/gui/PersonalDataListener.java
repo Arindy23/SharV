@@ -10,7 +10,7 @@ public interface PersonalDataListener {
 
     void changeSex(String sex);
 
-    void changeAge(String age);
+    void changeAge(int age);
 
     void changeHeight(int height);
 

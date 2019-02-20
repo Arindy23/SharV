@@ -1,6 +1,10 @@
 package de.arindy.sharv.gui;
 
+import javafx.scene.Node;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Labeled;
+import javafx.scene.layout.Pane;
+import javafx.scene.text.TextFlow;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxRobot;
@@ -39,8 +43,24 @@ abstract class HeadlessGUITest {
         }
 
         Robot clickOnTextInput(final String name) {
-            robot.clickOn(robot.lookup(name).queryTextInputControl());
+            robot.clickOn(name);
             return this;
+        }
+
+        Robot selectComboBoxItem(final String name, final String item) throws InterruptedException {
+            final ComboBox<?> actualComboBox = lookupComboBox(name);
+            for (Node child : actualComboBox.getChildrenUnmodifiable()) {
+                if (child.getStyleClass().contains("arrow-button")) {
+                    Node arrowRegion = ((Pane) child).getChildren().get(0);
+                    robot.clickOn(arrowRegion);
+                    robot.clickOn(item);
+                }
+            }
+            return this;
+        }
+
+        ComboBox<Object> lookupComboBox(String name) {
+            return robot.lookup(name).queryComboBox();
         }
 
         Robot write(final String value) {
@@ -50,6 +70,11 @@ abstract class HeadlessGUITest {
 
         Labeled lookupLabel(String name) {
             return robot.lookup(name).queryLabeled();
+        }
+
+        public TextFlow lookupTextFlow(final String name) {
+            return robot.lookup(name).queryTextFlow();
+
         }
     }
 
