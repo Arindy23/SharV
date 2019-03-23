@@ -136,5 +136,8 @@ public interface AttributesView {
 
     AttributesView setEdge(int edge);
 
+    AttributesView setBurnedEdge(int burndeEdge);
+
     AttributesView registerListener(AttributesListener attributesListener);
+
 }

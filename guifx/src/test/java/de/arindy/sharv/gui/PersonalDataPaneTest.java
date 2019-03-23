@@ -60,97 +60,97 @@ class PersonalDataPaneTest extends HeadlessGUITest {
 
     @Test
     void changingNameShouldTriggerListener(final FxRobot r) {
-        robot(r).clickOnTextInput("#name").write("Cthulhu");
+        robot(r).clickOn("#name").write("Cthulhu");
         verifyThat(personalDataListener.name, is("Cthulhu"));
     }
 
     @Test
     void changingStreetnameShouldTriggerListener(final FxRobot r) {
-        robot(r).clickOnTextInput("#streetname").write("Cthulhu");
+        robot(r).clickOn("#streetname").write("Cthulhu");
         verifyThat(personalDataListener.streetname, is("Cthulhu"));
     }
 
     @Test
     void changingAgeShouldTriggerListener(final FxRobot r) {
-        robot(r).clickOnTextInput("#age").write("23");
+        robot(r).clickOn("#age").write("23");
         verifyThat(personalDataListener.age, is(23));
     }
 
     @Test
     void ageShouldOnlyAcceptIntegers(final FxRobot r) {
-        robot(r).clickOnTextInput("#age").write("noInt");
+        robot(r).clickOn("#age").write("noInt");
         verifyThat(personalDataListener.age, is(0));
     }
 
     @Test
     void changingHeightShouldTriggerListener(final FxRobot r) {
-        robot(r).clickOnTextInput("#height").write("180");
+        robot(r).clickOn("#height").write("180");
         verifyThat(personalDataListener.height, is(180));
     }
 
     @Test
     void heightShouldOnlyAcceptIntegers(final FxRobot r) {
-        robot(r).clickOnTextInput("#height").write("noInt");
+        robot(r).clickOn("#height").write("noInt");
         verifyThat(personalDataListener.height, is(0));
     }
 
     @Test
     void changingWeightShouldTriggerListener(final FxRobot r) {
-        robot(r).clickOnTextInput("#weight").write("70");
+        robot(r).clickOn("#weight").write("70");
         verifyThat(personalDataListener.weight, is(70));
     }
 
     @Test
     void weightShouldOnlyAcceptIntegers(final FxRobot r) {
-        robot(r).clickOnTextInput("#weight").write("noInt");
+        robot(r).clickOn("#weight").write("noInt");
         verifyThat(personalDataListener.weight, is(0));
     }
 
     @Test
     void changingEthnicityShouldTriggerListener(final FxRobot r) {
-        robot(r).clickOnTextInput("#ethnicity").write("english");
+        robot(r).clickOn("#ethnicity").write("english");
         verifyThat(personalDataListener.ethnicity, is("english"));
     }
 
     @Test
     void changingConceptShouldTriggerListener(final FxRobot r) {
-        robot(r).clickOnTextInput("#concept").write("Chaosmage");
+        robot(r).clickOn("#concept").write("Chaosmage");
         verifyThat(personalDataListener.concept, is("Chaosmage"));
     }
 
     @Test
     void changingStreetCredShouldTriggerListener(final FxRobot r) {
-        robot(r).clickOnTextInput("#streetCred").write("23");
+        robot(r).clickOn("#streetCred").write("23");
         verifyThat(personalDataListener.streetCred, is(23));
     }
 
     @Test
     void streetCredShouldOnlyAcceptIntegers(final FxRobot r) {
-        robot(r).clickOnTextInput("#streetCred").write("noInt");
+        robot(r).clickOn("#streetCred").write("noInt");
         verifyThat(personalDataListener.streetCred, is(0));
     }
 
     @Test
     void changingNotorietyShouldTriggerListener(final FxRobot r) {
-        robot(r).clickOnTextInput("#notoriety").write("23");
+        robot(r).clickOn("#notoriety").write("23");
         verifyThat(personalDataListener.notoriety, is(23));
     }
 
     @Test
     void notorietyShouldOnlyAcceptIntegers(final FxRobot r) {
-        robot(r).clickOnTextInput("#notoriety").write("noInt");
+        robot(r).clickOn("#notoriety").write("noInt");
         verifyThat(personalDataListener.notoriety, is(0));
     }
 
     @Test
     void changingPublicAwarenessShouldTriggerListener(final FxRobot r) {
-        robot(r).clickOnTextInput("#publicAwareness").write("23");
+        robot(r).clickOn("#publicAwareness").write("23");
         verifyThat(personalDataListener.publicAwareness, is(23));
     }
 
     @Test
     void publicAwarenessShouldOnlyAcceptIntegers(final FxRobot r) {
-        robot(r).clickOnTextInput("#publicAwareness").write("noInt");
+        robot(r).clickOn("#publicAwareness").write("noInt");
         verifyThat(personalDataListener.publicAwareness, is(0));
     }
 
@@ -196,7 +196,7 @@ class PersonalDataPaneTest extends HeadlessGUITest {
         verifyThat(robot(r).lookupTextFlow("#racialBonuses"), TextFlowMatchers.hasText(""));
     }
 
-    private class TestPersonalDataListener implements PersonalDataListener {
+    private static class TestPersonalDataListener implements PersonalDataListener {
 
         private String name;
         private String streetname;

@@ -24,4 +24,6 @@ public interface AttributesListener {
 
     void changeEdge(int edge);
 
+    void changeBurnedEdge(int burnedEdge);
+
 }

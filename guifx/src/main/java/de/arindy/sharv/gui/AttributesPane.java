@@ -7,14 +7,19 @@ import de.arindy.sharv.gui.jfx.BorderedTitledPane;
 import de.arindy.sharv.gui.jfx.ContentAwareTextField;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.InputMethodEvent;
+import javafx.scene.layout.GridPane;
 
 import static de.arindy.sharv.gui.JavaFXUtil.extractInteger;
 import static de.arindy.sharv.gui.JavaFXUtil.getSelectedItem;
 
 public class AttributesPane extends BorderedTitledPane implements AttributesView {
+
+    private static final int MAX_EDGE_ROWS = 8;
 
     private Logger LOG = Logger.get(getClass().getName());
 
@@ -133,6 +138,8 @@ public class AttributesPane extends BorderedTitledPane implements AttributesView
     private ContentAwareTextField charisma;
     @FXML
     private ContentAwareTextField edge;
+    @FXML
+    private GridPane edgeCheckBoxes;
     //</editor-fold>
 
     public AttributesPane() {
@@ -211,9 +218,21 @@ public class AttributesPane extends BorderedTitledPane implements AttributesView
 
     public void onEdge(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
+        int edge = extractInteger(inputMethodEvent);
         if (listenerRegistered()) {
-            attributesListener.changeEdge(extractInteger(inputMethodEvent));
+            attributesListener.changeEdge(edge);
         }
+        updateEdgeCheckBoxes(edge);
+    }
+
+    private void onBurnEdge(final ActionEvent actionEvent) {
+        LOG.entering(actionEvent);
+        final CheckBox source = (CheckBox) actionEvent.getSource();
+        int burnedEdge = extractIntegerFromId(source.getId()) - (source.isSelected() ? 0 : 1);
+        if (listenerRegistered()) {
+            attributesListener.changeBurnedEdge(burnedEdge);
+        }
+        updateBurnedEdge(burnedEdge);
     }
 
     @Override
@@ -673,6 +692,14 @@ public class AttributesPane extends BorderedTitledPane implements AttributesView
     public AttributesView setEdge(final int edge) {
         LOG.entering(edge);
         this.edge.setText(String.valueOf(edge));
+        updateEdgeCheckBoxes(edge);
+        return LOG.returning(this);
+    }
+
+    @Override
+    public AttributesView setBurnedEdge(int burndeEdge) {
+        LOG.entering(burndeEdge);
+        updateBurnedEdge(burndeEdge);
         return LOG.returning(this);
     }
 
@@ -692,6 +719,47 @@ public class AttributesPane extends BorderedTitledPane implements AttributesView
         } else {
             label.getStyleClass().removeAll("value-label");
         }
+    }
+
+    private void updateEdgeCheckBoxes(final int edge) {
+        edgeCheckBoxes.getChildren().clear();
+        for (int i = 0; i < edge; i++) {
+            final CheckBox checkBox = new CheckBox("");
+            checkBox.setId(edgeId(i));
+            checkBox.setOnAction(this::onBurnEdge);
+            edgeCheckBoxes.add(checkBox, calculateEdgeColumn(i), calculateEdgeRow(i));
+        }
+    }
+
+    private void updateBurnedEdge(final int burnedEdge) {
+        for (Node node : edgeCheckBoxes.getChildren()) {
+            if (node instanceof CheckBox) {
+                final CheckBox edge = ((CheckBox) node);
+                edge.setSelected(burnedEdge >= extractIntegerFromId(edge.getId()));
+            }
+        }
+    }
+
+    private int extractIntegerFromId(final String id) {
+        int result;
+        try {
+            result = Integer.parseInt(id.replace("edge", ""));
+        } catch (NumberFormatException e) {
+            result = 0;
+        }
+        return result;
+    }
+
+    private int calculateEdgeColumn(int i) {
+        return i % MAX_EDGE_ROWS;
+    }
+
+    private int calculateEdgeRow(int i) {
+        return i / MAX_EDGE_ROWS;
+    }
+
+    private String edgeId(int i) {
+        return String.format("edge%d", i);
     }
 
 }

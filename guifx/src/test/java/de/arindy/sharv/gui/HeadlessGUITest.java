@@ -43,7 +43,7 @@ abstract class HeadlessGUITest {
             this.robot = robot;
         }
 
-        Robot clickOnTextInput(final String name) {
+        Robot clickOn(String name) {
             robot.clickOn(name);
             return this;
         }
