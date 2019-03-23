@@ -2,9 +2,9 @@ package de.arindy.sharv.api.gui;
 
 public interface PersonalDataView {
 
-    void addRacialBonuses(String... bonuses);
+    PersonalDataView addRacialBonuses(String... bonuses);
 
-    void removeAllRacialBonuses();
+    PersonalDataView removeAllRacialBonuses();
 
     PersonalDataView setKarma(int karma);
 
@@ -13,4 +13,12 @@ public interface PersonalDataView {
     PersonalDataView setNuyen(int nuyen);
 
     PersonalDataView registerListener(PersonalDataListener personalDataListener);
+
+    PersonalDataView addSexes(String... sexes);
+
+    PersonalDataView removeAllSexes();
+
+    PersonalDataView addMetatypes(String... metatypes);
+
+    PersonalDataView removeMetatypes();
 }

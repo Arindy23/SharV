@@ -156,21 +156,30 @@ class PersonalDataPaneTest extends HeadlessGUITest {
 
     @Test
     void changingMetatypeShouldTriggerListener(final FxRobot r) throws Exception {
-        SharV.performAction(() -> robot(r).lookupComboBox("#metatype").getItems().addAll("Human", "Elf"));
+        SharV.performAction(() -> {
+            personalData.removeMetatypes();
+            personalData.addMetatypes("Human", "Elf");
+        });
         robot(r).selectComboBoxItem("#metatype", "Human");
         verifyThat(personalDataListener.metatype, is("Human"));
     }
 
     @Test
     void changingSexShouldTriggerListener(final FxRobot r) throws Exception {
-        SharV.performAction(() -> robot(r).lookupComboBox("#sex").getItems().addAll("male", "female"));
+        SharV.performAction(() -> {
+            personalData.removeAllSexes();
+            personalData.addSexes("male", "female");
+        });
         robot(r).selectComboBoxItem("#sex", "female");
         verifyThat(personalDataListener.sex, is("female"));
     }
 
     @Test
     void addingRacialBonusesShouldUpdateRacialBonusesTextArea(final FxRobot r) throws Exception {
-        SharV.performAction(() -> personalData.addRacialBonuses("firstBonus", "secondBonus"));
+        SharV.performAction(() -> {
+            personalData.removeAllRacialBonuses();
+            personalData.addRacialBonuses("firstBonus", "secondBonus");
+        });
         awaitSharV();
         verifyThat(robot(r).lookupTextFlow("#racialBonuses"), TextFlowMatchers.hasText(String.format("%s%n%s", "firstBonus", "secondBonus")));
     }

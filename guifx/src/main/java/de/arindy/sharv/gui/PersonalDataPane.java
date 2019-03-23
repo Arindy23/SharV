@@ -6,7 +6,6 @@ import de.arindy.sharv.api.gui.PersonalDataView;
 import de.arindy.sharv.gui.jfx.BorderedTitledPane;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -15,12 +14,9 @@ import javafx.scene.input.InputMethodEvent;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-
 import static de.arindy.sharv.gui.JavaFXUtil.*;
 
-public class PersonalDataPane extends BorderedTitledPane implements PersonalDataView, Initializable {
+public class PersonalDataPane extends BorderedTitledPane implements PersonalDataView {
 
     private final Logger LOG = Logger.get(getClass().getName());
 
@@ -63,30 +59,6 @@ public class PersonalDataPane extends BorderedTitledPane implements PersonalData
 
     public PersonalDataPane() {
         super("personalData");
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        sex.getItems().add("female");
-        sex.getItems().add("male");
-    }
-
-    @Override
-    public void addRacialBonuses(final String... bonuses) {
-        LOG.entering((Object[]) bonuses);
-        for (String bonus : bonuses) {
-            final ObservableList<Node> racialBonuses = this.racialBonuses.getChildren();
-            if (!racialBonuses.isEmpty()) {
-                racialBonuses.add(new Text(String.format("%n")));
-            }
-            racialBonuses.add(new Text(bonus));
-        }
-    }
-
-    @Override
-    public void removeAllRacialBonuses() {
-        LOG.entering();
-        racialBonuses.getChildren().clear();
     }
 
     public void onName(final InputMethodEvent inputMethodEvent) {
@@ -174,6 +146,26 @@ public class PersonalDataPane extends BorderedTitledPane implements PersonalData
     }
 
     @Override
+    public PersonalDataView addRacialBonuses(final String... bonuses) {
+        LOG.entering((Object[]) bonuses);
+        for (String bonus : bonuses) {
+            final ObservableList<Node> racialBonuses = this.racialBonuses.getChildren();
+            if (!racialBonuses.isEmpty()) {
+                racialBonuses.add(new Text(String.format("%n")));
+            }
+            racialBonuses.add(new Text(bonus));
+        }
+        return LOG.returning(this);
+    }
+
+    @Override
+    public PersonalDataView removeAllRacialBonuses() {
+        LOG.entering();
+        racialBonuses.getChildren().clear();
+        return LOG.returning(this);
+    }
+
+    @Override
     public PersonalDataView setKarma(int karma) {
         LOG.entering(karma);
         this.karma.setText(String.valueOf(karma));
@@ -196,7 +188,36 @@ public class PersonalDataPane extends BorderedTitledPane implements PersonalData
 
     @Override
     public PersonalDataView registerListener(final PersonalDataListener personalDataListener) {
+        LOG.entering(personalDataListener);
         this.personalDataListener = personalDataListener;
+        return LOG.returning(this);
+    }
+
+    @Override
+    public PersonalDataView addSexes(final String... sexes) {
+        LOG.entering(sexes);
+        this.sex.getItems().addAll(sexes);
+        return LOG.returning(this);
+    }
+
+    @Override
+    public PersonalDataView removeAllSexes() {
+        LOG.entering();
+        this.sex.getItems().clear();
+        return LOG.returning(this);
+    }
+
+    @Override
+    public PersonalDataView addMetatypes(final String... metatypes) {
+        LOG.entering(metatypes);
+        this.metatype.getItems().addAll(metatypes);
+        return LOG.returning(this);
+    }
+
+    @Override
+    public PersonalDataView removeMetatypes() {
+        LOG.entering();
+        this.metatype.getItems().clear();
         return LOG.returning(this);
     }
 
