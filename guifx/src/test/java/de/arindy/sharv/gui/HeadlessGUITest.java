@@ -3,6 +3,7 @@ package de.arindy.sharv.gui;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Labeled;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.TextFlow;
 import org.junit.jupiter.api.BeforeAll;
@@ -34,7 +35,7 @@ abstract class HeadlessGUITest {
         return new Robot(robot);
     }
 
-    class Robot {
+    static class Robot {
 
         private final FxRobot robot;
 
@@ -47,7 +48,7 @@ abstract class HeadlessGUITest {
             return this;
         }
 
-        Robot selectComboBoxItem(final String name, final String item) throws InterruptedException {
+        Robot selectComboBoxItem(final String name, final String item) {
             final ComboBox<?> actualComboBox = lookupComboBox(name);
             for (Node child : actualComboBox.getChildrenUnmodifiable()) {
                 if (child.getStyleClass().contains("arrow-button")) {
@@ -72,9 +73,13 @@ abstract class HeadlessGUITest {
             return robot.lookup(name).queryLabeled();
         }
 
-        public TextFlow lookupTextFlow(final String name) {
+        TextFlow lookupTextFlow(final String name) {
             return robot.lookup(name).queryTextFlow();
 
+        }
+
+        TextField lookupTextField(final String name) {
+            return robot.lookup(name).queryAs(TextField.class);
         }
     }
 

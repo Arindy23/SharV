@@ -111,18 +111,28 @@ public class AttributesPane extends BorderedTitledPane implements AttributesView
     private Label mentalLimit;
     @FXML
     private Label socialLimit;
-
-    public ComboBox<String> special;
-    public ContentAwareTextField specialValue;
-    public ContentAwareTextField body;
-    public ContentAwareTextField agility;
-    public ContentAwareTextField reaction;
-    public ContentAwareTextField strength;
-    public ContentAwareTextField willpower;
-    public ContentAwareTextField logic;
-    public ContentAwareTextField intuition;
-    public ContentAwareTextField charisma;
-    public ContentAwareTextField edge;
+    @FXML
+    private ComboBox<String> special;
+    @FXML
+    private ContentAwareTextField specialValue;
+    @FXML
+    private ContentAwareTextField body;
+    @FXML
+    private ContentAwareTextField agility;
+    @FXML
+    private ContentAwareTextField reaction;
+    @FXML
+    private ContentAwareTextField strength;
+    @FXML
+    private ContentAwareTextField willpower;
+    @FXML
+    private ContentAwareTextField logic;
+    @FXML
+    private ContentAwareTextField intuition;
+    @FXML
+    private ContentAwareTextField charisma;
+    @FXML
+    private ContentAwareTextField edge;
     //</editor-fold>
 
     public AttributesPane() {
@@ -572,6 +582,20 @@ public class AttributesPane extends BorderedTitledPane implements AttributesView
     public AttributesView setSocialLimit(final int socialLimit) {
         LOG.entering(socialLimit);
         this.socialLimit.setText(String.valueOf(socialLimit));
+        return LOG.returning(this);
+    }
+
+    @Override
+    public AttributesView removeSpecials() {
+        LOG.entering();
+        special.getItems().clear();
+        return LOG.returning(this);
+    }
+
+    @Override
+    public AttributesView addSpecials(String... specials) {
+        LOG.entering(specials);
+        special.getItems().addAll(specials);
         return LOG.returning(this);
     }
 

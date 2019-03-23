@@ -110,6 +110,10 @@ public interface AttributesView {
 
     AttributesView setSocialLimit(int socialLimit);
 
+    AttributesView removeSpecials();
+
+    AttributesView addSpecials(String... specials);
+
     AttributesView setSpecial(String special);
 
     AttributesView setSpecialValue(int specialValue);
@@ -133,5 +137,4 @@ public interface AttributesView {
     AttributesView setEdge(int edge);
 
     AttributesView registerListener(AttributesListener attributesListener);
-
 }
