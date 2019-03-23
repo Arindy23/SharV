@@ -5,14 +5,20 @@ import java.io.StringWriter;
 import java.time.Clock;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
-import java.util.logging.*;
+import java.util.logging.Formatter;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
 
 public class Logger {
 
     private static final Map<String, Logger> LOGGERS = new HashMap<>();
     private static Level logLevel = Level.INFO;
+    private static Collection<Handler> handlers = new HashSet<>();
 
     private final java.util.logging.Logger logger;
 
@@ -36,10 +42,9 @@ public class Logger {
         for (Handler handler : logger.getHandlers()) {
             logger.removeHandler(handler);
         }
-        final ConsoleHandler handler = new ConsoleHandler();
-        handler.setLevel(logLevel);
-        handler.setFormatter(new LogFormatter());
-        logger.addHandler(handler);
+        for (Handler handler : handlers) {
+            logger.addHandler(handler);
+        }
         logger.setLevel(logLevel);
     }
 
@@ -63,6 +68,22 @@ public class Logger {
             }
             logger.logger.setLevel(logLevel);
         }
+    }
+
+    public static void addHandler(final Handler handler) {
+        handler.setFormatter(new LogFormatter());
+        handler.setLevel(logLevel);
+        handlers.add(handler);
+        for (Logger logger : LOGGERS.values()) {
+            logger.logger.addHandler(handler);
+        }
+    }
+
+    public static void removeHandler(final Handler handler) {
+        for (Logger logger : LOGGERS.values()) {
+            logger.logger.removeHandler(handler);
+        }
+        handlers.remove(handler);
     }
 
     public void info(final String msg) {

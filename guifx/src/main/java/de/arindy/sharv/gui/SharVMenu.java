@@ -24,6 +24,8 @@ public class SharVMenu extends HBox implements Initializable {
 
     private final Logger LOG = Logger.get(getClass().getName());
 
+    private DebugDialog debugDialog;
+
     //<editor-fold desc="Menu">
     @FXML
     private Menu file;
@@ -72,11 +74,11 @@ public class SharVMenu extends HBox implements Initializable {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
+        debugDialog = new DebugDialog();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        debugLogging.setSelected(Logger.isDebugLevel());
         switch (Locale.getDefault().getLanguage()) {
             case "en":
                 lang_en.setSelected(true);
@@ -117,10 +119,10 @@ public class SharVMenu extends HBox implements Initializable {
         LOG.entering(actionEvent);
         if (((RadioMenuItem) actionEvent.getSource()).isSelected()) {
             Logger.setDebugLevel();
-            LOG.debug("Debug Logging enabled");
+            debugDialog.show();
         } else {
-            LOG.debug("Debug Logging disabled");
             Logger.setInfoLevel();
+            debugDialog.hide();
         }
     }
 
@@ -148,6 +150,7 @@ public class SharVMenu extends HBox implements Initializable {
 
     private void reload() throws IOException {
         LOG.entering();
+        debugDialog.hide();
         getParent().getScene().setRoot(SharV.getLoader().load());
     }
 
