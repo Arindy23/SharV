@@ -3,33 +3,38 @@ package de.arindy.sharv.gui.jfx;
 import javafx.beans.property.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.GridPane;
 
-public class CheckBoxPane extends GridPane {
+import java.net.URL;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.ResourceBundle;
+import java.util.UUID;
 
-    private IntegerProperty maxRows = new SimpleIntegerProperty();
+public abstract class CheckBoxPane extends GridPane implements Initializable {
+
     private IntegerProperty amount = new SimpleIntegerProperty();
     private IntegerProperty checkedAmount = new SimpleIntegerProperty();
-    private StringProperty identifier = new SimpleStringProperty();
+    private StringProperty identifier = new SimpleStringProperty(UUID.randomUUID().toString());
     private ObjectProperty<EventHandler<ActionEvent>> onAction = new SimpleObjectProperty<>();
+
+    @Override
+    public final void initialize(URL url, ResourceBundle resourceBundle) {
+        for (CheckBox checkBox : getCheckBoxes()) {
+            checkBox.setOnAction(this::checkBoxClicked);
+        }
+    }
+
+    private void checkBoxClicked(final ActionEvent actionEvent) {
+        onAction.getValue().handle(actionEvent);
+    }
 
     //<editor-fold desc="Getter/Setter">
     public int extractIndex(final CheckBox source) {
         return extractIntegerFromId(source.getId()) - (source.isSelected() ? 0 : 1);
-    }
-
-    public Integer getMaxRows() {
-        return maxRows.get();
-    }
-
-    public IntegerProperty getMaxRowsIntegerProperty() {
-        return maxRows;
-    }
-
-    public void setMaxRows(final Integer maxRows) {
-        this.maxRows.set(maxRows);
     }
 
     public String getIdentifier() {
@@ -57,10 +62,11 @@ public class CheckBoxPane extends GridPane {
         for (int i = 1; i <= amount; i++) {
             final CheckBox checkBox = new CheckBox("");
             checkBox.setId(createId(i));
-            checkBox.setOnAction(onAction.getValue());
+            checkBox.setOnAction(this::checkBoxClicked);
             add(checkBox, calculateColumn(i), calculateRow(i));
         }
         this.amount.set(amount);
+        setCheckedAmount(getCheckedAmount());
     }
 
     public int getCheckedAmount() {
@@ -72,12 +78,10 @@ public class CheckBoxPane extends GridPane {
     }
 
     public void setCheckedAmount(final int checkedAmount) {
-        for (Node node : getChildren()) {
-            if (node instanceof CheckBox) {
-                final CheckBox edge = ((CheckBox) node);
-                edge.setSelected(checkedAmount >= extractIntegerFromId(edge.getId()));
-            }
+        for (CheckBox edge : getCheckBoxes()) {
+            edge.setSelected(checkedAmount >= extractIntegerFromId(edge.getId()));
         }
+        this.checkedAmount.set(checkedAmount);
     }
 
     public final ObjectProperty<EventHandler<ActionEvent>> onActionProperty() {
@@ -93,22 +97,33 @@ public class CheckBoxPane extends GridPane {
     }
     //</editor-fold>
 
-    private int calculateColumn(final int i) {
-        return (i - 1) % getMaxRows();
+    public Collection<CheckBox> getCheckBoxes() {
+        final Collection<CheckBox> result = new HashSet<>();
+        for (Node node : getChildren()) {
+            if (node instanceof CheckBox) {
+                result.add((CheckBox) node);
+            }
+        }
+        return result;
     }
 
-    private int calculateRow(final int i) {
-        return (i - 1) / getMaxRows();
-    }
+    public abstract int calculateColumn(final int i);
+
+    public abstract int calculateRow(final int i);
 
     private String createId(final int i) {
-        return String.format("%s%d", getIdentifier(), i);
+        return String.format("%s#%d", getIdentifier(), i);
     }
 
     private int extractIntegerFromId(final String id) {
         int result;
         try {
-            result = Integer.parseInt(id.replace(getIdentifier(), ""));
+            String[] split = id == null ? new String[0] : id.split("#");
+            if (split.length == 2) {
+                result = Integer.parseInt(split[1]);
+            } else {
+                result = 0;
+            }
         } catch (NumberFormatException e) {
             result = 0;
         }

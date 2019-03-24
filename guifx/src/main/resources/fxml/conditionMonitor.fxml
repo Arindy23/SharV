@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.arindy.sharv.gui.jfx.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<fx:root prefHeight="160.0" prefWidth="500.0" title="%title" type="BorderedTitledPane" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+    <HBox>
+        <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
+        </padding>
+        <Separator visible="false" HBox.hgrow="ALWAYS" />
+        <BorderedTitledPane title="%physical" HBox.hgrow="ALWAYS">
+            <HorizontalCheckBoxPane fx:id="physicalCheckBoxes" alignment="CENTER" identifier="physicalDamage" maxRows="3" onAction="#onPhysicalDamage" vgap="5.0" VBox.vgrow="ALWAYS" />
+        </BorderedTitledPane>
+        <Separator visible="false" HBox.hgrow="ALWAYS" />
+        <BorderedTitledPane title="%stun" HBox.hgrow="ALWAYS">
+            <HorizontalCheckBoxPane fx:id="stunCheckBoxes" alignment="CENTER" identifier="stunDamage" maxRows="3" onAction="#onStunDamage" vgap="5.0" VBox.vgrow="ALWAYS" />
+        </BorderedTitledPane>
+        <Separator visible="false" HBox.hgrow="ALWAYS" />
+        <BorderedTitledPane prefHeight="140.0" prefWidth="140.0" title="%modifier" HBox.hgrow="SOMETIMES">
+            <Label fx:id="dicePoolModifier" styleClass="dicePoolMidifier" text="0" />
+        </BorderedTitledPane>
+        <Separator visible="false" HBox.hgrow="ALWAYS" />
+    </HBox>
+</fx:root>

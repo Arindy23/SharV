@@ -28,3 +28,12 @@
 .color-picker .color-picker-label .text {
     visibility: false;
 }
+
+.combo-box:disabled, .combo-box:disabled .list-cell {
+    -fx-background-color: -sharv-background;
+    -fx-opacity: 1.0 ;
+}
+
+.dicePoolMidifier {
+    -fx-font-size: 50px;
+}

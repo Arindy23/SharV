@@ -19,8 +19,7 @@ class AttributesPaneTest extends HeadlessGUITest {
 
     @Start
     private void start(Stage stage) {
-        stage.setScene(new Scene(createAttributesPane()));
-        stage.show();
+        super.start(stage, new Scene(createAttributesPane()));
     }
 
     private AttributesPane createAttributesPane() {
@@ -565,7 +564,7 @@ class AttributesPaneTest extends HeadlessGUITest {
     void burnEdgeShouldTriggerListener(final FxRobot r) throws Exception {
         SharV.performAction(() -> attributes.setEdge(9));
         awaitSharV();
-        robot(r).clickOn("#edge5");
+        robot(r).clickOn("#edge#5");
         verifyThat(attributesListener.burnedEdge, is(5));
     }
 
@@ -576,7 +575,7 @@ class AttributesPaneTest extends HeadlessGUITest {
             attributes.setBurnedEdge(6);
         });
         awaitSharV();
-        robot(r).clickOn("#edge5");
+        robot(r).clickOn("#edge#5");
         verifyThat(attributesListener.burnedEdge, is(4));
     }
 

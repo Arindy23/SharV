@@ -21,8 +21,7 @@ class PersonalDataPaneTest extends HeadlessGUITest {
 
     @Start
     private void start(Stage stage) {
-        stage.setScene(new Scene(createPersonalDataPane()));
-        stage.show();
+        super.start(stage, new Scene(createPersonalDataPane()));
     }
 
     private PersonalDataPane createPersonalDataPane() {

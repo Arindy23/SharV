@@ -2,7 +2,6 @@ package de.arindy.sharv.gui;
 
 import de.arindy.sharv.Logger;
 import javafx.scene.Scene;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
@@ -19,17 +18,11 @@ import static org.testfx.api.FxAssert.verifyThat;
 class SharVMenuTest extends HeadlessGUITest {
 
     private Pane root;
-    private TextField color;
 
     @Start
     private void start(Stage stage) {
-        this.root = new Pane(new SharVMenu());
-        root.setPrefSize(600, 200);
-        stage.setScene(new Scene(root));
-        final TextField color = new TextField();
-        color.setText("ColorTest");
-        root.getChildren().add(color);
-        stage.show();
+        root = new Pane(new SharVMenu());
+        super.start(stage, new Scene(root));
     }
 
     @Test

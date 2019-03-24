@@ -23,6 +23,7 @@ public class SharV extends Application implements Initializable {
 
     public CharacterView character;
     public SharVMenu menu;
+    public ConditionMonitorPane conditionMonitor;
 
     public static void main(String[] args) {
         launch(args);

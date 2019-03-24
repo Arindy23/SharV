@@ -1,11 +1,13 @@
 package de.arindy.sharv.gui;
 
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.TextFlow;
+import javafx.stage.Stage;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxRobot;
@@ -15,6 +17,12 @@ import java.util.concurrent.Semaphore;
 
 @ExtendWith(ApplicationExtension.class)
 abstract class HeadlessGUITest {
+
+    void start(Stage stage, Scene scene) {
+        stage.setScene(scene);
+        stage.setFullScreen(true);
+        stage.show();
+    }
 
     @BeforeAll
     private static void prepareHeadless() {
