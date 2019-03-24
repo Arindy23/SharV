@@ -224,7 +224,7 @@ public class AttributesPane extends BorderedTitledPane implements AttributesView
 
     public void onBurnEdge(final ActionEvent actionEvent) {
         LOG.entering(actionEvent);
-        int burnedEdge = edgeCheckBoxes.extractIndex(((CheckBox) actionEvent.getSource()));
+        int burnedEdge = edgeCheckBoxes.extractIndex((CheckBox) actionEvent.getSource());
         if (listenerRegistered()) {
             attributesListener.changeBurnedEdge(burnedEdge);
         }

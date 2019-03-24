@@ -28,7 +28,7 @@ public class ConditionMonitorPane extends BorderedTitledPane implements Conditio
 
     public void onPhysicalDamage(final ActionEvent actionEvent) {
         LOG.entering(actionEvent);
-        int physicalDamage = physicalCheckBoxes.extractIndex(((CheckBox) actionEvent.getSource()));
+        int physicalDamage = physicalCheckBoxes.extractIndex((CheckBox) actionEvent.getSource());
         if (listenerRegistered()) {
             conditionMonitorListener.changePhysicalDamage(physicalDamage);
         }
@@ -37,7 +37,7 @@ public class ConditionMonitorPane extends BorderedTitledPane implements Conditio
 
     public void onStunDamage(final ActionEvent actionEvent) {
         LOG.entering(actionEvent);
-        int stunDamage = stunCheckBoxes.extractIndex(((CheckBox) actionEvent.getSource()));
+        int stunDamage = stunCheckBoxes.extractIndex((CheckBox) actionEvent.getSource());
         if (listenerRegistered()) {
             conditionMonitorListener.changeStunDamage(stunDamage);
         }
