@@ -19,6 +19,8 @@ import java.util.ResourceBundle;
 
 public class SharV extends Application implements Initializable {
 
+    private static final int MIN_HEIGHT = 768;
+    private static final int MIN_WIDTH = 1200;
     private final Logger LOG = Logger.get(getClass().getName());
 
     public CharacterView character;
@@ -39,8 +41,10 @@ public class SharV extends Application implements Initializable {
         FXMLLoader loader = getLoader();
 
         loader.load();
-        primaryStage.setMinHeight(800);
-        primaryStage.setMinWidth(1200);
+        primaryStage.setHeight(MIN_HEIGHT);
+        primaryStage.setMinHeight(MIN_HEIGHT);
+        primaryStage.setMinWidth(MIN_WIDTH);
+        primaryStage.setWidth(MIN_WIDTH);
         primaryStage.setTitle("SharV");
         primaryStage.setScene(new Scene(loader.getRoot()));
         primaryStage.getIcons().addAll(

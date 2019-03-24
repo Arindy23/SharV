@@ -81,10 +81,6 @@ TextFlow Text{
     -fx-background-color: -sharv-background-input;
 }
 
-.check-box:selected .mark {
-    -fx-background-color: -sharV-highlight;
-}
-
 .combo-box {
     -fx-background-color: -sharv-background-input;
     -fx-text-fill: -sharV-highlight;
