@@ -79,7 +79,7 @@ public class BorderedTitledPane extends StackPane {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title.set(title);
     }
 

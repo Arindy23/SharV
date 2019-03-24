@@ -267,7 +267,7 @@
                             <ContentAwareTextField fx:id="edge" alignment="CENTER" maxLength="2" onInputMethodTextChanged="#onEdge" prefWidth="40.0" regex="\\d*" />
                             <Region prefWidth="5.0" HBox.hgrow="NEVER" />
                         </HBox>
-                        <GridPane fx:id="edgeCheckBoxes" alignment="CENTER" vgap="5.0" VBox.vgrow="ALWAYS" />
+                        <CheckBoxPane fx:id="edgeCheckBoxes" alignment="CENTER" vgap="5.0" VBox.vgrow="ALWAYS" maxRows="8" onAction="#onBurnEdge" identifier="edge"/>
                         <padding>
                             <Insets bottom="7.0" left="5.0" right="5.0" top="5.0" />
                         </padding>
