@@ -472,7 +472,7 @@ public class AttributesPane extends BorderedTitledPane implements AttributesView
     public AttributesView setInitiativePhysicalDice(final int initiativePhysicalDice, boolean highlight) {
         LOG.entering(initiativePhysicalDice, highlight);
         this.initiativePhysicalDice.setText(String.valueOf(initiativePhysicalDice));
-        highlight(this.initiativePhysicalDice, highlight);
+        JavaFXUtil.highlight(this.initiativePhysicalDice, highlight);
         return LOG.returning(this);
     }
 
@@ -485,6 +485,7 @@ public class AttributesPane extends BorderedTitledPane implements AttributesView
     public AttributesView setInitiativeAstralDice(final int initiativeAstralDice, boolean highlight) {
         LOG.entering(initiativeAstralDice, highlight);
         this.initiativeAstralDice.setText(String.valueOf(initiativeAstralDice));
+        JavaFXUtil.highlight(this.initiativeAstralDice, highlight);
         return LOG.returning(this);
     }
 
@@ -497,6 +498,7 @@ public class AttributesPane extends BorderedTitledPane implements AttributesView
     public AttributesView setInitiativeMatrixARDice(final int initiativeMatrixARDice, boolean highlight) {
         LOG.entering(initiativeMatrixARDice, highlight);
         this.initiativeMatrixARDice.setText(String.valueOf(initiativeMatrixARDice));
+        JavaFXUtil.highlight(this.initiativeMatrixARDice, highlight);
         return LOG.returning(this);
     }
 
@@ -509,6 +511,7 @@ public class AttributesPane extends BorderedTitledPane implements AttributesView
     public AttributesView setInitiativeMatrixVRcoldDice(final int initiativeMatrixVRcoldDice, boolean highlight) {
         LOG.entering(initiativeMatrixVRcoldDice, highlight);
         this.initiativeMatrixVRcoldDice.setText(String.valueOf(initiativeMatrixVRcoldDice));
+        JavaFXUtil.highlight(this.initiativeMatrixVRcoldDice, highlight);
         return LOG.returning(this);
     }
 
@@ -521,6 +524,7 @@ public class AttributesPane extends BorderedTitledPane implements AttributesView
     public AttributesView setInitiativeMatrixVRhotDice(final int initiativeMatrixVRhotDice, boolean highlight) {
         LOG.entering(initiativeMatrixVRhotDice, highlight);
         this.initiativeMatrixVRhotDice.setText(String.valueOf(initiativeMatrixVRhotDice));
+        JavaFXUtil.highlight(this.initiativeMatrixVRhotDice, highlight);
         return LOG.returning(this);
     }
 
@@ -533,6 +537,7 @@ public class AttributesPane extends BorderedTitledPane implements AttributesView
     public AttributesView setInitiativeRiggingARDice(final int initiativeRiggingARDice, boolean highlight) {
         LOG.entering(initiativeRiggingARDice, highlight);
         this.initiativeRiggingARDice.setText(String.valueOf(initiativeRiggingARDice));
+        JavaFXUtil.highlight(this.initiativeRiggingARDice, highlight);
         return LOG.returning(this);
     }
 
@@ -545,6 +550,7 @@ public class AttributesPane extends BorderedTitledPane implements AttributesView
     public AttributesView setInitiativeRiggingVRcoldDice(final int initiativeRiggingVRcoldDice, boolean highlight) {
         LOG.entering(initiativeRiggingVRcoldDice, highlight);
         this.initiativeRiggingVRcoldDice.setText(String.valueOf(initiativeRiggingVRcoldDice));
+        JavaFXUtil.highlight(this.initiativeRiggingVRcoldDice, highlight);
         return LOG.returning(this);
     }
 
@@ -557,6 +563,7 @@ public class AttributesPane extends BorderedTitledPane implements AttributesView
     public AttributesView setInitiativeRiggingVRhotDice(final int initiativeRiggingVRhotDice, boolean highlight) {
         LOG.entering(initiativeRiggingVRhotDice, highlight);
         this.initiativeRiggingVRhotDice.setText(String.valueOf(initiativeRiggingVRhotDice));
+        JavaFXUtil.highlight(this.initiativeRiggingVRhotDice, highlight);
         return LOG.returning(this);
     }
 
@@ -569,6 +576,7 @@ public class AttributesPane extends BorderedTitledPane implements AttributesView
     public AttributesView setInitiativeRiggingDirectDice(final int initiativeRiggingDirectDice, boolean highlight) {
         LOG.entering(initiativeRiggingDirectDice, highlight);
         this.initiativeRiggingDirectDice.setText(String.valueOf(initiativeRiggingDirectDice));
+        JavaFXUtil.highlight(this.initiativeRiggingDirectDice, highlight);
         return LOG.returning(this);
     }
 
@@ -707,14 +715,6 @@ public class AttributesPane extends BorderedTitledPane implements AttributesView
 
     private boolean listenerRegistered() {
         return attributesListener != null;
-    }
-
-    private static void highlight(final Label label, final boolean highlight) {
-        if (highlight) {
-            label.getStyleClass().add("value-label");
-        } else {
-            label.getStyleClass().removeAll("value-label");
-        }
     }
 
 }
