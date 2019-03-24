@@ -2,6 +2,30 @@ package de.arindy.sharv.api.gui;
 
 public interface PersonalDataView {
 
+    PersonalDataView setName(String name);
+
+    PersonalDataView setStreetname(String streetname);
+
+    PersonalDataView setMetatype(String metatype);
+
+    PersonalDataView setSex(String sex);
+
+    PersonalDataView setAge(int age);
+
+    PersonalDataView setHeight(int height);
+
+    PersonalDataView setWeight(int weight);
+
+    PersonalDataView setEthnicity(String ethnicity);
+
+    PersonalDataView setConcept(String concept);
+
+    PersonalDataView setStreetCred(int streetCred);
+
+    PersonalDataView setNotoriety(int notoriety);
+
+    PersonalDataView setPublicAwareness(int publicAwareness);
+
     PersonalDataView addRacialBonuses(String... bonuses);
 
     PersonalDataView removeAllRacialBonuses();

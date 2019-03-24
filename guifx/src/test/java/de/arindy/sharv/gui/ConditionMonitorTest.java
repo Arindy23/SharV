@@ -2,6 +2,7 @@ package de.arindy.sharv.gui;
 
 import de.arindy.sharv.api.gui.ConditionMonitorListener;
 import de.arindy.sharv.api.gui.ConditionMonitorView;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
@@ -36,7 +37,7 @@ class ConditionMonitorTest extends HeadlessGUITest {
 
     @Test
     void physicalDamageShouldTriggerListener(final FxRobot r) throws Exception {
-        SharV.performAction(() -> conditionMonitor.setPhysicalDamageMax(18));
+        Platform.runLater(() -> conditionMonitor.setPhysicalDamageMax(18));
         awaitSharV();
         robot(r).clickOn("#physicalDamage#5");
         verifyThat(conditionMonitorListener.physicalDamage, is(5));
@@ -44,7 +45,7 @@ class ConditionMonitorTest extends HeadlessGUITest {
 
     @Test
     void unPhysicalDamageShouldTriggerListener(final FxRobot r) throws Exception {
-        SharV.performAction(() -> {
+        Platform.runLater(() -> {
             conditionMonitor.setPhysicalDamageMax(9);
             conditionMonitor.setPhysicalDamage(6);
         });
@@ -55,7 +56,7 @@ class ConditionMonitorTest extends HeadlessGUITest {
 
     @Test
     void stunDamageShouldTriggerListener(final FxRobot r) throws Exception {
-        SharV.performAction(() -> conditionMonitor.setStunDamageMax(12));
+        Platform.runLater(() -> conditionMonitor.setStunDamageMax(12));
         awaitSharV();
         robot(r).clickOn("#stunDamage#5");
         verifyThat(conditionMonitorListener.stunDamage, is(5));
@@ -63,7 +64,7 @@ class ConditionMonitorTest extends HeadlessGUITest {
 
     @Test
     void unStunDamageShouldTriggerListener(final FxRobot r) throws Exception {
-        SharV.performAction(() -> {
+        Platform.runLater(() -> {
             conditionMonitor.setStunDamageMax(9);
             conditionMonitor.setStunDamage(6);
         });
@@ -74,7 +75,7 @@ class ConditionMonitorTest extends HeadlessGUITest {
 
     @Test
     void setDicePoolModifierShouldUpdateDicePoolModifierLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> conditionMonitor.setDicePoolModifier(-3));
+        Platform.runLater(() -> conditionMonitor.setDicePoolModifier(-3));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#dicePoolModifier"), LabeledMatchers.hasText("-3"));
     }

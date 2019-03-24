@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.InputMethodEvent;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.stage.Stage;
 
 import static de.arindy.sharv.gui.JavaFXUtil.*;
 
@@ -63,9 +64,11 @@ public class PersonalDataPane extends BorderedTitledPane implements PersonalData
 
     public void onName(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
+        final String name = extractText(inputMethodEvent);
         if (listenerRegistered()) {
-            personalDataListener.changeName(extractText(inputMethodEvent));
+            personalDataListener.changeName(name);
         }
+        updateTitle();
     }
 
     public void onStreetname(final InputMethodEvent inputMethodEvent) {
@@ -73,6 +76,7 @@ public class PersonalDataPane extends BorderedTitledPane implements PersonalData
         if (listenerRegistered()) {
             personalDataListener.changeStreetname(extractText(inputMethodEvent));
         }
+        updateTitle();
     }
 
     public void onMetatype() {
@@ -143,6 +147,92 @@ public class PersonalDataPane extends BorderedTitledPane implements PersonalData
         if (listenerRegistered()) {
             personalDataListener.changePublicAwareness(extractInteger(inputMethodEvent));
         }
+    }
+
+    @Override
+    public PersonalDataView setName(final String name) {
+        LOG.entering(name);
+        this.name.setText(name);
+        updateTitle();
+        return LOG.returning(this);
+    }
+
+    @Override
+    public PersonalDataView setStreetname(final String streetname) {
+        LOG.entering(streetname);
+        this.streetname.setText(streetname);
+        updateTitle();
+        return LOG.returning(this);
+    }
+
+    @Override
+    public PersonalDataView setMetatype(final String metatype) {
+        LOG.entering(metatype);
+        this.metatype.getSelectionModel().select(metatype);
+        return LOG.returning(this);
+    }
+
+    @Override
+    public PersonalDataView setSex(final String sex) {
+        LOG.entering(sex);
+        this.sex.getSelectionModel().select(sex);
+        return LOG.returning(this);
+    }
+
+    @Override
+    public PersonalDataView setAge(int age) {
+        LOG.entering(age);
+        this.age.setText(String.valueOf(age));
+        return LOG.returning(this);
+    }
+
+    @Override
+    public PersonalDataView setHeight(int height) {
+        LOG.entering(height);
+        this.height.setText(String.valueOf(height));
+        return LOG.returning(this);
+    }
+
+    @Override
+    public PersonalDataView setWeight(int weight) {
+        LOG.entering(weight);
+        this.weight.setText(String.valueOf(weight));
+        return LOG.returning(this);
+    }
+
+    @Override
+    public PersonalDataView setEthnicity(final String ethnicity) {
+        LOG.entering(ethnicity);
+        this.ethnicity.setText(ethnicity);
+        return LOG.returning(this);
+    }
+
+    @Override
+    public PersonalDataView setConcept(final String concept) {
+        LOG.entering(concept);
+        this.concept.setText(concept);
+        return LOG.returning(this);
+    }
+
+    @Override
+    public PersonalDataView setStreetCred(int streetCred) {
+        LOG.entering(streetCred);
+        this.streetCred.setText(String.valueOf(streetCred));
+        return LOG.returning(this);
+    }
+
+    @Override
+    public PersonalDataView setNotoriety(int notoriety) {
+        LOG.entering(notoriety);
+        this.notoriety.setText(String.valueOf(notoriety));
+        return LOG.returning(this);
+    }
+
+    @Override
+    public PersonalDataView setPublicAwareness(int publicAwareness) {
+        LOG.entering(publicAwareness);
+        this.publicAwareness.setText(String.valueOf(publicAwareness));
+        return LOG.returning(this);
     }
 
     @Override
@@ -223,6 +313,22 @@ public class PersonalDataPane extends BorderedTitledPane implements PersonalData
 
     private boolean listenerRegistered() {
         return personalDataListener != null;
+    }
+
+    private void updateTitle() {
+        final String prefix;
+        if (streetname.getText().isEmpty()) {
+            prefix = name.getText();
+        } else {
+            prefix = streetname.getText();
+        }
+        final String titlePrefix;
+        if (prefix.isEmpty()) {
+            titlePrefix = "";
+        } else {
+            titlePrefix = String.format("%s - ", prefix);
+        }
+        ((Stage) getScene().getWindow()).setTitle(String.format("%s%s", titlePrefix, SharV.TITLE));
     }
 
 }

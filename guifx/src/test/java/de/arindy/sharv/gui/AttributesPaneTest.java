@@ -2,6 +2,7 @@ package de.arindy.sharv.gui;
 
 import de.arindy.sharv.api.gui.AttributesListener;
 import de.arindy.sharv.api.gui.AttributesView;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
@@ -156,7 +157,7 @@ class AttributesPaneTest extends HeadlessGUITest {
 
     @Test
     void changingSpecialShouldTriggerListener(final FxRobot r) {
-        SharV.performAction(() -> {
+        Platform.runLater(() -> {
             attributes.removeSpecials();
             attributes.addSpecials("Magic", "poop");
         });
@@ -166,403 +167,403 @@ class AttributesPaneTest extends HeadlessGUITest {
 
     @Test
     void setSpecialShouldChangeSpecial(final FxRobot r) throws Exception {
-        SharV.performAction(() -> {
+        Platform.runLater(() -> {
             attributes.removeSpecials();
             attributes.addSpecials("Magic", "poop");
         });
-        SharV.performAction(() -> attributes.setSpecial("poop"));
+        Platform.runLater(() -> attributes.setSpecial("poop"));
         awaitSharV();
         verifyThat(robot(r).lookupComboBox("#special").getSelectionModel().getSelectedItem(), is("poop"));
     }
 
     @Test
     void setBodyShouldUpdateBodyTextField(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setBody(23));
+        Platform.runLater(() -> attributes.setBody(23));
         awaitSharV();
         verifyThat(robot(r).lookupTextField("#body"), TextFieldMatchers.hasText("23"));
     }
 
     @Test
     void setBodyMaxShouldUpdateBodyMaxLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setBodyMax(23));
+        Platform.runLater(() -> attributes.setBodyMax(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#bodyMax"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setBodyEffectiveShouldUpdateBodyEffectiveLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setBodyEffective(23));
+        Platform.runLater(() -> attributes.setBodyEffective(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#bodyEffective"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setAgilityShouldUpdateAgilityTextField(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setAgility(23));
+        Platform.runLater(() -> attributes.setAgility(23));
         awaitSharV();
         verifyThat(robot(r).lookupTextField("#agility"), TextFieldMatchers.hasText("23"));
     }
 
     @Test
     void setAgilityMaxShouldUpdateAgilityMaxLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setAgilityMax(23));
+        Platform.runLater(() -> attributes.setAgilityMax(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#agilityMax"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setAgilityEffectiveShouldUpdateAgilityEffectiveLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setAgilityEffective(23));
+        Platform.runLater(() -> attributes.setAgilityEffective(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#agilityEffective"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setReactionShouldUpdateReactionTextField(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setReaction(23));
+        Platform.runLater(() -> attributes.setReaction(23));
         awaitSharV();
         verifyThat(robot(r).lookupTextField("#reaction"), TextFieldMatchers.hasText("23"));
     }
 
     @Test
     void setReactionMaxShouldUpdateReactionMaxLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setReactionMax(23));
+        Platform.runLater(() -> attributes.setReactionMax(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#reactionMax"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setReactionEffectiveShouldUpdateReactionEffectiveLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setReactionEffective(23));
+        Platform.runLater(() -> attributes.setReactionEffective(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#reactionEffective"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setStrengthShouldUpdateReactionTextField(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setStrength(23));
+        Platform.runLater(() -> attributes.setStrength(23));
         awaitSharV();
         verifyThat(robot(r).lookupTextField("#strength"), TextFieldMatchers.hasText("23"));
     }
 
     @Test
     void setStrengthMaxShouldUpdateStrengthMaxLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setStrengthMax(23));
+        Platform.runLater(() -> attributes.setStrengthMax(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#strengthMax"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setStrengthEffectiveShouldUpdateStrengthEffectiveLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setStrengthEffective(23));
+        Platform.runLater(() -> attributes.setStrengthEffective(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#strengthEffective"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setWillpowerShouldUpdateReactionTextField(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setWillpower(23));
+        Platform.runLater(() -> attributes.setWillpower(23));
         awaitSharV();
         verifyThat(robot(r).lookupTextField("#willpower"), TextFieldMatchers.hasText("23"));
     }
 
     @Test
     void setWillpowerMaxShouldUpdateWillpowerMaxLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setWillpowerMax(23));
+        Platform.runLater(() -> attributes.setWillpowerMax(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#willpowerMax"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setWillpowerEffectiveShouldUpdateWillpowerEffectiveLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setWillpowerEffective(23));
+        Platform.runLater(() -> attributes.setWillpowerEffective(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#willpowerEffective"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setLogicShouldUpdateReactionTextField(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setLogic(23));
+        Platform.runLater(() -> attributes.setLogic(23));
         awaitSharV();
         verifyThat(robot(r).lookupTextField("#logic"), TextFieldMatchers.hasText("23"));
     }
 
     @Test
     void setLogicMaxShouldUpdateLogicMaxLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setLogicMax(23));
+        Platform.runLater(() -> attributes.setLogicMax(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#logicMax"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setLogicEffectiveShouldUpdateLogicEffectiveLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setLogicEffective(23));
+        Platform.runLater(() -> attributes.setLogicEffective(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#logicEffective"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setIntuitionShouldUpdateReactionTextField(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setIntuition(23));
+        Platform.runLater(() -> attributes.setIntuition(23));
         awaitSharV();
         verifyThat(robot(r).lookupTextField("#intuition"), TextFieldMatchers.hasText("23"));
     }
 
     @Test
     void setIntuitionMaxShouldUpdateIntuitionMaxLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setIntuitionMax(23));
+        Platform.runLater(() -> attributes.setIntuitionMax(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#intuitionMax"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setIntuitionEffectiveShouldUpdateIntuitionEffectiveLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setIntuitionEffective(23));
+        Platform.runLater(() -> attributes.setIntuitionEffective(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#intuitionEffective"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setCharismaShouldUpdateReactionTextField(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setCharisma(23));
+        Platform.runLater(() -> attributes.setCharisma(23));
         awaitSharV();
         verifyThat(robot(r).lookupTextField("#charisma"), TextFieldMatchers.hasText("23"));
     }
 
     @Test
     void setCharismaMaxShouldUpdateCharismaMaxLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setCharismaMax(23));
+        Platform.runLater(() -> attributes.setCharismaMax(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#charismaMax"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setCharismaEffectiveShouldUpdateCharismaEffectiveLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setCharismaEffective(23));
+        Platform.runLater(() -> attributes.setCharismaEffective(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#charismaEffective"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setComposureShouldUpdateComposureLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setComposure(23));
+        Platform.runLater(() -> attributes.setComposure(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#composure"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setJudgeIntentionsShouldUpdateJudgeIntentionsLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setJudgeIntentions(23));
+        Platform.runLater(() -> attributes.setJudgeIntentions(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#judgeIntentions"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setMemoryShouldUpdateMemoryLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setMemory(23));
+        Platform.runLater(() -> attributes.setMemory(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#memory"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setLiftCarryShouldUpdateLiftCarryLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setLiftCarry(23));
+        Platform.runLater(() -> attributes.setLiftCarry(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#liftCarry"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setWalkShouldUpdateWalkLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setWalk(23));
+        Platform.runLater(() -> attributes.setWalk(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#walk"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setRunShouldUpdateRunLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setRun(23));
+        Platform.runLater(() -> attributes.setRun(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#run"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setSprintShouldUpdateSprintLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setSprint(23));
+        Platform.runLater(() -> attributes.setSprint(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#sprint"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setPhysicalLimitShouldUpdatePhysicalLimitLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setPhysicalLimit(23));
+        Platform.runLater(() -> attributes.setPhysicalLimit(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#physicalLimit"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setMentalLimitShouldUpdateMentalLimitLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setMentalLimit(23));
+        Platform.runLater(() -> attributes.setMentalLimit(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#mentalLimit"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setSocialLimitShouldUpdateSocialLimitLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setSocialLimit(23));
+        Platform.runLater(() -> attributes.setSocialLimit(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#socialLimit"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setEssenceShouldUpdateEssenceLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setEssence(23));
+        Platform.runLater(() -> attributes.setEssence(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#essence"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setEdgeShouldUpdateEdgeLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setEdge(23));
+        Platform.runLater(() -> attributes.setEdge(23));
         awaitSharV();
         verifyThat(robot(r).lookupTextField("#edge"), TextFieldMatchers.hasText("23"));
     }
 
     @Test
     void setSpecialValueShouldUpdateSpecialValueLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setSpecialValue(23));
+        Platform.runLater(() -> attributes.setSpecialValue(23));
         awaitSharV();
         verifyThat(robot(r).lookupTextField("#specialValue"), TextFieldMatchers.hasText("23"));
     }
 
     @Test
     void setInitiativePhysicalShouldUpdateInitiativePhysicalLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setInitiativePhysical(23));
+        Platform.runLater(() -> attributes.setInitiativePhysical(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#initiativePhysical"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setInitiativePhysicalDiceShouldUpdateInitiativePhysicalDiceLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setInitiativePhysicalDice(23));
+        Platform.runLater(() -> attributes.setInitiativePhysicalDice(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#initiativePhysicalDice"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setInitiativeAstralShouldUpdateInitiativeAstralLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setInitiativeAstral(23));
+        Platform.runLater(() -> attributes.setInitiativeAstral(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#initiativeAstral"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setInitiativeAstralDiceShouldUpdateInitiativeAstralDiceLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setInitiativeAstralDice(23));
+        Platform.runLater(() -> attributes.setInitiativeAstralDice(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#initiativeAstralDice"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setInitiativeMatrixARShouldUpdateInitiativeMatrixARLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setInitiativeMatrixAR(23));
+        Platform.runLater(() -> attributes.setInitiativeMatrixAR(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#initiativeMatrixAR"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setInitiativeMatrixARDiceShouldUpdateInitiativeMatrixARDiceLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setInitiativeMatrixARDice(23));
+        Platform.runLater(() -> attributes.setInitiativeMatrixARDice(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#initiativeMatrixARDice"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setInitiativeMatrixVRcoldShouldUpdateInitiativeMatrixVRcoldLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setInitiativeMatrixVRcold(23));
+        Platform.runLater(() -> attributes.setInitiativeMatrixVRcold(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#initiativeMatrixVRcold"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setInitiativeMatrixVRcoldDiceShouldUpdateInitiativeMatrixVRcoldDiceLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setInitiativeMatrixVRcoldDice(23));
+        Platform.runLater(() -> attributes.setInitiativeMatrixVRcoldDice(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#initiativeMatrixVRcoldDice"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setInitiativeMatrixVRhotShouldUpdateInitiativeMatrixVRhotLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setInitiativeMatrixVRhot(23));
+        Platform.runLater(() -> attributes.setInitiativeMatrixVRhot(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#initiativeMatrixVRhot"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setInitiativeMatrixVRhotDiceShouldUpdateInitiativeMatrixVRhotDiceLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setInitiativeMatrixVRhotDice(23));
+        Platform.runLater(() -> attributes.setInitiativeMatrixVRhotDice(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#initiativeMatrixVRhotDice"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setInitiativeRiggingARShouldUpdateInitiativeRiggingARLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setInitiativeRiggingAR(23));
+        Platform.runLater(() -> attributes.setInitiativeRiggingAR(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#initiativeRiggingAR"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setInitiativeRiggingARDiceShouldUpdateInitiativeRiggingARDiceLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setInitiativeRiggingARDice(23));
+        Platform.runLater(() -> attributes.setInitiativeRiggingARDice(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#initiativeRiggingARDice"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setInitiativeRiggingVRcoldShouldUpdateInitiativeRiggingVRcoldLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setInitiativeRiggingVRcold(23));
+        Platform.runLater(() -> attributes.setInitiativeRiggingVRcold(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#initiativeRiggingVRcold"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setInitiativeRiggingVRcoldDiceShouldUpdateInitiativeRiggingVRcoldDiceLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setInitiativeRiggingVRcoldDice(23));
+        Platform.runLater(() -> attributes.setInitiativeRiggingVRcoldDice(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#initiativeRiggingVRcoldDice"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setInitiativeRiggingVRhotShouldUpdateInitiativeRiggingVRhotLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setInitiativeRiggingVRhot(23));
+        Platform.runLater(() -> attributes.setInitiativeRiggingVRhot(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#initiativeRiggingVRhot"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setInitiativeRiggingVRhotDiceShouldUpdateInitiativeRiggingVRhotDiceLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setInitiativeRiggingVRhotDice(23));
+        Platform.runLater(() -> attributes.setInitiativeRiggingVRhotDice(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#initiativeRiggingVRhotDice"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setInitiativeRiggingDirectShouldUpdateInitiativeRiggingDirectLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setInitiativeRiggingDirect(23));
+        Platform.runLater(() -> attributes.setInitiativeRiggingDirect(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#initiativeRiggingDirect"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setInitiativeRiggingDirectDiceShouldUpdateInitiativeRiggingDirectDiceLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setInitiativeRiggingDirectDice(23));
+        Platform.runLater(() -> attributes.setInitiativeRiggingDirectDice(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#initiativeRiggingDirectDice"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void burnEdgeShouldTriggerListener(final FxRobot r) throws Exception {
-        SharV.performAction(() -> attributes.setEdge(9));
+        Platform.runLater(() -> attributes.setEdge(9));
         awaitSharV();
         robot(r).clickOn("#edge#5");
         verifyThat(attributesListener.burnedEdge, is(5));
@@ -570,7 +571,7 @@ class AttributesPaneTest extends HeadlessGUITest {
 
     @Test
     void unBurnEdgeShouldTriggerListener(final FxRobot r) throws Exception {
-        SharV.performAction(() -> {
+        Platform.runLater(() -> {
             attributes.setEdge(9);
             attributes.setBurnedEdge(6);
         });

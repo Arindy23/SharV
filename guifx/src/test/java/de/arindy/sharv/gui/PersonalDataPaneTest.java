@@ -2,12 +2,14 @@ package de.arindy.sharv.gui;
 
 import de.arindy.sharv.api.gui.PersonalDataListener;
 import de.arindy.sharv.api.gui.PersonalDataView;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.Start;
+import org.testfx.matcher.control.ComboBoxMatchers;
 import org.testfx.matcher.control.LabeledMatchers;
 import org.testfx.matcher.control.TextFlowMatchers;
 
@@ -38,21 +40,21 @@ class PersonalDataPaneTest extends HeadlessGUITest {
 
     @Test
     void setKarmaShouldUpdateKarmaLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> personalData.setKarma(23));
+        Platform.runLater(() -> personalData.setKarma(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#karma"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setKarmaMaxShouldUpdateKarmaMaxLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> personalData.setKarmaMax(23));
+        Platform.runLater(() -> personalData.setKarmaMax(23));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#karmaMax"), LabeledMatchers.hasText("23"));
     }
 
     @Test
     void setNuyenMaxShouldUpdatenuyenLabel(final FxRobot r) throws Exception {
-        SharV.performAction(() -> personalData.setNuyen(666));
+        Platform.runLater(() -> personalData.setNuyen(666));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#nuyen"), LabeledMatchers.hasText("666"));
     }
@@ -155,7 +157,7 @@ class PersonalDataPaneTest extends HeadlessGUITest {
 
     @Test
     void changingMetatypeShouldTriggerListener(final FxRobot r) throws Exception {
-        SharV.performAction(() -> {
+        Platform.runLater(() -> {
             personalData.removeMetatypes();
             personalData.addMetatypes("Human", "Elf");
         });
@@ -165,7 +167,7 @@ class PersonalDataPaneTest extends HeadlessGUITest {
 
     @Test
     void changingSexShouldTriggerListener(final FxRobot r) throws Exception {
-        SharV.performAction(() -> {
+        Platform.runLater(() -> {
             personalData.removeAllSexes();
             personalData.addSexes("male", "female");
         });
@@ -175,7 +177,7 @@ class PersonalDataPaneTest extends HeadlessGUITest {
 
     @Test
     void addingRacialBonusesShouldUpdateRacialBonusesTextArea(final FxRobot r) throws Exception {
-        SharV.performAction(() -> {
+        Platform.runLater(() -> {
             personalData.removeAllRacialBonuses();
             personalData.addRacialBonuses("firstBonus", "secondBonus");
         });
@@ -185,14 +187,104 @@ class PersonalDataPaneTest extends HeadlessGUITest {
 
     @Test
     void removingRacialBonusesShouldUpdateRacialBonusesTextArea(final FxRobot r) throws Exception {
-        SharV.performAction(() -> robot(r).lookupTextFlow("#racialBonuses").getChildren().addAll(
+        Platform.runLater(() -> robot(r).lookupTextFlow("#racialBonuses").getChildren().addAll(
                 new Text("firstBonus"),
                 new Text("\n"),
                 new Text("secondBonus")
         ));
-        SharV.performAction(() -> personalData.removeAllRacialBonuses());
+        Platform.runLater(() -> personalData.removeAllRacialBonuses());
         awaitSharV();
         verifyThat(robot(r).lookupTextFlow("#racialBonuses"), TextFlowMatchers.hasText(""));
+    }
+
+    @Test
+    void setNameShouldUpdateNameTextField(final FxRobot r) throws Exception {
+        Platform.runLater(() -> personalData.setName("Finnigan Koss"));
+        awaitSharV();
+        verifyThat(robot(r).lookupTextField("#name"), TextFieldMatchers.hasText("Finnigan Koss"));
+    }
+
+    @Test
+    void setStreetnameShouldUpdateStreetnameTextField(final FxRobot r) throws Exception {
+        Platform.runLater(() -> personalData.setStreetname("FiasKo"));
+        awaitSharV();
+        verifyThat(robot(r).lookupTextField("#streetname"), TextFieldMatchers.hasText("FiasKo"));
+    }
+
+    @Test
+    void setMetatypeShouldUpdateMetatypeComboBox(final FxRobot r) throws Exception {
+        Platform.runLater(() -> {
+            personalData.addMetatypes("Toll", "Elv", "Human");
+            personalData.setMetatype("Human");
+        });
+        awaitSharV();
+        verifyThat(robot(r).lookupComboBox("#metatype"), ComboBoxMatchers.hasSelectedItem("Human"));
+    }
+
+    @Test
+    void setSexShouldUpdateSexComboBox(final FxRobot r) throws Exception {
+        Platform.runLater(() -> {
+            personalData.addSexes("Male", "Female");
+            personalData.setSex("Female");
+        });
+        awaitSharV();
+        verifyThat(robot(r).lookupComboBox("#sex"), ComboBoxMatchers.hasSelectedItem("Female"));
+    }
+
+    @Test
+    void setAgeShouldUpdateAgeTextField(final FxRobot r) throws Exception {
+        Platform.runLater(() -> personalData.setAge(23));
+        awaitSharV();
+        verifyThat(robot(r).lookupTextField("#age"), TextFieldMatchers.hasText("23"));
+    }
+
+    @Test
+    void setHeightShouldUpdateHeightTextField(final FxRobot r) throws Exception {
+        Platform.runLater(() -> personalData.setHeight(666));
+        awaitSharV();
+        verifyThat(robot(r).lookupTextField("#height"), TextFieldMatchers.hasText("666"));
+    }
+
+    @Test
+    void setWeightShouldUpdateWeightTextField(final FxRobot r) throws Exception {
+        Platform.runLater(() -> personalData.setWeight(666));
+        awaitSharV();
+        verifyThat(robot(r).lookupTextField("#weight"), TextFieldMatchers.hasText("666"));
+    }
+
+    @Test
+    void setEthnicityShouldUpdateEthnicityTextField(final FxRobot r) throws Exception {
+        Platform.runLater(() -> personalData.setEthnicity("German"));
+        awaitSharV();
+        verifyThat(robot(r).lookupTextField("#ethnicity"), TextFieldMatchers.hasText("German"));
+    }
+
+    @Test
+    void setConceptShouldUpdateConceptTextField(final FxRobot r) throws Exception {
+        Platform.runLater(() -> personalData.setConcept("Force Adept"));
+        awaitSharV();
+        verifyThat(robot(r).lookupTextField("#concept"), TextFieldMatchers.hasText("Force Adept"));
+    }
+
+    @Test
+    void setStreetCredShouldUpdateStreetCredTextField(final FxRobot r) throws Exception {
+        Platform.runLater(() -> personalData.setStreetCred(23));
+        awaitSharV();
+        verifyThat(robot(r).lookupTextField("#streetCred"), TextFieldMatchers.hasText("23"));
+    }
+
+    @Test
+    void setNotorietyShouldUpdateNotorietyTextField(final FxRobot r) throws Exception {
+        Platform.runLater(() -> personalData.setNotoriety(23));
+        awaitSharV();
+        verifyThat(robot(r).lookupTextField("#notoriety"), TextFieldMatchers.hasText("23"));
+    }
+
+    @Test
+    void setPublicAwarenessShouldUpdatePublicAwarenessTextField(final FxRobot r) throws Exception {
+        Platform.runLater(() -> personalData.setPublicAwareness(23));
+        awaitSharV();
+        verifyThat(robot(r).lookupTextField("#publicAwareness"), TextFieldMatchers.hasText("23"));
     }
 
     private static class TestPersonalDataListener implements PersonalDataListener {

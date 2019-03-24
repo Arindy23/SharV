@@ -1,5 +1,6 @@
 package de.arindy.sharv.gui;
 
+import javafx.application.Platform;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
@@ -35,7 +36,7 @@ abstract class HeadlessGUITest {
 
     void awaitSharV() throws InterruptedException {
         Semaphore semaphore = new Semaphore(0);
-        SharV.performAction(semaphore::release);
+        Platform.runLater(semaphore::release);
         semaphore.acquire();
     }
 

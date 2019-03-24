@@ -3,7 +3,6 @@ package de.arindy.sharv.gui;
 import de.arindy.sharv.Logger;
 import de.arindy.sharv.api.gui.CharacterView;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -19,6 +18,7 @@ import java.util.ResourceBundle;
 
 public class SharV extends Application implements Initializable {
 
+    public static final String TITLE = "SharV";
     private static final int MIN_HEIGHT = 768;
     private static final int MIN_WIDTH = 1200;
     private final Logger LOG = Logger.get(getClass().getName());
@@ -38,15 +38,12 @@ public class SharV extends Application implements Initializable {
         LOG.entering();
         Font.loadFont(getClass().getResource("/fonts/Inconsolata-Regular.ttf").toExternalForm(), 15);
 
-        FXMLLoader loader = getLoader();
-
-        loader.load();
         primaryStage.setHeight(MIN_HEIGHT);
         primaryStage.setMinHeight(MIN_HEIGHT);
         primaryStage.setMinWidth(MIN_WIDTH);
         primaryStage.setWidth(MIN_WIDTH);
-        primaryStage.setTitle("SharV");
-        primaryStage.setScene(new Scene(loader.getRoot()));
+        primaryStage.setTitle(TITLE);
+        primaryStage.setScene(new Scene(getLoader().load()));
         primaryStage.getIcons().addAll(
                 icons()
         );
@@ -67,13 +64,8 @@ public class SharV extends Application implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        LOG.entering(url, resourceBundle);
         menu.changeStyle("");
         menu.setHighlightColor("#ff0000");
-    }
-
-    public static void performAction(final Runnable action) {
-        Platform.runLater(action);
     }
 
     static FXMLLoader getLoader() {
