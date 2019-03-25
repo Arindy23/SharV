@@ -12,12 +12,13 @@ import java.io.IOException;
 
 public class DebugDialog {
 
-    private final Logger LOG = Logger.get(getClass().getName());
+    private final Logger LOG;
 
     private final Stage stage;
     private TextAreaHandler logOutput;
 
     DebugDialog() {
+        LOG = Logger.get(getClass().getName());
         stage = new Stage();
         stage.setOnCloseRequest(windowEvent -> {
             LOG.info("Use Debug Toogle!");

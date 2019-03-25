@@ -15,7 +15,7 @@
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
             <artifactId>sharv-api</artifactId>
-            <version>${project.parent.version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>${project.parent.groupId}</groupId>
@@ -39,7 +39,7 @@
 
     <properties>
         <vendor>arindy</vendor>
-        <mainClass>de.arindy.sharv.gui.SharV</mainClass>
+        <mainClass>de.arindy.sharv.gui.SharVGUI</mainClass>
     </properties>
 
     <build>

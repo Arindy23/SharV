@@ -3,26 +3,22 @@ package de.arindy.sharv.gui.jfx;
 import javafx.beans.property.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.GridPane;
 
-import java.net.URL;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.ResourceBundle;
 import java.util.UUID;
 
-public abstract class CheckBoxPane extends GridPane implements Initializable {
+public abstract class CheckBoxPane extends GridPane {
 
     private IntegerProperty amount = new SimpleIntegerProperty();
     private IntegerProperty checkedAmount = new SimpleIntegerProperty();
     private StringProperty identifier = new SimpleStringProperty(UUID.randomUUID().toString());
     private ObjectProperty<EventHandler<ActionEvent>> onAction = new SimpleObjectProperty<>();
 
-    @Override
-    public final void initialize(URL url, ResourceBundle resourceBundle) {
+    public final void initialize() {
         for (CheckBox checkBox : getCheckBoxes()) {
             checkBox.setOnAction(this::checkBoxClicked);
         }

@@ -328,7 +328,7 @@ public class PersonalDataPane extends BorderedTitledPane implements PersonalData
         } else {
             titlePrefix = String.format("%s - ", prefix);
         }
-        ((Stage) getScene().getWindow()).setTitle(String.format("%s%s", titlePrefix, SharV.TITLE));
+        ((Stage) getScene().getWindow()).setTitle(String.format("%s%s", titlePrefix, SharVGUI.TITLE));
     }
 
 }

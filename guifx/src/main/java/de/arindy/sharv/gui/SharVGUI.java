@@ -2,36 +2,42 @@ package de.arindy.sharv.gui;
 
 import de.arindy.sharv.Logger;
 import de.arindy.sharv.api.gui.CharacterView;
+import de.arindy.sharv.api.gui.ConditionMonitorView;
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ListResourceBundle;
-import java.util.ResourceBundle;
 
-public class SharV extends Application implements Initializable {
+public class SharVGUI extends Application {
 
     public static final String TITLE = "SharV";
     private static final int MIN_HEIGHT = 768;
     private static final int MIN_WIDTH = 1200;
-    private final Logger LOG = Logger.get(getClass().getName());
+    private final Logger LOG;
 
-    public CharacterView character;
-    public SharVMenu menu;
-    public ConditionMonitorPane conditionMonitor;
+    @FXML
+    private CharacterView character;
+    @FXML
+    private SharVMenu menu;
+    @FXML
+    private ConditionMonitorView conditionMonitor;
+    @FXML
+    private HBox content;
+
+    public SharVGUI() {
+        LOG = Logger.get(getClass().getName());
+    }
 
     public static void main(String[] args) {
         launch(args);
     }
-
-    public AnchorPane root;
 
     @Override
     public void start(final Stage primaryStage) throws IOException {
@@ -62,15 +68,14 @@ public class SharV extends Application implements Initializable {
         };
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize() {
         menu.changeStyle("");
         menu.setHighlightColor("#ff0000");
     }
 
     static FXMLLoader getLoader() {
         return new FXMLLoader(
-                SharV.class.getResource("/fxml/sharv.fxml"),
+                SharVGUI.class.getResource("/fxml/sharv.fxml"),
                 new ResourceWrapper()
         );
     }

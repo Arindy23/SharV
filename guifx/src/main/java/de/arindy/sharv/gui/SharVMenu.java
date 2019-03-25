@@ -4,7 +4,6 @@ import de.arindy.sharv.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
@@ -13,16 +12,15 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
 import static javafx.application.Application.STYLESHEET_MODENA;
 
-public class SharVMenu extends HBox implements Initializable {
+public class SharVMenu extends HBox {
 
-    private final Logger LOG = Logger.get(getClass().getName());
+    private final Logger LOG;
 
     private DebugDialog debugDialog;
 
@@ -62,6 +60,7 @@ public class SharVMenu extends HBox implements Initializable {
     //</editor-fold>
 
     public SharVMenu() {
+        LOG = Logger.get(getClass().getName());
         final FXMLLoader fxmlLoader = new FXMLLoader(
                 getClass().getResource("/fxml/menu.fxml"),
                 ResourceBundle.getBundle("lang/menu")
@@ -77,8 +76,7 @@ public class SharVMenu extends HBox implements Initializable {
         debugDialog = new DebugDialog();
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void initialize() {
         switch (Locale.getDefault().getLanguage()) {
             case "en":
                 lang_en.setSelected(true);
@@ -151,7 +149,7 @@ public class SharVMenu extends HBox implements Initializable {
     private void reload() throws IOException {
         LOG.entering();
         debugDialog.hide();
-        getParent().getScene().setRoot(SharV.getLoader().load());
+        getParent().getScene().setRoot(SharVGUI.getLoader().load());
     }
 
     private void setStyleSheet(final String style) {

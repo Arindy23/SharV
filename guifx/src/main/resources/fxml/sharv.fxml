@@ -7,20 +7,18 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.layout.*?>
-<AnchorPane fx:id="root" minHeight="800.0" minWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.arindy.sharv.gui.SharV">
-    <SharVMenu fx:id="menu" prefHeight="30.0"/>
-    <HBox AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0"
-          AnchorPane.topAnchor="30.0">
-        <CharacterPane fx:id="character" HBox.hgrow="SOMETIMES"/>
-        <Separator orientation="VERTICAL" visible="false"/>
-        <BorderedTitledPane title="Monitor" prefHeight="500.0" prefWidth="510.0" HBox.hgrow="ALWAYS" >
+<AnchorPane fx:id="root" minHeight="800.0" minWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.arindy.sharv.gui.SharVGUI">
+    <SharVMenu fx:id="menu" prefHeight="30.0" />
+    <HBox AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="30.0">
+        <CharacterPane fx:id="character" HBox.hgrow="SOMETIMES" />
+        <Separator orientation="VERTICAL" visible="false" />
+        <BorderedTitledPane prefHeight="500.0" prefWidth="510.0" title="Monitor" HBox.hgrow="ALWAYS">
             <VBox>
                 <padding>
                     <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
                 </padding>
-                <Pane VBox.vgrow="ALWAYS"/>
-                <ConditionMonitorPane fx:id="conditionMonitor" VBox.vgrow="NEVER"/>
+                <Pane VBox.vgrow="ALWAYS" />
+                <ConditionMonitorPane fx:id="conditionMonitor" VBox.vgrow="NEVER" />
             </VBox>
         </BorderedTitledPane>
     </HBox>
