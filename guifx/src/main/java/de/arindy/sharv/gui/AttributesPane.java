@@ -3,6 +3,7 @@ package de.arindy.sharv.gui;
 import de.arindy.sharv.Logger;
 import de.arindy.sharv.api.gui.AttributesListener;
 import de.arindy.sharv.api.gui.AttributesView;
+import de.arindy.sharv.controller.SharVController;
 import de.arindy.sharv.gui.jfx.BorderedTitledPane;
 import de.arindy.sharv.gui.jfx.CheckBoxPane;
 import de.arindy.sharv.gui.jfx.ContentAwareTextField;
@@ -18,7 +19,7 @@ import static de.arindy.sharv.gui.JavaFXUtil.getSelectedItem;
 
 public class AttributesPane extends BorderedTitledPane implements AttributesView {
 
-    private Logger LOG = Logger.get(getClass().getName());
+    private Logger LOG;
 
     private AttributesListener attributesListener;
 
@@ -141,6 +142,8 @@ public class AttributesPane extends BorderedTitledPane implements AttributesView
 
     public AttributesPane() {
         super("attributes");
+        LOG = Logger.get(getClass().getName());
+        SharVController.register(this);
     }
 
     public void onBody(final InputMethodEvent inputMethodEvent) {

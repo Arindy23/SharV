@@ -3,6 +3,7 @@ package de.arindy.sharv.gui;
 import de.arindy.sharv.Logger;
 import de.arindy.sharv.api.gui.PersonalDataListener;
 import de.arindy.sharv.api.gui.PersonalDataView;
+import de.arindy.sharv.controller.SharVController;
 import de.arindy.sharv.gui.jfx.BorderedTitledPane;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -19,7 +20,7 @@ import static de.arindy.sharv.gui.JavaFXUtil.*;
 
 public class PersonalDataPane extends BorderedTitledPane implements PersonalDataView {
 
-    private final Logger LOG = Logger.get(getClass().getName());
+    private final Logger LOG;
 
     private PersonalDataListener personalDataListener;
 
@@ -60,6 +61,8 @@ public class PersonalDataPane extends BorderedTitledPane implements PersonalData
 
     public PersonalDataPane() {
         super("personalData");
+        LOG = Logger.get(getClass().getName());
+        SharVController.register(this);
     }
 
     public void onName(final InputMethodEvent inputMethodEvent) {

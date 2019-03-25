@@ -1,6 +1,9 @@
 package de.arindy.sharv.gui;
 
 import de.arindy.sharv.Logger;
+import de.arindy.sharv.api.gui.MenuListener;
+import de.arindy.sharv.api.gui.MenuView;
+import de.arindy.sharv.controller.SharVController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +13,9 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.Objects;
@@ -18,7 +23,7 @@ import java.util.ResourceBundle;
 
 import static javafx.application.Application.STYLESHEET_MODENA;
 
-public class SharVMenu extends HBox {
+public class SharVMenu extends HBox implements MenuView {
 
     private final Logger LOG;
 
@@ -57,6 +62,8 @@ public class SharVMenu extends HBox {
     private RadioMenuItem debugLogging;
     @FXML
     private ColorPicker color;
+    private MenuListener menuListener;
+    private File characterFile;
     //</editor-fold>
 
     public SharVMenu() {
@@ -74,6 +81,7 @@ public class SharVMenu extends HBox {
             throw new RuntimeException(exception);
         }
         debugDialog = new DebugDialog();
+        SharVController.register(this);
     }
 
     public void initialize() {
@@ -91,10 +99,36 @@ public class SharVMenu extends HBox {
 
     public void loadCharacter() {
         LOG.entering();
+        if (listenerRegistered()) {
+            menuListener.loadCharacter(
+                    fileChooser().showOpenDialog(getParent().getScene().getWindow())
+            );
+        }
     }
 
     public void saveCharacter() {
         LOG.entering();
+        if (listenerRegistered()) {
+            menuListener.saveCharacter(
+                    fileChooser().showSaveDialog(getParent().getScene().getWindow())
+            );
+
+        }
+    }
+
+    private FileChooser fileChooser() {
+        final FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("SharVCharacter", "*.sharV"),
+                new FileChooser.ExtensionFilter("*.*", "*.*")
+                );
+        if (characterFile != null && characterFile.exists()) {
+            fileChooser.setInitialDirectory(characterFile.getParentFile());
+            fileChooser.setInitialFileName(characterFile.getName());
+        } else {
+            fileChooser.setInitialFileName("sharVCharacter.sharV");
+        }
+        return fileChooser;
     }
 
     public void changeLocale(final ActionEvent event) throws IOException {
@@ -126,7 +160,11 @@ public class SharVMenu extends HBox {
 
     public void changeColor() {
         LOG.entering();
-        setHighlightColor(convertToHex(color.getValue()));
+        final String highlightColor = convertToHex(color.getValue());
+        setHighlightColor(highlightColor);
+        if (listenerRegistered()) {
+            menuListener.changeColor(highlightColor);
+        }
     }
 
     public void exit() {
@@ -162,10 +200,21 @@ public class SharVMenu extends HBox {
         getParent().getStylesheets().add("/css/borderedTitled.css");
     }
 
-    void setHighlightColor(final String highlightColor) {
+    @Override
+    public MenuView setHighlightColor(final String highlightColor) {
         LOG.entering(highlightColor);
-        getParent().setStyle(String.format("-sharV-highlight: %s;", highlightColor));
-        color.setValue(Color.valueOf(highlightColor));
+        if (highlightColor != null && !highlightColor.isEmpty()) {
+            getParent().setStyle(String.format("-sharV-highlight: %s;", highlightColor));
+            color.setValue(Color.valueOf(highlightColor));
+        }
+        return this;
+    }
+
+    @Override
+    public MenuView setCharacterFile(final File characterFile) {
+        LOG.entering(characterFile);
+        this.characterFile = characterFile;
+        return this;
     }
 
     private String convertToHex(Color color) {
@@ -177,6 +226,16 @@ public class SharVMenu extends HBox {
                         (int) (color.getBlue() * color.getOpacity() * 255))
         );
 
+    }
+
+    @Override
+    public MenuView registerListener(final MenuListener menuListener) {
+        this.menuListener = menuListener;
+        return LOG.returning(this);
+    }
+
+    private boolean listenerRegistered() {
+        return menuListener != null;
     }
 
 }

@@ -16,6 +16,8 @@ public class JsonHandler {
     }
 
     public static void writeFile(File file, Object o) throws IOException {
-            new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT).writeValue(file, o);
+        new ObjectMapper()
+                .enable(SerializationFeature.INDENT_OUTPUT)
+                .writeValue(file, o);
     }
 }

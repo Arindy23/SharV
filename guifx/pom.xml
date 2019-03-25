@@ -13,14 +13,14 @@
 
     <dependencies>
         <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>sharv-api</artifactId>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>sharv-core</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>${project.parent.groupId}</groupId>
-            <artifactId>sharv-core</artifactId>
-            <version>${project.parent.version}</version>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>sharv-controller</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>

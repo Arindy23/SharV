@@ -3,6 +3,7 @@ package de.arindy.sharv.gui;
 import de.arindy.sharv.Logger;
 import de.arindy.sharv.api.gui.ConditionMonitorListener;
 import de.arindy.sharv.api.gui.ConditionMonitorView;
+import de.arindy.sharv.controller.SharVController;
 import de.arindy.sharv.gui.jfx.BorderedTitledPane;
 import de.arindy.sharv.gui.jfx.CheckBoxPane;
 import javafx.event.ActionEvent;
@@ -12,7 +13,7 @@ import javafx.scene.control.Label;
 
 public class ConditionMonitorPane extends BorderedTitledPane implements ConditionMonitorView {
 
-    private final Logger LOG = Logger.get(getClass().getName());
+    private final Logger LOG;
 
     @FXML
     private CheckBoxPane physicalCheckBoxes;
@@ -24,6 +25,8 @@ public class ConditionMonitorPane extends BorderedTitledPane implements Conditio
 
     public ConditionMonitorPane() {
         super("conditionMonitor");
+        LOG = Logger.get(getClass().getName());
+        SharVController.register(this);
     }
 
     public void onPhysicalDamage(final ActionEvent actionEvent) {
