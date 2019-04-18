@@ -36,8 +36,6 @@ public interface PersonalDataView {
 
     PersonalDataView setNuyen(int nuyen);
 
-    PersonalDataView registerListener(PersonalDataListener personalDataListener);
-
     PersonalDataView addSexes(String... sexes);
 
     PersonalDataView removeAllSexes();
@@ -45,4 +43,6 @@ public interface PersonalDataView {
     PersonalDataView addMetatypes(String... metatypes);
 
     PersonalDataView removeMetatypes();
+
+    void updateTitle();
 }

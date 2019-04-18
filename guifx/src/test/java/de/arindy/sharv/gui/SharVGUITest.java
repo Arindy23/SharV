@@ -12,7 +12,7 @@ class SharVGUITest extends HeadlessGUITest {
 
     @Start
     private void start(Stage stage) throws Exception {
-        new SharVGUI().start(stage);
+        new SharV().start(stage);
     }
 
     @Test

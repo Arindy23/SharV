@@ -30,10 +30,22 @@
         <testfx-junit5.version>4.0.15-alpha</testfx-junit5.version>
         <openjfx-monocle.version>8u76-b04</openjfx-monocle.version>
         <lombok.version>1.18.6</lombok.version>
+        <cdi-api.version>2.0</cdi-api.version>
+        <weld-se.version>3.0.0.Alpha1</weld-se.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>javax.enterprise</groupId>
+                <artifactId>cdi-api</artifactId>
+                <version>${cdi-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.weld.se</groupId>
+                <artifactId>weld-se</artifactId>
+                <version>${weld-se.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
@@ -43,11 +55,6 @@
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
                 <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.sf.tinylaf</groupId>
-                <artifactId>tinylaf</artifactId>
-                <version>${tinylaf.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.ini4j</groupId>
@@ -133,6 +140,7 @@
             </plugin>
         </plugins>
     </build>
+
     <reporting>
         <plugins>
             <plugin>

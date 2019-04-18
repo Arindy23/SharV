@@ -1,21 +1,23 @@
 package de.arindy.sharv.gui;
 
 import de.arindy.sharv.Logger;
-import de.arindy.sharv.api.gui.CharacterView;
-import de.arindy.sharv.api.gui.ConditionMonitorView;
+import de.arindy.sharv.api.gui.Reloadable;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import javax.enterprise.event.Observes;
+import javax.inject.Inject;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ListResourceBundle;
 
-public class SharVGUI extends Application {
+public class SharVGUI extends Application implements Reloadable {
 
     public static final String TITLE = "SharV";
     private static final int MIN_HEIGHT = 768;
@@ -23,13 +25,12 @@ public class SharVGUI extends Application {
     private final Logger LOG;
 
     @FXML
-    private CharacterView character;
-    @FXML
+    public AnchorPane root;
+
+    @Inject
+    private FXMLLoader fxmlLoader;
+    @Inject
     private SharVMenu menu;
-    @FXML
-    private ConditionMonitorView conditionMonitor;
-    @FXML
-    private HBox content;
 
     public SharVGUI() {
         LOG = Logger.get(getClass().getName());
@@ -39,17 +40,22 @@ public class SharVGUI extends Application {
         launch(args);
     }
 
+    static URL fxmlFile() {
+        return SharVGUI.class.getResource("/fxml/sharv.fxml");
+    }
+
     @Override
-    public void start(final Stage primaryStage) throws IOException {
+    public void start(@Observes @StartupScene final Stage primaryStage) throws IOException {
         LOG.entering();
         Font.loadFont(getClass().getResource("/fonts/Inconsolata-Regular.ttf").toExternalForm(), 15);
-
+        fxmlLoader.setLocation(fxmlFile());
+        fxmlLoader.setResources(new ResourceWrapper());
         primaryStage.setHeight(MIN_HEIGHT);
         primaryStage.setMinHeight(MIN_HEIGHT);
         primaryStage.setMinWidth(MIN_WIDTH);
         primaryStage.setWidth(MIN_WIDTH);
         primaryStage.setTitle(TITLE);
-        primaryStage.setScene(new Scene(getLoader().load()));
+        primaryStage.setScene(new Scene(fxmlLoader.load()));
         primaryStage.getIcons().addAll(
                 icons()
         );
@@ -69,15 +75,21 @@ public class SharVGUI extends Application {
     }
 
     public void initialize() {
+        menu.setReloadable(this);
         menu.changeStyle("");
         menu.setHighlightColor("#ff0000");
     }
 
-    static FXMLLoader getLoader() {
-        return new FXMLLoader(
-                SharVGUI.class.getResource("/fxml/sharv.fxml"),
-                new ResourceWrapper()
-        );
+    @Override
+    public void reload() {
+        try {
+            fxmlLoader.setLocation(fxmlFile());
+            fxmlLoader.setResources(new ResourceWrapper());
+            ((Stage) root.getScene().getWindow()).setTitle(TITLE);
+            root.getScene().setRoot(fxmlLoader.load());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static class ResourceWrapper extends ListResourceBundle {

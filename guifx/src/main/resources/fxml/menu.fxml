@@ -2,7 +2,8 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.HBox?>
-<fx:root prefHeight="30.0" type="HBox" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+<HBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.arindy.sharv.gui.SharVMenu" fx:id="root"
+      prefHeight="30.0" xmlns="http://javafx.com/javafx/8.0.172-ea">
     <MenuBar>
         <Menu fx:id="file" mnemonicParsing="false" text="%file">
             <MenuItem fx:id="close" mnemonicParsing="false" onAction="#exit" text="%close"/>
@@ -28,4 +29,4 @@
         </Menu>
     </MenuBar>
     <ColorPicker fx:id="color" onAction="#changeColor" prefHeight="32.0" prefWidth="45.0"/>
-</fx:root>
+</HBox>

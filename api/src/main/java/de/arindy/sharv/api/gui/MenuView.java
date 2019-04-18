@@ -4,10 +4,10 @@ import java.io.File;
 
 public interface MenuView {
 
-    MenuView registerListener(MenuListener menuListener);
-
     MenuView setHighlightColor(String highlightColor);
 
     MenuView setCharacterFile(File characterFile);
+
+    void setReloadable(Reloadable reloadable);
 
 }

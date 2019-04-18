@@ -1,8 +1,9 @@
 package de.arindy.sharv.gui;
 
-import de.arindy.sharv.api.gui.PersonalDataListener;
+import de.arindy.sharv.api.gui.DefaultPersonalDataListener;
 import de.arindy.sharv.api.gui.PersonalDataView;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -13,29 +14,26 @@ import org.testfx.matcher.control.ComboBoxMatchers;
 import org.testfx.matcher.control.LabeledMatchers;
 import org.testfx.matcher.control.TextFlowMatchers;
 
+import java.io.IOException;
+import java.util.ResourceBundle;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.testfx.api.FxAssert.verifyThat;
 
 class PersonalDataPaneTest extends HeadlessGUITest {
 
     private PersonalDataView personalData;
-    private TestPersonalDataListener personalDataListener;
+    private DefaultPersonalDataListener personalDataListener;
 
     @Start
-    private void start(Stage stage) {
-        super.start(stage, new Scene(createPersonalDataPane()));
-    }
-
-    private PersonalDataPane createPersonalDataPane() {
-        final PersonalDataPane personalDataPane = new PersonalDataPane();
-        this.personalData = personalDataPane;
-        personalDataPane.registerListener(createPersonalDataListener());
-        return personalDataPane;
-    }
-
-    private TestPersonalDataListener createPersonalDataListener() {
-        personalDataListener = new TestPersonalDataListener();
-        return personalDataListener;
+    private void start(Stage stage) throws IOException {
+        final FXMLLoader fxmlLoader = new FXMLLoader(
+                getClass().getResource("/fxml/personalData.fxml"),
+                ResourceBundle.getBundle("lang/personalData")
+        );
+        super.start(stage, new Scene(fxmlLoader.load()));
+        personalDataListener = new DefaultPersonalDataListener();
+        personalData = ((PersonalDataPane) fxmlLoader.getController()).withPersonalDataListener(personalDataListener);
     }
 
     @Test
@@ -62,97 +60,97 @@ class PersonalDataPaneTest extends HeadlessGUITest {
     @Test
     void changingNameShouldTriggerListener(final FxRobot r) {
         robot(r).clickOn("#name").write("Cthulhu");
-        verifyThat(personalDataListener.name, is("Cthulhu"));
+        verifyThat(personalDataListener.getName(), is("Cthulhu"));
     }
 
     @Test
     void changingStreetnameShouldTriggerListener(final FxRobot r) {
         robot(r).clickOn("#streetname").write("Cthulhu");
-        verifyThat(personalDataListener.streetname, is("Cthulhu"));
+        verifyThat(personalDataListener.getStreetname(), is("Cthulhu"));
     }
 
     @Test
     void changingAgeShouldTriggerListener(final FxRobot r) {
         robot(r).clickOn("#age").write("23");
-        verifyThat(personalDataListener.age, is(23));
+        verifyThat(personalDataListener.getAge(), is(23));
     }
 
     @Test
     void ageShouldOnlyAcceptIntegers(final FxRobot r) {
         robot(r).clickOn("#age").write("noInt");
-        verifyThat(personalDataListener.age, is(0));
+        verifyThat(personalDataListener.getAge(), is(0));
     }
 
     @Test
     void changingHeightShouldTriggerListener(final FxRobot r) {
         robot(r).clickOn("#height").write("180");
-        verifyThat(personalDataListener.height, is(180));
+        verifyThat(personalDataListener.getHeight(), is(180));
     }
 
     @Test
     void heightShouldOnlyAcceptIntegers(final FxRobot r) {
         robot(r).clickOn("#height").write("noInt");
-        verifyThat(personalDataListener.height, is(0));
+        verifyThat(personalDataListener.getHeight(), is(0));
     }
 
     @Test
     void changingWeightShouldTriggerListener(final FxRobot r) {
         robot(r).clickOn("#weight").write("70");
-        verifyThat(personalDataListener.weight, is(70));
+        verifyThat(personalDataListener.getWeight(), is(70));
     }
 
     @Test
     void weightShouldOnlyAcceptIntegers(final FxRobot r) {
         robot(r).clickOn("#weight").write("noInt");
-        verifyThat(personalDataListener.weight, is(0));
+        verifyThat(personalDataListener.getWeight(), is(0));
     }
 
     @Test
     void changingEthnicityShouldTriggerListener(final FxRobot r) {
         robot(r).clickOn("#ethnicity").write("english");
-        verifyThat(personalDataListener.ethnicity, is("english"));
+        verifyThat(personalDataListener.getEthnicity(), is("english"));
     }
 
     @Test
     void changingConceptShouldTriggerListener(final FxRobot r) {
         robot(r).clickOn("#concept").write("Chaosmage");
-        verifyThat(personalDataListener.concept, is("Chaosmage"));
+        verifyThat(personalDataListener.getConcept(), is("Chaosmage"));
     }
 
     @Test
     void changingStreetCredShouldTriggerListener(final FxRobot r) {
         robot(r).clickOn("#streetCred").write("23");
-        verifyThat(personalDataListener.streetCred, is(23));
+        verifyThat(personalDataListener.getStreetCred(), is(23));
     }
 
     @Test
     void streetCredShouldOnlyAcceptIntegers(final FxRobot r) {
         robot(r).clickOn("#streetCred").write("noInt");
-        verifyThat(personalDataListener.streetCred, is(0));
+        verifyThat(personalDataListener.getStreetCred(), is(0));
     }
 
     @Test
     void changingNotorietyShouldTriggerListener(final FxRobot r) {
         robot(r).clickOn("#notoriety").write("23");
-        verifyThat(personalDataListener.notoriety, is(23));
+        verifyThat(personalDataListener.getNotoriety(), is(23));
     }
 
     @Test
     void notorietyShouldOnlyAcceptIntegers(final FxRobot r) {
         robot(r).clickOn("#notoriety").write("noInt");
-        verifyThat(personalDataListener.notoriety, is(0));
+        verifyThat(personalDataListener.getNotoriety(), is(0));
     }
 
     @Test
     void changingPublicAwarenessShouldTriggerListener(final FxRobot r) {
         robot(r).clickOn("#publicAwareness").write("23");
-        verifyThat(personalDataListener.publicAwareness, is(23));
+        verifyThat(personalDataListener.getPublicAwareness(), is(23));
     }
 
     @Test
     void publicAwarenessShouldOnlyAcceptIntegers(final FxRobot r) {
         robot(r).clickOn("#publicAwareness").write("noInt");
-        verifyThat(personalDataListener.publicAwareness, is(0));
+        verifyThat(personalDataListener.getPublicAwareness(), is(0));
     }
 
     @Test
@@ -162,7 +160,7 @@ class PersonalDataPaneTest extends HeadlessGUITest {
             personalData.addMetatypes("Human", "Elf");
         });
         robot(r).selectComboBoxItem("#metatype", "Human");
-        verifyThat(personalDataListener.metatype, is("Human"));
+        verifyThat(personalDataListener.getMetatype(), is("Human"));
     }
 
     @Test
@@ -172,7 +170,7 @@ class PersonalDataPaneTest extends HeadlessGUITest {
             personalData.addSexes("male", "female");
         });
         robot(r).selectComboBoxItem("#sex", "female");
-        verifyThat(personalDataListener.sex, is("female"));
+        verifyThat(personalDataListener.getSex(), is("female"));
     }
 
     @Test
@@ -285,82 +283,6 @@ class PersonalDataPaneTest extends HeadlessGUITest {
         Platform.runLater(() -> personalData.setPublicAwareness(23));
         awaitSharV();
         verifyThat(robot(r).lookupTextField("#publicAwareness"), TextFieldMatchers.hasText("23"));
-    }
-
-    private static class TestPersonalDataListener implements PersonalDataListener {
-
-        private String name;
-        private String streetname;
-        private String metatype;
-        private String sex;
-        private int age;
-        private int height;
-        private int weight;
-        private String ethnicity;
-        private String concept;
-        private int streetCred;
-        private int notoriety;
-        private int publicAwareness;
-
-        @Override
-        public void changeName(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public void changeStreetname(String streetname) {
-            this.streetname = streetname;
-        }
-
-        @Override
-        public void changeMetatype(String metatype) {
-            this.metatype = metatype;
-        }
-
-        @Override
-        public void changeSex(String sex) {
-            this.sex = sex;
-        }
-
-        @Override
-        public void changeAge(int age) {
-            this.age = age;
-        }
-
-        @Override
-        public void changeHeight(int height) {
-            this.height = height;
-        }
-
-        @Override
-        public void changeWeight(int weight) {
-            this.weight = weight;
-        }
-
-        @Override
-        public void changeEthnicity(String ethnicity) {
-            this.ethnicity = ethnicity;
-        }
-
-        @Override
-        public void changeConcept(String concept) {
-            this.concept = concept;
-        }
-
-        @Override
-        public void changeStreetCred(int streetCred) {
-            this.streetCred = streetCred;
-        }
-
-        @Override
-        public void changeNotoriety(int notoriety) {
-            this.notoriety = notoriety;
-        }
-
-        @Override
-        public void changePublicAwareness(int publicAwareness) {
-            this.publicAwareness = publicAwareness;
-        }
     }
 
 }

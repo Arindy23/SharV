@@ -19,12 +19,6 @@ import java.util.concurrent.Semaphore;
 @ExtendWith(ApplicationExtension.class)
 abstract class HeadlessGUITest {
 
-    void start(Stage stage, Scene scene) {
-        stage.setScene(scene);
-        stage.setFullScreen(true);
-        stage.show();
-    }
-
     @BeforeAll
     private static void prepareHeadless() {
         System.setProperty("testfx.robot", "glass");
@@ -32,6 +26,12 @@ abstract class HeadlessGUITest {
         System.setProperty("prism.order", "sw");
         System.setProperty("prism.text", "t2k");
         System.setProperty("java.awt.headless", "true");
+    }
+
+    void start(Stage stage, Scene scene) {
+        stage.setScene(scene);
+        stage.setFullScreen(true);
+        stage.show();
     }
 
     void awaitSharV() throws InterruptedException {

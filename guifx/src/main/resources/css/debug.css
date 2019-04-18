@@ -2,7 +2,7 @@
     -fx-font-family: Inconsolata;
     -fx-font-size: 13;
     -fx-text-fill: lightgrey;
-    -fx-display-caret:false;
+    -fx-display-caret: false;
     -fx-highlight-fill: lightgrey;
     -fx-highlight-text-fill: black;
     -fx-background-insets: 0;
@@ -18,7 +18,7 @@
 }
 
 .scroll-bar:vertical:focused {
-    -fx-background-color: black ;
+    -fx-background-color: black;
 }
 
 .scroll-bar:vertical .thumb {

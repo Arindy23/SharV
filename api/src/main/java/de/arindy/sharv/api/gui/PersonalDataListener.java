@@ -2,6 +2,8 @@ package de.arindy.sharv.api.gui;
 
 public interface PersonalDataListener {
 
+    PersonalDataListener register(PersonalDataView personalDataView);
+
     void changeName(String name);
 
     void changeStreetname(String streetname);

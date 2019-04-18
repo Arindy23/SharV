@@ -4,9 +4,11 @@ import java.io.File;
 
 public interface MenuListener {
 
+    MenuListener register(MenuView menuView);
+
     void changeColor(String color);
 
-    void loadCharacter(File file);
+    void load(File file);
 
-    void saveCharacter(File file);
+    void save(File file);
 }

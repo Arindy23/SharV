@@ -1,14 +1,18 @@
 package de.arindy.sharv.gui;
 
 import de.arindy.sharv.Logger;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.Start;
 
+import java.io.IOException;
 import java.util.Locale;
+import java.util.ResourceBundle;
 
 import static javafx.application.Application.STYLESHEET_MODENA;
 import static org.hamcrest.CoreMatchers.hasItem;
@@ -17,12 +21,30 @@ import static org.testfx.api.FxAssert.verifyThat;
 
 class SharVMenuTest extends HeadlessGUITest {
 
-    private Pane root;
+    private AnchorPane root;
 
     @Start
-    private void start(Stage stage) {
-        root = new Pane(new SharVMenu());
+    private void start(Stage stage) throws IOException {
+        root = new AnchorPane();
+        FXMLLoader fXMLLoader = getfXMLLoader();
+        Node menu = fXMLLoader.load();
+        root.getChildren().add(menu);
+        ((SharVMenu) fXMLLoader.getController()).setReloadable(() -> {
+            root.getChildren().clear();
+            try {
+                root.getChildren().add(getfXMLLoader().load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
         super.start(stage, new Scene(root));
+    }
+
+    private FXMLLoader getfXMLLoader() {
+        return new FXMLLoader(
+                getClass().getResource("/fxml/menu.fxml"),
+                ResourceBundle.getBundle("lang/menu")
+        );
     }
 
     @Test

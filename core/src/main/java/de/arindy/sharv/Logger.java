@@ -20,8 +20,6 @@ public class Logger {
     private static Level logLevel = Level.INFO;
     private static Collection<Handler> handlers = new HashSet<>();
 
-    private final java.util.logging.Logger logger;
-
     static {
         final java.util.logging.Logger rootLogger = java.util.logging.Logger.getLogger("");
         final Handler[] rootHandlers = rootLogger.getHandlers();
@@ -30,12 +28,7 @@ public class Logger {
         }
     }
 
-    public static Logger get(final String name) {
-        if (LOGGERS.get(name) == null) {
-            LOGGERS.put(name, new Logger(name));
-        }
-        return LOGGERS.get(name);
-    }
+    private final java.util.logging.Logger logger;
 
     private Logger(final String name) {
         logger = java.util.logging.Logger.getLogger(name);
@@ -46,6 +39,13 @@ public class Logger {
             logger.addHandler(handler);
         }
         logger.setLevel(logLevel);
+    }
+
+    public static Logger get(final String name) {
+        if (LOGGERS.get(name) == null) {
+            LOGGERS.put(name, new Logger(name));
+        }
+        return LOGGERS.get(name);
     }
 
     public static boolean isDebugLevel() {
@@ -84,6 +84,26 @@ public class Logger {
             logger.logger.removeHandler(handler);
         }
         handlers.remove(handler);
+    }
+
+    private static boolean shouldLog(final Level level) {
+        return level.intValue() >= logLevel.intValue();
+    }
+
+    private static String className() {
+        return caller().getClassName();
+    }
+
+    private static String methodName() {
+        return caller().getMethodName();
+    }
+
+    private static String callerRef() {
+        return caller().toString();
+    }
+
+    private static StackTraceElement caller() {
+        return Thread.currentThread().getStackTrace()[4];
     }
 
     public void info(final String msg) {
@@ -132,28 +152,8 @@ public class Logger {
         }
     }
 
-    private static boolean shouldLog(final Level level) {
-        return level.intValue() >= logLevel.intValue();
-    }
-
     private String formatMessage(final String msg) {
         return String.format("%s : %s", callerRef(), msg);
-    }
-
-    private static String className() {
-        return caller().getClassName();
-    }
-
-    private static String methodName() {
-        return caller().getMethodName();
-    }
-
-    private static String callerRef() {
-        return caller().toString();
-    }
-
-    private static StackTraceElement caller() {
-        return Thread.currentThread().getStackTrace()[4];
     }
 
     public static class LogFormatter extends Formatter {

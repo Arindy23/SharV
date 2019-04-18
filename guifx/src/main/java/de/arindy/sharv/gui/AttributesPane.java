@@ -3,8 +3,7 @@ package de.arindy.sharv.gui;
 import de.arindy.sharv.Logger;
 import de.arindy.sharv.api.gui.AttributesListener;
 import de.arindy.sharv.api.gui.AttributesView;
-import de.arindy.sharv.controller.SharVController;
-import de.arindy.sharv.gui.jfx.BorderedTitledPane;
+import de.arindy.sharv.api.gui.DefaultAttributesListener;
 import de.arindy.sharv.gui.jfx.CheckBoxPane;
 import de.arindy.sharv.gui.jfx.ContentAwareTextField;
 import javafx.event.ActionEvent;
@@ -14,10 +13,14 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.InputMethodEvent;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import static de.arindy.sharv.gui.JavaFXUtil.extractInteger;
 import static de.arindy.sharv.gui.JavaFXUtil.getSelectedItem;
 
-public class AttributesPane extends BorderedTitledPane implements AttributesView {
+@Singleton
+public class AttributesPane implements AttributesView {
 
     private Logger LOG;
 
@@ -141,96 +144,77 @@ public class AttributesPane extends BorderedTitledPane implements AttributesView
     //</editor-fold>
 
     public AttributesPane() {
-        super("attributes");
         LOG = Logger.get(getClass().getName());
-        SharVController.register(this);
+        attributesListener = new DefaultAttributesListener();
+    }
+
+    @Inject
+    public AttributesPane withAttributesListener(final AttributesListener attributesListener) {
+        this.attributesListener = attributesListener.register(this);
+        return this;
     }
 
     public void onBody(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
-        if (listenerRegistered()) {
-            attributesListener.changeBody(extractInteger(inputMethodEvent));
-        }
+        attributesListener.changeBody(extractInteger(inputMethodEvent));
     }
 
     public void onAgility(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
-        if (listenerRegistered()) {
-            attributesListener.changeAgility(extractInteger(inputMethodEvent));
-        }
+        attributesListener.changeAgility(extractInteger(inputMethodEvent));
     }
 
     public void onReaction(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
-        if (listenerRegistered()) {
-            attributesListener.changeReaction(extractInteger(inputMethodEvent));
-        }
+        attributesListener.changeReaction(extractInteger(inputMethodEvent));
     }
 
     public void onStrength(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
-        if (listenerRegistered()) {
-            attributesListener.changeStrength(extractInteger(inputMethodEvent));
-        }
+        attributesListener.changeStrength(extractInteger(inputMethodEvent));
     }
 
     public void onWillpower(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
-        if (listenerRegistered()) {
-            attributesListener.changeWillpower(extractInteger(inputMethodEvent));
-        }
+        attributesListener.changeWillpower(extractInteger(inputMethodEvent));
     }
 
     public void onLogic(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
-        if (listenerRegistered()) {
-            attributesListener.changeLogic(extractInteger(inputMethodEvent));
-        }
+        attributesListener.changeLogic(extractInteger(inputMethodEvent));
     }
 
     public void onIntuition(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
-        if (listenerRegistered()) {
-            attributesListener.changeIntuition(extractInteger(inputMethodEvent));
-        }
+        attributesListener.changeIntuition(extractInteger(inputMethodEvent));
     }
 
     public void onCharisma(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
-        if (listenerRegistered()) {
-            attributesListener.changeCharisma(extractInteger(inputMethodEvent));
-        }
+        attributesListener.changeCharisma(extractInteger(inputMethodEvent));
     }
 
     public void onSpecial(final ActionEvent actionEvent) {
         LOG.entering(actionEvent);
-        if (listenerRegistered()) {
-            attributesListener.changeSpecial(getSelectedItem(special));
-        }
+        attributesListener.changeSpecial(getSelectedItem(special));
     }
 
     public void onSpecialValue(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
-        if (listenerRegistered()) {
-            attributesListener.changeSpecialValue(extractInteger(inputMethodEvent));
-        }
+        attributesListener.changeSpecialValue(extractInteger(inputMethodEvent));
     }
 
     public void onEdge(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
         int edge = extractInteger(inputMethodEvent);
-        if (listenerRegistered()) {
-            attributesListener.changeEdge(edge);
-        }
+        attributesListener.changeEdge(edge);
         edgeCheckBoxes.setAmount(edge);
     }
 
     public void onBurnEdge(final ActionEvent actionEvent) {
         LOG.entering(actionEvent);
         int burnedEdge = edgeCheckBoxes.extractIndex((CheckBox) actionEvent.getSource());
-        if (listenerRegistered()) {
-            attributesListener.changeBurnedEdge(burnedEdge);
-        }
+        attributesListener.changeBurnedEdge(burnedEdge);
         edgeCheckBoxes.setCheckedAmount(burnedEdge);
     }
 
@@ -708,16 +692,6 @@ public class AttributesPane extends BorderedTitledPane implements AttributesView
         LOG.entering(burndeEdge);
         edgeCheckBoxes.setCheckedAmount(burndeEdge);
         return LOG.returning(this);
-    }
-
-    @Override
-    public AttributesView registerListener(final AttributesListener attributesListener) {
-        this.attributesListener = attributesListener;
-        return LOG.returning(this);
-    }
-
-    private boolean listenerRegistered() {
-        return attributesListener != null;
     }
 
 }

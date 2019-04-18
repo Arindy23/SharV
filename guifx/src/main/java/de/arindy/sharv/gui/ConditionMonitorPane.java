@@ -3,15 +3,18 @@ package de.arindy.sharv.gui;
 import de.arindy.sharv.Logger;
 import de.arindy.sharv.api.gui.ConditionMonitorListener;
 import de.arindy.sharv.api.gui.ConditionMonitorView;
-import de.arindy.sharv.controller.SharVController;
-import de.arindy.sharv.gui.jfx.BorderedTitledPane;
+import de.arindy.sharv.api.gui.DefaultConditionMonitorListener;
 import de.arindy.sharv.gui.jfx.CheckBoxPane;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 
-public class ConditionMonitorPane extends BorderedTitledPane implements ConditionMonitorView {
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
+public class ConditionMonitorPane implements ConditionMonitorView {
 
     private final Logger LOG;
 
@@ -24,26 +27,27 @@ public class ConditionMonitorPane extends BorderedTitledPane implements Conditio
     private ConditionMonitorListener conditionMonitorListener;
 
     public ConditionMonitorPane() {
-        super("conditionMonitor");
         LOG = Logger.get(getClass().getName());
-        SharVController.register(this);
+        conditionMonitorListener = new DefaultConditionMonitorListener();
+    }
+
+    @Inject
+    public ConditionMonitorView withConditionMonitorListener(final ConditionMonitorListener conditionMonitorListener) {
+        this.conditionMonitorListener = conditionMonitorListener.register(this);
+        return this;
     }
 
     public void onPhysicalDamage(final ActionEvent actionEvent) {
         LOG.entering(actionEvent);
         int physicalDamage = physicalCheckBoxes.extractIndex((CheckBox) actionEvent.getSource());
-        if (listenerRegistered()) {
-            conditionMonitorListener.changePhysicalDamage(physicalDamage);
-        }
+        conditionMonitorListener.changePhysicalDamage(physicalDamage);
         physicalCheckBoxes.setCheckedAmount(physicalDamage);
     }
 
     public void onStunDamage(final ActionEvent actionEvent) {
         LOG.entering(actionEvent);
         int stunDamage = stunCheckBoxes.extractIndex((CheckBox) actionEvent.getSource());
-        if (listenerRegistered()) {
-            conditionMonitorListener.changeStunDamage(stunDamage);
-        }
+        conditionMonitorListener.changeStunDamage(stunDamage);
         stunCheckBoxes.setCheckedAmount(stunDamage);
     }
 
@@ -82,15 +86,4 @@ public class ConditionMonitorPane extends BorderedTitledPane implements Conditio
         JavaFXUtil.highlight(this.dicePoolModifier, dicePoolModifier != 0);
         return LOG.returning(this);
     }
-
-    @Override
-    public ConditionMonitorView registerListener(final ConditionMonitorListener conditionMonitorListener) {
-        this.conditionMonitorListener = conditionMonitorListener;
-        return LOG.returning(this);
-    }
-
-    private boolean listenerRegistered() {
-        return conditionMonitorListener != null;
-    }
-
 }

@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.arindy.sharv.gui.AttributesPane?>
-<?import de.arindy.sharv.gui.PersonalDataPane?>
 <?import javafx.scene.layout.*?>
-<fx:root type="VBox" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
+<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.172-ea">
     <Region VBox.vgrow="ALWAYS"/>
-    <PersonalDataPane fx:id="personalDataView" VBox.vgrow="SOMETIMES"/>
+    <fx:include source="personalData.fxml" resources="lang/personalData" VBox.vgrow="SOMETIMES"/>
     <Region VBox.vgrow="ALWAYS" minHeight="10"/>
-    <AttributesPane fx:id="attributesView" VBox.vgrow="SOMETIMES"/>
+    <fx:include source="attributes.fxml" resources="lang/attributes" VBox.vgrow="SOMETIMES"/>
     <Region VBox.vgrow="ALWAYS"/>
-</fx:root>
+</VBox>

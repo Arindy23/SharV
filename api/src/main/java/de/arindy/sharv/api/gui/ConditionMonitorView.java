@@ -12,6 +12,4 @@ public interface ConditionMonitorView {
 
     ConditionMonitorView setDicePoolModifier(int dicePoolModifier);
 
-    ConditionMonitorView registerListener(ConditionMonitorListener conditionMonitorListener);
-
 }

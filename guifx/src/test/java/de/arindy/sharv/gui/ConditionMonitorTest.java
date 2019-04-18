@@ -1,8 +1,9 @@
 package de.arindy.sharv.gui;
 
-import de.arindy.sharv.api.gui.ConditionMonitorListener;
 import de.arindy.sharv.api.gui.ConditionMonitorView;
+import de.arindy.sharv.api.gui.DefaultConditionMonitorListener;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
@@ -10,29 +11,26 @@ import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.Start;
 import org.testfx.matcher.control.LabeledMatchers;
 
+import java.io.IOException;
+import java.util.ResourceBundle;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.testfx.api.FxAssert.verifyThat;
 
 class ConditionMonitorTest extends HeadlessGUITest {
 
     private ConditionMonitorView conditionMonitor;
-    private TestConditionMonitorListener conditionMonitorListener;
+    private DefaultConditionMonitorListener conditionMonitorListener;
 
     @Start
-    private void start(Stage stage) {
-        super.start(stage, new Scene(createConditionMonitorPane()));
-    }
-
-    private ConditionMonitorPane createConditionMonitorPane() {
-        final ConditionMonitorPane conditionMonitorPane = new ConditionMonitorPane();
-        this.conditionMonitor = conditionMonitorPane;
-        conditionMonitorPane.registerListener(createConditionMonitorListener());
-        return conditionMonitorPane;
-    }
-
-    private ConditionMonitorListener createConditionMonitorListener() {
-        conditionMonitorListener = new TestConditionMonitorListener();
-        return conditionMonitorListener;
+    private void start(Stage stage) throws IOException {
+        final FXMLLoader fxmlLoader = new FXMLLoader(
+                getClass().getResource("/fxml/conditionMonitor.fxml"),
+                ResourceBundle.getBundle("lang/conditionMonitor")
+        );
+        super.start(stage, new Scene(fxmlLoader.load()));
+        conditionMonitorListener = new DefaultConditionMonitorListener();
+        conditionMonitor = ((ConditionMonitorPane) fxmlLoader.getController()).withConditionMonitorListener(conditionMonitorListener);
     }
 
     @Test
@@ -40,7 +38,7 @@ class ConditionMonitorTest extends HeadlessGUITest {
         Platform.runLater(() -> conditionMonitor.setPhysicalDamageMax(18));
         awaitSharV();
         robot(r).clickOn("#physicalDamage#5");
-        verifyThat(conditionMonitorListener.physicalDamage, is(5));
+        verifyThat(conditionMonitorListener.getPhysicalDamage(), is(5));
     }
 
     @Test
@@ -51,7 +49,7 @@ class ConditionMonitorTest extends HeadlessGUITest {
         });
         awaitSharV();
         robot(r).clickOn("#physicalDamage#5");
-        verifyThat(conditionMonitorListener.physicalDamage, is(4));
+        verifyThat(conditionMonitorListener.getPhysicalDamage(), is(4));
     }
 
     @Test
@@ -59,7 +57,7 @@ class ConditionMonitorTest extends HeadlessGUITest {
         Platform.runLater(() -> conditionMonitor.setStunDamageMax(12));
         awaitSharV();
         robot(r).clickOn("#stunDamage#5");
-        verifyThat(conditionMonitorListener.stunDamage, is(5));
+        verifyThat(conditionMonitorListener.getStunDamage(), is(5));
     }
 
     @Test
@@ -70,7 +68,7 @@ class ConditionMonitorTest extends HeadlessGUITest {
         });
         awaitSharV();
         robot(r).clickOn("#stunDamage#5");
-        verifyThat(conditionMonitorListener.stunDamage, is(4));
+        verifyThat(conditionMonitorListener.getStunDamage(), is(4));
     }
 
     @Test
@@ -78,22 +76,6 @@ class ConditionMonitorTest extends HeadlessGUITest {
         Platform.runLater(() -> conditionMonitor.setDicePoolModifier(-3));
         awaitSharV();
         verifyThat(robot(r).lookupLabel("#dicePoolModifier"), LabeledMatchers.hasText("-3"));
-    }
-
-    private static class TestConditionMonitorListener implements ConditionMonitorListener {
-
-        private int physicalDamage;
-        private int stunDamage;
-
-        @Override
-        public void changePhysicalDamage(int physicalDamage) {
-            this.physicalDamage = physicalDamage;
-        }
-
-        @Override
-        public void changeStunDamage(int stunDamage) {
-            this.stunDamage = stunDamage;
-        }
     }
 
 }

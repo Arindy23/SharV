@@ -26,4 +26,6 @@ public interface AttributesListener {
 
     void changeBurnedEdge(int burnedEdge);
 
+    AttributesListener register(AttributesView attributesView);
+
 }

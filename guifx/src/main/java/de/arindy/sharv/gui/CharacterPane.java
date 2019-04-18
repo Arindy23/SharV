@@ -3,30 +3,17 @@ package de.arindy.sharv.gui;
 import de.arindy.sharv.api.gui.AttributesView;
 import de.arindy.sharv.api.gui.CharacterView;
 import de.arindy.sharv.api.gui.PersonalDataView;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.VBox;
 
-import java.io.IOException;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
-public class CharacterPane extends VBox implements CharacterView {
+@Singleton
+public class CharacterPane implements CharacterView {
 
-    @FXML
+    @Inject
     private PersonalDataView personalData;
-    @FXML
+    @Inject
     private AttributesView attributes;
-
-    public CharacterPane() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/character.fxml"));
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-
-        try {
-            fxmlLoader.load();
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
 
     @Override
     public PersonalDataView getPersonalData() {

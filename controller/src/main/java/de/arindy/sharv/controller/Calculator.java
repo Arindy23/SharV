@@ -1,6 +1,6 @@
 package de.arindy.sharv.controller;
 
-import de.arindy.sharv.character.SharVCharacter;
+import de.arindy.sharv.character.Character;
 
 public class Calculator {
 
@@ -8,8 +8,8 @@ public class Calculator {
         return (int) (8 + Math.ceil(value / 2));
     }
 
-    public static int calculateDicePoolModifier(final SharVCharacter character) {
-        return - (character.getPhysicalDamage() / 3 + character.getStunDamage() / 3);
+    public static int calculateDicePoolModifier(final Character character) {
+        return -(character.getPhysicalDamage() / 3 + character.getStunDamage() / 3);
     }
 
 }

@@ -20,7 +20,7 @@
     -fx-text-fill: -sharV-highlight;
 }
 
-TextFlow Text{
+TextFlow Text {
     -fx-fill: -sharv-highlight;
 }
 
@@ -109,7 +109,7 @@ TextFlow Text{
     -fx-text-fill: -sharV-background;
 }
 
-.context-menu{
+.context-menu {
     -fx-background-color: -sharV-background;
 }
 

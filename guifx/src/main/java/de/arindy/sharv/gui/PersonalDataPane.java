@@ -1,9 +1,9 @@
 package de.arindy.sharv.gui;
 
 import de.arindy.sharv.Logger;
+import de.arindy.sharv.api.gui.DefaultPersonalDataListener;
 import de.arindy.sharv.api.gui.PersonalDataListener;
 import de.arindy.sharv.api.gui.PersonalDataView;
-import de.arindy.sharv.controller.SharVController;
 import de.arindy.sharv.gui.jfx.BorderedTitledPane;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,11 +16,18 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import static de.arindy.sharv.gui.JavaFXUtil.*;
 
-public class PersonalDataPane extends BorderedTitledPane implements PersonalDataView {
+@Singleton
+public class PersonalDataPane implements PersonalDataView {
 
     private final Logger LOG;
+
+    @FXML
+    private BorderedTitledPane root;
 
     private PersonalDataListener personalDataListener;
 
@@ -60,96 +67,77 @@ public class PersonalDataPane extends BorderedTitledPane implements PersonalData
     //</editor-fold>
 
     public PersonalDataPane() {
-        super("personalData");
         LOG = Logger.get(getClass().getName());
-        SharVController.register(this);
+        personalDataListener = new DefaultPersonalDataListener();
+    }
+
+    @Inject
+    public PersonalDataPane withPersonalDataListener(final PersonalDataListener personalDataListener) {
+        this.personalDataListener = personalDataListener.register(this);
+        return this;
     }
 
     public void onName(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
         final String name = extractText(inputMethodEvent);
-        if (listenerRegistered()) {
-            personalDataListener.changeName(name);
-        }
+        personalDataListener.changeName(name);
         updateTitle();
     }
 
     public void onStreetname(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
-        if (listenerRegistered()) {
-            personalDataListener.changeStreetname(extractText(inputMethodEvent));
-        }
+        personalDataListener.changeStreetname(extractText(inputMethodEvent));
         updateTitle();
     }
 
     public void onMetatype() {
         LOG.entering();
-        if (listenerRegistered()) {
-            personalDataListener.changeMetatype(getSelectedItem(metatype));
-        }
+        personalDataListener.changeMetatype(getSelectedItem(metatype));
     }
 
     public void onSex() {
         LOG.entering();
-        if (listenerRegistered()) {
-            personalDataListener.changeSex(getSelectedItem(sex));
-        }
+        personalDataListener.changeSex(getSelectedItem(sex));
     }
 
     public void onAge(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
-        if (listenerRegistered()) {
         personalDataListener.changeAge(extractInteger(inputMethodEvent));
-        }
     }
 
     public void onHeight(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
-        if (listenerRegistered()) {
-            personalDataListener.changeHeight(extractInteger(inputMethodEvent));
-        }
+        personalDataListener.changeHeight(extractInteger(inputMethodEvent));
     }
 
     public void onWeight(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
-        if (listenerRegistered()) {
-            personalDataListener.changeWeight(extractInteger(inputMethodEvent));
-        }
+        personalDataListener.changeWeight(extractInteger(inputMethodEvent));
     }
 
     public void onEthnicity(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
-        if (listenerRegistered()) {
-            personalDataListener.changeEthnicity(extractText(inputMethodEvent));
-        }
+        personalDataListener.changeEthnicity(extractText(inputMethodEvent));
     }
 
     public void onConcept(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
-        if (listenerRegistered()) {
-            personalDataListener.changeConcept(extractText(inputMethodEvent));
-        }
+        personalDataListener.changeConcept(extractText(inputMethodEvent));
     }
 
     public void onStreetCred(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
-        if (listenerRegistered()) {
-            personalDataListener.changeStreetCred(extractInteger(inputMethodEvent));
-        }
+        personalDataListener.changeStreetCred(extractInteger(inputMethodEvent));
     }
 
     public void onNotoriety(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
-        if (listenerRegistered()) {
-            personalDataListener.changeNotoriety(extractInteger(inputMethodEvent));
-        }
+        personalDataListener.changeNotoriety(extractInteger(inputMethodEvent));
     }
 
     public void onPublicAwareness(final InputMethodEvent inputMethodEvent) {
         LOG.entering(inputMethodEvent);
-        if (listenerRegistered()) {
-            personalDataListener.changePublicAwareness(extractInteger(inputMethodEvent));
-        }
+        personalDataListener.changePublicAwareness(extractInteger(inputMethodEvent));
     }
 
     @Override
@@ -280,13 +268,6 @@ public class PersonalDataPane extends BorderedTitledPane implements PersonalData
     }
 
     @Override
-    public PersonalDataView registerListener(final PersonalDataListener personalDataListener) {
-        LOG.entering(personalDataListener);
-        this.personalDataListener = personalDataListener;
-        return LOG.returning(this);
-    }
-
-    @Override
     public PersonalDataView addSexes(final String... sexes) {
         LOG.entering(sexes);
         this.sex.getItems().addAll(sexes);
@@ -314,11 +295,8 @@ public class PersonalDataPane extends BorderedTitledPane implements PersonalData
         return LOG.returning(this);
     }
 
-    private boolean listenerRegistered() {
-        return personalDataListener != null;
-    }
-
-    private void updateTitle() {
+    @Override
+    public void updateTitle() {
         final String prefix;
         if (streetname.getText().isEmpty()) {
             prefix = name.getText();
@@ -331,7 +309,7 @@ public class PersonalDataPane extends BorderedTitledPane implements PersonalData
         } else {
             titlePrefix = String.format("%s - ", prefix);
         }
-        ((Stage) getScene().getWindow()).setTitle(String.format("%s%s", titlePrefix, SharVGUI.TITLE));
+        ((Stage) root.getScene().getWindow()).setTitle(String.format("%s%s", titlePrefix, SharVGUI.TITLE));
     }
 
 }

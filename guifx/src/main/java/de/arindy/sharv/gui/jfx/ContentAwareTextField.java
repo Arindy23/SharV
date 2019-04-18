@@ -122,6 +122,7 @@ public class ContentAwareTextField extends TextField {
     private Logger log() {
         return Logger.get(getClass().getName() + ":" + getId());
     }
+
     //<editor-fold desc="Getter/Setter">
 
     public String getRegex() {

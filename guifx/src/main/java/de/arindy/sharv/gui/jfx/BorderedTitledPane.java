@@ -5,14 +5,10 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
-
-import java.io.IOException;
-import java.util.ResourceBundle;
 
 public class BorderedTitledPane extends StackPane {
 
@@ -20,22 +16,6 @@ public class BorderedTitledPane extends StackPane {
     private ObjectProperty<Node> graphic = new SimpleObjectProperty<>();
     private ObjectProperty<Node> content = new SimpleObjectProperty<>();
     private ObjectProperty<Pos> titleAlignment = new SimpleObjectProperty<>();
-
-    public BorderedTitledPane(final String paneName) {
-        this();
-        FXMLLoader fxmlLoader = new FXMLLoader(
-                getClass().getResource(String.format("/fxml/%s.fxml", paneName)),
-                ResourceBundle.getBundle(String.format("lang/%s", paneName))
-        );
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-
-        try {
-            fxmlLoader.load();
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
-        }
-    }
 
     public BorderedTitledPane() {
         this("", null);

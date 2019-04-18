@@ -1,8 +1,9 @@
 package de.arindy.sharv.gui;
 
-import de.arindy.sharv.api.gui.AttributesListener;
 import de.arindy.sharv.api.gui.AttributesView;
+import de.arindy.sharv.api.gui.DefaultAttributesListener;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
@@ -10,149 +11,146 @@ import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.Start;
 import org.testfx.matcher.control.LabeledMatchers;
 
+import java.io.IOException;
+import java.util.ResourceBundle;
+
 import static org.hamcrest.CoreMatchers.is;
 import static org.testfx.api.FxAssert.verifyThat;
 
 class AttributesPaneTest extends HeadlessGUITest {
 
     private AttributesView attributes;
-    private TestAttributesListener attributesListener;
+    private DefaultAttributesListener attributesListener;
 
     @Start
-    private void start(Stage stage) {
-        super.start(stage, new Scene(createAttributesPane()));
-    }
-
-    private AttributesPane createAttributesPane() {
-        final AttributesPane attributes = new AttributesPane();
-        this.attributes = attributes;
-        attributes.registerListener(createAttributesListener());
-        return attributes;
-    }
-
-    private AttributesListener createAttributesListener() {
-        attributesListener = new TestAttributesListener();
-        return attributesListener;
+    private void start(Stage stage) throws IOException {
+        final FXMLLoader fxmlLoader = new FXMLLoader(
+                getClass().getResource("/fxml/attributes.fxml"),
+                ResourceBundle.getBundle("lang/attributes")
+        );
+        super.start(stage, new Scene(fxmlLoader.load()));
+        attributesListener = new DefaultAttributesListener();
+        attributes = ((AttributesPane) fxmlLoader.getController()).withAttributesListener(attributesListener);
     }
 
     @Test
     void changingBodyShouldTriggerListener(final FxRobot r) {
         robot(r).clickOn("#body").write("23");
-        verifyThat(attributesListener.body, is(23));
+        verifyThat(attributesListener.getBody(), is(23));
     }
 
     @Test
     void bodyShouldOnlyAcceptIntegers(final FxRobot r) {
         robot(r).clickOn("#body").write("noInt");
-        verifyThat(attributesListener.body, is(0));
+        verifyThat(attributesListener.getBody(), is(0));
     }
 
     @Test
     void changingReactionShouldTriggerListener(final FxRobot r) {
         robot(r).clickOn("#reaction").write("23");
-        verifyThat(attributesListener.reaction, is(23));
+        verifyThat(attributesListener.getReaction(), is(23));
     }
 
     @Test
     void agilityShouldOnlyAcceptIntegers(final FxRobot r) {
         robot(r).clickOn("#agility").write("noInt");
-        verifyThat(attributesListener.agility, is(0));
+        verifyThat(attributesListener.getAgility(), is(0));
     }
 
     @Test
     void changingAgilityShouldTriggerListener(final FxRobot r) {
         robot(r).clickOn("#agility").write("23");
-        verifyThat(attributesListener.agility, is(23));
+        verifyThat(attributesListener.getAgility(), is(23));
     }
 
     @Test
     void reactionShouldOnlyAcceptIntegers(final FxRobot r) {
         robot(r).clickOn("#reaction").write("noInt");
-        verifyThat(attributesListener.reaction, is(0));
+        verifyThat(attributesListener.getReaction(), is(0));
     }
 
     @Test
     void changingStrengthShouldTriggerListener(final FxRobot r) {
         robot(r).clickOn("#strength").write("23");
-        verifyThat(attributesListener.strength, is(23));
+        verifyThat(attributesListener.getStrength(), is(23));
     }
 
     @Test
     void strengthShouldOnlyAcceptIntegers(final FxRobot r) {
         robot(r).clickOn("#strength").write("noInt");
-        verifyThat(attributesListener.strength, is(0));
+        verifyThat(attributesListener.getStrength(), is(0));
     }
 
     @Test
     void changingWillpowerShouldTriggerListener(final FxRobot r) {
         robot(r).clickOn("#willpower").write("23");
-        verifyThat(attributesListener.willpower, is(23));
+        verifyThat(attributesListener.getWillpower(), is(23));
     }
 
     @Test
     void willpowerShouldOnlyAcceptIntegers(final FxRobot r) {
         robot(r).clickOn("#willpower").write("noInt");
-        verifyThat(attributesListener.willpower, is(0));
+        verifyThat(attributesListener.getWillpower(), is(0));
     }
 
     @Test
     void changingLogicShouldTriggerListener(final FxRobot r) {
         robot(r).clickOn("#logic").write("23");
-        verifyThat(attributesListener.logic, is(23));
+        verifyThat(attributesListener.getLogic(), is(23));
     }
 
     @Test
     void logicShouldOnlyAcceptIntegers(final FxRobot r) {
         robot(r).clickOn("#logic").write("noInt");
-        verifyThat(attributesListener.logic, is(0));
+        verifyThat(attributesListener.getLogic(), is(0));
     }
 
     @Test
     void changingIntuitionShouldTriggerListener(final FxRobot r) {
         robot(r).clickOn("#intuition").write("23");
-        verifyThat(attributesListener.intuition, is(23));
+        verifyThat(attributesListener.getIntuition(), is(23));
     }
 
     @Test
     void intuitionShouldOnlyAcceptIntegers(final FxRobot r) {
         robot(r).clickOn("#intuition").write("noInt");
-        verifyThat(attributesListener.intuition, is(0));
+        verifyThat(attributesListener.getIntuition(), is(0));
     }
 
     @Test
     void changingCharismaShouldTriggerListener(final FxRobot r) {
         robot(r).clickOn("#charisma").write("23");
-        verifyThat(attributesListener.charisma, is(23));
+        verifyThat(attributesListener.getCharisma(), is(23));
     }
 
     @Test
     void charismaShouldOnlyAcceptIntegers(final FxRobot r) {
         robot(r).clickOn("#charisma").write("noInt");
-        verifyThat(attributesListener.charisma, is(0));
+        verifyThat(attributesListener.getCharisma(), is(0));
     }
 
     @Test
     void changingSpecialValueShouldTriggerListener(final FxRobot r) {
         robot(r).clickOn("#specialValue").write("23");
-        verifyThat(attributesListener.specialValue, is(23));
+        verifyThat(attributesListener.getSpecialValue(), is(23));
     }
 
     @Test
     void specialValueShouldOnlyAcceptIntegers(final FxRobot r) {
         robot(r).clickOn("#specialValue").write("noInt");
-        verifyThat(attributesListener.specialValue, is(0));
+        verifyThat(attributesListener.getSpecialValue(), is(0));
     }
 
     @Test
     void changingEdgeShouldTriggerListener(final FxRobot r) {
         robot(r).clickOn("#edge").write("23");
-        verifyThat(attributesListener.edge, is(23));
+        verifyThat(attributesListener.getEdge(), is(23));
     }
 
     @Test
     void edgeShouldOnlyAcceptIntegers(final FxRobot r) {
         robot(r).clickOn("#edge").write("noInt");
-        verifyThat(attributesListener.edge, is(0));
+        verifyThat(attributesListener.getEdge(), is(0));
     }
 
     @Test
@@ -162,7 +160,7 @@ class AttributesPaneTest extends HeadlessGUITest {
             attributes.addSpecials("Magic", "poop");
         });
         robot(r).selectComboBoxItem("#special", "Magic");
-        verifyThat(attributesListener.special, is("Magic"));
+        verifyThat(attributesListener.getSpecial(), is("Magic"));
     }
 
     @Test
@@ -566,7 +564,7 @@ class AttributesPaneTest extends HeadlessGUITest {
         Platform.runLater(() -> attributes.setEdge(9));
         awaitSharV();
         robot(r).clickOn("#edge#5");
-        verifyThat(attributesListener.burnedEdge, is(5));
+        verifyThat(attributesListener.getBurnedEdge(), is(5));
     }
 
     @Test
@@ -577,83 +575,7 @@ class AttributesPaneTest extends HeadlessGUITest {
         });
         awaitSharV();
         robot(r).clickOn("#edge#5");
-        verifyThat(attributesListener.burnedEdge, is(4));
-    }
-
-    private static class TestAttributesListener implements AttributesListener {
-
-        private int body;
-        private int agility;
-        private int reaction;
-        private int strength;
-        private int willpower;
-        private int logic;
-        private int intuition;
-        private int charisma;
-        private String special;
-        private int specialValue;
-        private int edge;
-        private int burnedEdge;
-
-        @Override
-        public void changeBody(int body) {
-            this.body = body;
-        }
-
-        @Override
-        public void changeAgility(int agility) {
-            this.agility = agility;
-        }
-
-        @Override
-        public void changeReaction(int reaction) {
-            this.reaction = reaction;
-        }
-
-        @Override
-        public void changeStrength(int strength) {
-            this.strength = strength;
-        }
-
-        @Override
-        public void changeWillpower(int willpower) {
-            this.willpower = willpower;
-        }
-
-        @Override
-        public void changeLogic(int logic) {
-            this.logic = logic;
-        }
-
-        @Override
-        public void changeIntuition(int intuition) {
-            this.intuition = intuition;
-        }
-
-        @Override
-        public void changeCharisma(int charisma) {
-            this.charisma = charisma;
-        }
-
-        @Override
-        public void changeSpecial(String special) {
-            this.special = special;
-        }
-
-        @Override
-        public void changeSpecialValue(int specialValue) {
-            this.specialValue = specialValue;
-        }
-
-        @Override
-        public void changeEdge(int edge) {
-            this.edge = edge;
-        }
-
-        @Override
-        public void changeBurnedEdge(int burnedEdge) {
-            this.burnedEdge = burnedEdge;
-        }
+        verifyThat(attributesListener.getBurnedEdge(), is(4));
     }
 
 }

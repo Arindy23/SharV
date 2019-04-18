@@ -1,7 +1,7 @@
 package de.arindy.sharv.api.gui;
 
 public interface AttributesView {
-    
+
     AttributesView setBodyMax(int bodyMax);
 
     AttributesView setBodyEffective(int bodyEffective);
@@ -137,7 +137,5 @@ public interface AttributesView {
     AttributesView setEdge(int edge);
 
     AttributesView setBurnedEdge(int burndeEdge);
-
-    AttributesView registerListener(AttributesListener attributesListener);
 
 }
