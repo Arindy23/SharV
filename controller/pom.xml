@@ -10,24 +10,22 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>sharv-controller</artifactId>
+
     <dependencies>
         <dependency>
-            <groupId>de.arindy</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>sharv-api</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>de.arindy</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>sharv-core</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>de.arindy</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>sharv-persistence</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.enterprise</groupId>
