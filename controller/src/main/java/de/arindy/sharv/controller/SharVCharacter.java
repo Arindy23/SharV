@@ -31,6 +31,19 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
     private SharVCharacter() {
         character = new Character();
         LOG = Logger.get(getClass().getName());
+        try {
+            sharvPersistenceHandler = new SharvJSONPersistenceHandler(getRootFolder());
+        } catch (URISyntaxException e) {
+            sharvPersistenceHandler = new SharvJSONPersistenceHandler(new File(""));
+        }
+    }
+
+    private File getRootFolder() throws URISyntaxException {
+        final File file = new File(getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile();
+        if (!new File(file, "data").exists()) {
+            return file.getParentFile();
+        }
+        return file;
     }
 
     @Override
@@ -51,11 +64,6 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
 
     public SharVCharacter register(final MenuView menuView) {
         this.menuView = menuView;
-        try {
-            sharvPersistenceHandler = new SharvJSONPersistenceHandler(new File(menuView.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile());
-        } catch (URISyntaxException e) {
-            sharvPersistenceHandler = new SharvJSONPersistenceHandler(new File(""));
-        }
         return this;
     }
 
