@@ -11,7 +11,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 import static de.arindy.sharv.controller.Calculator.*;
 
@@ -19,6 +21,8 @@ import static de.arindy.sharv.controller.Calculator.*;
 public class SharVCharacter implements PersonalDataListener, AttributesListener, ConditionMonitorListener, MenuListener {
 
     private final Logger LOG;
+
+    private final Map<Class<?>, Collection<Runnable>> actions = new HashMap<>();
 
     private Character character;
 
@@ -36,6 +40,19 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
         } catch (URISyntaxException e) {
             sharvPersistenceHandler = new SharvJSONPersistenceHandler(new File(""));
         }
+        initActions();
+    }
+
+    private void initActions() {
+        actions.put(Metatype.class, metatypeActions());
+    }
+
+    private Collection<Runnable> metatypeActions() {
+        final Collection<Runnable> result = new HashSet<>();
+
+        result.add(() -> attributesView.setBodyMax(Calculator.calculateBodyMax(character)));
+
+        return result;
     }
 
     private File getRootFolder() throws URISyntaxException {
@@ -83,6 +100,9 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
     public void changeMetatype(Metatype metatype) {
         LOG.entering(metatype);
         character.getPersonalData().setMetatype(metatype);
+        for (Runnable metatypeAction : actions.get(Metatype.class)) {
+            metatypeAction.run();
+        }
     }
 
     @Override
