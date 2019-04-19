@@ -1,19 +1,16 @@
-package de.arindy.sharv.character;
+package de.arindy.sharv.persistence.character;
 
-import de.arindy.sharv.IdFormatter;
+import de.arindy.sharv.persistence.mapper.Loadable;
 import lombok.Data;
 
-import java.util.Formattable;
-import java.util.Formatter;
 import java.util.Objects;
 
 @Data
-public class Metatype implements Formattable {
+public class Metatype implements Loadable {
 
     private String source;
     private String id;
     private String name;
-    private int bodyMax;
 
     public Metatype() {
         this("");
@@ -29,22 +26,17 @@ public class Metatype implements Formattable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Metatype metatype = (Metatype) o;
-        return Objects.equals(getId(), metatype.getId());
+        return Objects.equals(id, metatype.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId());
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
         return name;
-    }
-
-    @Override
-    public void formatTo(Formatter formatter, int f, int width, int precision) {
-        new IdFormatter(formatter, f, width, precision).formatTo(name, id);
     }
 
 }

@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.Formattable;
 
 import static de.arindy.sharv.gui.JavaFXUtil.*;
 
@@ -168,7 +169,7 @@ public class PersonalDataPane implements PersonalDataView {
         if (this.metatype.getItems().contains(metatype)) {
             this.metatype.getSelectionModel().select(metatype);
         } else {
-            LOG.warning(String.format("%s not available! Selecting first in List!", metatype));
+            warnNotAvailable(metatype);
             this.metatype.getSelectionModel().selectFirst();
         }
         return LOG.returning(this);
@@ -180,10 +181,14 @@ public class PersonalDataPane implements PersonalDataView {
         if (this.sex.getItems().contains(sex)) {
             this.sex.getSelectionModel().select(sex);
         } else {
-            LOG.warning(String.format("%s not available! Selecting first in List!", sex));
+            warnNotAvailable(sex);
             this.sex.getSelectionModel().selectFirst();
         }
         return LOG.returning(this);
+    }
+
+    private void warnNotAvailable(Formattable formattable) {
+        LOG.warning(String.format("%s not available! Selecting first in List!", formattable));
     }
 
     @Override

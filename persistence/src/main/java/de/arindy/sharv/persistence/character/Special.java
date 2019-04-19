@@ -1,14 +1,11 @@
-package de.arindy.sharv.character;
+package de.arindy.sharv.persistence.character;
 
-import de.arindy.sharv.IdFormatter;
 import lombok.Data;
 
-import java.util.Formattable;
-import java.util.Formatter;
 import java.util.Objects;
 
 @Data
-public class Special implements Formattable {
+public class Special {
 
     private String id;
     private String name;
@@ -27,22 +24,16 @@ public class Special implements Formattable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Special special = (Special) o;
-        return Objects.equals(getId(), special.getId());
+        return Objects.equals(id, special.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId());
+        return Objects.hash(getName());
     }
 
     @Override
     public String toString() {
         return name;
     }
-
-    @Override
-    public void formatTo(Formatter formatter, int i, int i1, int i2) {
-        new IdFormatter(formatter, i, i1, i2).formatTo(name, id);
-    }
-
 }

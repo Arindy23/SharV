@@ -4,11 +4,12 @@ import de.arindy.sharv.Logger;
 import de.arindy.sharv.api.gui.*;
 import de.arindy.sharv.character.Character;
 import de.arindy.sharv.character.*;
-import de.arindy.sharv.persistence.JsonHandler;
+import de.arindy.sharv.persistence.SharvJSONPersistenceHandler;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -25,6 +26,7 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
     private AttributesView attributesView;
     private ConditionMonitorView conditionMonitorView;
     private MenuView menuView;
+    private SharvJSONPersistenceHandler sharvPersistenceHandler;
 
     private SharVCharacter() {
         character = new Character();
@@ -49,6 +51,11 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
 
     public SharVCharacter register(final MenuView menuView) {
         this.menuView = menuView;
+        try {
+            sharvPersistenceHandler = new SharvJSONPersistenceHandler(new File(menuView.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile());
+        } catch (URISyntaxException e) {
+            sharvPersistenceHandler = new SharvJSONPersistenceHandler(new File(""));
+        }
         return this;
     }
 
@@ -229,7 +236,7 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
         LOG.entering(file);
         try {
             if (file != null) {
-                character = JsonHandler.readFile(file, Character.class);
+                character = sharvPersistenceHandler.loadChar(file);
                 load(character);
                 menuView.setHighlightColor(character.getHighlightColor());
                 menuView.setCharacterFile(file);
@@ -245,7 +252,7 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
         LOG.entering(file);
         try {
             if (file != null) {
-                JsonHandler.writeFile(file, character);
+                sharvPersistenceHandler.saveChar(file, character);
                 menuView.setCharacterFile(file);
                 LOG.debug(String.format("Character written: %s", file.getAbsolutePath()));
             }
@@ -256,7 +263,7 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
 
     @Override
     public void initializeMenu() {
-        menuView.addAvailableModules(new JsonHandler(menuView.getClass()).availableModules().toArray(new String[0]));
+        menuView.addAvailableModules(sharvPersistenceHandler.availableModules().toArray(new String[0]));
         menuView.setActivatedModules("SR5");
     }
 
@@ -302,7 +309,7 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
     private <T> Collection<T> loadData(Class<T> t) {
         Collection<T> result = new HashSet<>();
         for (String activeModule : character.getActiveModules()) {
-            Collection<T> data = new JsonHandler(personalDataView.getClass()).readFiles(t).get(activeModule);
+            Collection<T> data = sharvPersistenceHandler.readFiles(t).get(activeModule);
             if (data != null) {
                 result.addAll(data);
             }
@@ -332,6 +339,7 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
     private void load(Attributes attributes) {
         attributesView
                 .setBody(attributes.getPhysical().getBody())
+                .setBodyMax(Calculator.calculateBodyMax(character))
                 .setAgility(attributes.getPhysical().getAgility())
                 .setReaction(attributes.getPhysical().getReaction())
                 .setStrength(attributes.getPhysical().getStrength())

@@ -99,7 +99,7 @@ public class Logger {
     }
 
     private static String callerRef() {
-        return Thread.currentThread().getStackTrace()[5].toString();
+        return Thread.currentThread().getStackTrace()[4].toString();
     }
 
     private static StackTraceElement caller() {

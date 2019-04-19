@@ -16,6 +16,7 @@ import javafx.scene.input.InputMethodEvent;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.Formattable;
 
 import static de.arindy.sharv.gui.JavaFXUtil.extractInteger;
 import static de.arindy.sharv.gui.JavaFXUtil.getSelectedItem;
@@ -616,10 +617,14 @@ public class AttributesPane implements AttributesView {
         if (this.special.getItems().contains(special)) {
             this.special.getSelectionModel().select(special);
         } else {
-            LOG.warning(String.format("%s not available! Selecting first in List!", special));
+            warnNotAvailable(special);
             this.special.getSelectionModel().selectFirst();
         }
         return LOG.returning(this);
+    }
+
+    private void warnNotAvailable(Formattable formattable) {
+        LOG.warning(String.format("%s not available! Selecting first in List!", formattable));
     }
 
     @Override

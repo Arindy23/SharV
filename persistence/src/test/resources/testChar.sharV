@@ -1,0 +1,38 @@
+{
+  "activeModules" : [ "SR5" ],
+  "personalData" : {
+    "name" : "TestChar",
+    "metatype" : {
+      "source" : "SR5#50",
+      "id" : "a53d885d-a4a4-443d-b6a6-b0a55b0a96c9",
+      "name" : "Human"
+    },
+    "age" : 0,
+    "height" : 0,
+    "weight" : 0,
+    "streetCred" : 0,
+    "notoriety" : 0,
+    "publicAwareness" : 0
+  },
+  "attributes" : {
+    "physical" : {
+      "body" : 0,
+      "agility" : 0,
+      "reaction" : 0,
+      "strength" : 0
+    },
+    "mental" : {
+      "willpower" : 0,
+      "logic" : 0,
+      "intuition" : 0,
+      "charisma" : 0
+    },
+    "specialAttributes" : {
+      "specialValue" : 0,
+      "edge" : 0,
+      "burnedEdge" : 0
+    }
+  },
+  "physicalDamage" : 0,
+  "stunDamage" : 0
+}

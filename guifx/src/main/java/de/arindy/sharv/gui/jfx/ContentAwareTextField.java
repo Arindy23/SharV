@@ -101,7 +101,7 @@ public class ContentAwareTextField extends TextField {
     }
 
     private boolean isInRange(int start, int end, String text) {
-        return end >= 0 && (isUnrestricted() || (getLength() - (end - start) + text.length() <= getMaxLength())) || text.isEmpty();
+        return end >= 0 && (isUnrestricted() || getLength() - (end - start) + text.length() <= getMaxLength()) || text.isEmpty();
     }
 
     private boolean isUnrestricted() {
