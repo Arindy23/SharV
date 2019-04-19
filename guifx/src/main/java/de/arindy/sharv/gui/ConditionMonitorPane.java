@@ -55,28 +55,28 @@ public class ConditionMonitorPane implements ConditionMonitorView {
     public ConditionMonitorView setPhysicalDamageMax(int physicalDamageMax) {
         LOG.entering(physicalDamageMax);
         physicalCheckBoxes.setAmount(physicalDamageMax);
-        return LOG.returning(this);
+        return this;
     }
 
     @Override
     public ConditionMonitorView setPhysicalDamage(int physicalDamage) {
         LOG.entering(physicalDamage);
         physicalCheckBoxes.setCheckedAmount(physicalDamage);
-        return LOG.returning(this);
+        return this;
     }
 
     @Override
     public ConditionMonitorView setStunDamageMax(int stunDamageMax) {
         LOG.entering(stunDamageMax);
         stunCheckBoxes.setAmount(stunDamageMax);
-        return LOG.returning(this);
+        return this;
     }
 
     @Override
     public ConditionMonitorView setStunDamage(int stunDamage) {
         LOG.entering(stunDamage);
         stunCheckBoxes.setCheckedAmount(stunDamage);
-        return LOG.returning(this);
+        return this;
     }
 
     @Override
@@ -84,6 +84,6 @@ public class ConditionMonitorPane implements ConditionMonitorView {
         LOG.entering(dicePoolModifier);
         this.dicePoolModifier.setText(String.valueOf(dicePoolModifier));
         JavaFXUtil.highlight(this.dicePoolModifier, dicePoolModifier != 0);
-        return LOG.returning(this);
+        return this;
     }
 }

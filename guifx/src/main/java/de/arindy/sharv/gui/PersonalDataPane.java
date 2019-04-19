@@ -152,7 +152,7 @@ public class PersonalDataPane implements PersonalDataView {
         LOG.entering(name);
         this.name.setText(name);
         updateTitle();
-        return LOG.returning(this);
+        return this;
     }
 
     @Override
@@ -160,7 +160,7 @@ public class PersonalDataPane implements PersonalDataView {
         LOG.entering(streetname);
         this.streetname.setText(streetname);
         updateTitle();
-        return LOG.returning(this);
+        return this;
     }
 
     @Override
@@ -172,7 +172,7 @@ public class PersonalDataPane implements PersonalDataView {
             warnNotAvailable(metatype);
             this.metatype.getSelectionModel().selectFirst();
         }
-        return LOG.returning(this);
+        return this;
     }
 
     @Override
@@ -184,7 +184,7 @@ public class PersonalDataPane implements PersonalDataView {
             warnNotAvailable(sex);
             this.sex.getSelectionModel().selectFirst();
         }
-        return LOG.returning(this);
+        return this;
     }
 
     private void warnNotAvailable(Formattable formattable) {
@@ -195,56 +195,56 @@ public class PersonalDataPane implements PersonalDataView {
     public PersonalDataView setAge(int age) {
         LOG.entering(age);
         this.age.setText(String.valueOf(age));
-        return LOG.returning(this);
+        return this;
     }
 
     @Override
     public PersonalDataView setHeight(int height) {
         LOG.entering(height);
         this.height.setText(String.valueOf(height));
-        return LOG.returning(this);
+        return this;
     }
 
     @Override
     public PersonalDataView setWeight(int weight) {
         LOG.entering(weight);
         this.weight.setText(String.valueOf(weight));
-        return LOG.returning(this);
+        return this;
     }
 
     @Override
     public PersonalDataView setEthnicity(final String ethnicity) {
         LOG.entering(ethnicity);
         this.ethnicity.setText(ethnicity);
-        return LOG.returning(this);
+        return this;
     }
 
     @Override
     public PersonalDataView setConcept(final String concept) {
         LOG.entering(concept);
         this.concept.setText(concept);
-        return LOG.returning(this);
+        return this;
     }
 
     @Override
     public PersonalDataView setStreetCred(int streetCred) {
         LOG.entering(streetCred);
         this.streetCred.setText(String.valueOf(streetCred));
-        return LOG.returning(this);
+        return this;
     }
 
     @Override
     public PersonalDataView setNotoriety(int notoriety) {
         LOG.entering(notoriety);
         this.notoriety.setText(String.valueOf(notoriety));
-        return LOG.returning(this);
+        return this;
     }
 
     @Override
     public PersonalDataView setPublicAwareness(int publicAwareness) {
         LOG.entering(publicAwareness);
         this.publicAwareness.setText(String.valueOf(publicAwareness));
-        return LOG.returning(this);
+        return this;
     }
 
     @Override
@@ -257,63 +257,63 @@ public class PersonalDataPane implements PersonalDataView {
             }
             racialBonuses.add(new Text(bonus));
         }
-        return LOG.returning(this);
+        return this;
     }
 
     @Override
     public PersonalDataView removeAllRacialBonuses() {
         LOG.entering();
         racialBonuses.getChildren().clear();
-        return LOG.returning(this);
+        return this;
     }
 
     @Override
     public PersonalDataView setKarma(int karma) {
         LOG.entering(karma);
         this.karma.setText(String.valueOf(karma));
-        return LOG.returning(this);
+        return this;
     }
 
     @Override
     public PersonalDataView setKarmaMax(int karmaMax) {
         LOG.entering(karmaMax);
         this.karmaMax.setText(String.valueOf(karmaMax));
-        return LOG.returning(this);
+        return this;
     }
 
     @Override
     public PersonalDataView setNuyen(int nuyen) {
         LOG.entering(nuyen);
         this.nuyen.setText(String.valueOf(nuyen));
-        return LOG.returning(this);
+        return this;
     }
 
     @Override
     public PersonalDataView addSexes(final Sex... sexes) {
         LOG.entering(sexes);
         this.sex.getItems().addAll(sexes);
-        return LOG.returning(this);
+        return this;
     }
 
     @Override
     public PersonalDataView removeAllSexes() {
         LOG.entering();
         this.sex.getItems().clear();
-        return LOG.returning(this);
+        return this;
     }
 
     @Override
     public PersonalDataView addMetatypes(final Metatype... metatypes) {
         LOG.entering(metatypes);
         this.metatype.getItems().addAll(metatypes);
-        return LOG.returning(this);
+        return this;
     }
 
     @Override
     public PersonalDataView removeMetatypes() {
         LOG.entering();
         this.metatype.getItems().clear();
-        return LOG.returning(this);
+        return this;
     }
 
     @Override
