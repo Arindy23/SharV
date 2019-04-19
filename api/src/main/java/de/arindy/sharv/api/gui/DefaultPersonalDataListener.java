@@ -87,4 +87,8 @@ public class DefaultPersonalDataListener implements PersonalDataListener {
         this.publicAwareness = publicAwareness;
     }
 
+    @Override
+    public void initializePersonalData() {
+    }
+
 }

@@ -7,14 +7,16 @@ import java.util.Objects;
 @Data
 public class Special {
 
+    private String id;
     private String name;
 
     public Special() {
         this("");
     }
 
-    public Special(String name) {
-        this.name = name;
+    public Special(String id) {
+        this.id = id;
+        this.name = id;
     }
 
     @Override
@@ -22,7 +24,7 @@ public class Special {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Special special = (Special) o;
-        return Objects.equals(getName(), special.getName());
+        return Objects.equals(id, special.id);
     }
 
     @Override

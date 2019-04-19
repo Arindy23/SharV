@@ -29,6 +29,12 @@
             <artifactId>sharv-controller</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>sharv-data</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -55,6 +61,23 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.1</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeArtifactIds>sharv-data</includeArtifactIds>
+                            <outputDirectory>${project.build.directory}/data</outputDirectory>
+                            <excludes>**/META-INF/**/*, **/META-INF</excludes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>com.zenjava</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>${javafx-maven-plugin.version}</version>
@@ -70,6 +93,10 @@
                         <goals>
                             <goal>build-jar</goal>
                         </goals>
+                        <configuration>
+                            <additionalAppResources>${project.build.directory}/data</additionalAppResources>
+                            <copyAdditionalAppResourcesToJar>true</copyAdditionalAppResourcesToJar>
+                        </configuration>
                     </execution>
                     <execution>
                         <id>build-native</id>
@@ -90,9 +117,6 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <minimizeJar>true</minimizeJar>
-                            <shadedArtifactAttached>true</shadedArtifactAttached>
-
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <mainClass>de.arindy.sharv.gui.SharV</mainClass>

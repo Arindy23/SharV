@@ -7,14 +7,16 @@ import java.util.Objects;
 @Data
 public class Metatype {
 
+    private String id;
     private String name;
 
     protected Metatype() {
         this("");
     }
 
-    public Metatype(final String name) {
-        this.name = name;
+    public Metatype(final String id) {
+        this.id = id;
+        this.name = id;
     }
 
     @Override
@@ -22,12 +24,12 @@ public class Metatype {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Metatype metatype = (Metatype) o;
-        return Objects.equals(name, metatype.name);
+        return Objects.equals(id, metatype.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(id);
     }
 
     @Override

@@ -11,4 +11,11 @@ public interface MenuListener {
     void load(File file);
 
     void save(File file);
+
+    void initializeMenu();
+
+    void activateModule(String module);
+
+    void deactivateModule(String module);
+
 }

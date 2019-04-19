@@ -8,6 +8,10 @@ public interface MenuView {
 
     MenuView setCharacterFile(File characterFile);
 
+    MenuView addAvailableModules(String... modules);
+
+    MenuView setActivatedModules(String... modules);
+
     void setReloadable(Reloadable reloadable);
 
 }

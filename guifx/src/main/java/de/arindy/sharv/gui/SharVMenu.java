@@ -49,6 +49,8 @@ public class SharVMenu implements MenuView {
     @FXML
     private Menu control;
     @FXML
+    private Menu modules;
+    @FXML
     private MenuItem controlQualities;
     @FXML
     private Menu options;
@@ -95,6 +97,7 @@ public class SharVMenu implements MenuView {
             default:
                 break;
         }
+        menuListener.initializeMenu();
     }
 
     public void loadCharacter() {
@@ -208,6 +211,40 @@ public class SharVMenu implements MenuView {
     public MenuView setCharacterFile(final File characterFile) {
         LOG.entering(characterFile);
         this.characterFile = characterFile;
+        return this;
+    }
+
+    public void onModule(final ActionEvent event) {
+        LOG.entering(event);
+        RadioMenuItem source = (RadioMenuItem) event.getSource();
+        if (source.isSelected()) {
+            menuListener.activateModule(source.getText());
+        } else {
+            menuListener.deactivateModule(source.getText());
+        }
+    }
+
+    @Override
+    public MenuView addAvailableModules(final String... modules) {
+        for (final String moduleName : modules) {
+            final RadioMenuItem module = new RadioMenuItem(moduleName);
+            module.setOnAction(this::onModule);
+            this.modules.getItems().add(module);
+        }
+        return this;
+    }
+
+    @Override
+    public MenuView setActivatedModules(final String... modules) {
+        this.modules.getItems().forEach(menuItem -> ((RadioMenuItem) menuItem).setSelected(false));
+        this.modules.getItems().forEach(menuItem -> {
+                    for (String module : modules) {
+                        if (Objects.equals(menuItem.getText(), module)) {
+                            ((RadioMenuItem) menuItem).setSelected(true);
+                        }
+                    }
+                }
+        );
         return this;
     }
 

@@ -14,6 +14,7 @@
         </Menu>
         <Menu fx:id="control" mnemonicParsing="false" text="%control">
             <MenuItem fx:id="controlQualities" mnemonicParsing="false" text="%control.qualities"/>
+            <Menu fx:id="modules" mnemonicParsing="false" text="%modules"/>
         </Menu>
         <Menu fx:id="options" mnemonicParsing="false" text="%options">
             <Menu fx:id="language" mnemonicParsing="false" text="%language">

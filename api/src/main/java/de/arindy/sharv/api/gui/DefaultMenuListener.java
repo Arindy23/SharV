@@ -32,4 +32,16 @@ public class DefaultMenuListener implements MenuListener {
         this.file = file;
     }
 
+    @Override
+    public void initializeMenu() {
+    }
+
+    @Override
+    public void activateModule(String module) {
+    }
+
+    @Override
+    public void deactivateModule(String module) {
+    }
+
 }

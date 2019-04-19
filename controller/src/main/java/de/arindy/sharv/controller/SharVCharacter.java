@@ -9,6 +9,8 @@ import de.arindy.sharv.persistence.JsonHandler;
 import javax.enterprise.context.ApplicationScoped;
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
 
 import static de.arindy.sharv.controller.Calculator.*;
 
@@ -120,6 +122,12 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
     public void changePublicAwareness(int publicAwareness) {
         LOG.entering(publicAwareness);
         character.getPersonalData().setPublicAwareness(publicAwareness);
+    }
+
+    @Override
+    public void initializePersonalData() {
+        initMetatypes();
+        initSexes();
     }
 
     @Override
@@ -246,7 +254,27 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
         }
     }
 
+    @Override
+    public void initializeMenu() {
+        menuView.addAvailableModules(new JsonHandler(menuView.getClass()).availableModules().toArray(new String[0]));
+        menuView.setActivatedModules("SR5");
+    }
+
+    @Override
+    public void activateModule(String module) {
+        LOG.entering(module);
+        character.getActiveModules().add(module);
+    }
+
+    @Override
+    public void deactivateModule(String module) {
+        LOG.entering(module);
+        character.getActiveModules().remove(module);
+    }
+
     private void load(final Character character) {
+        initializePersonalData();
+        menuView.setActivatedModules(character.getActiveModules().toArray(new String[0]));
         load(character.getPersonalData());
         load(character.getAttributes());
         conditionMonitorView
@@ -255,6 +283,31 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
                 .setPhysicalDamage(character.getPhysicalDamage())
                 .setStunDamage(character.getStunDamage())
                 .setDicePoolModifier(calculateDicePoolModifier(character));
+    }
+
+    private void initMetatypes() {
+        personalDataView.removeMetatypes();
+        personalDataView.addMetatypes(
+                loadData(Metatype.class).toArray(new Metatype[0])
+        );
+    }
+
+    private void initSexes() {
+        personalDataView.removeAllSexes();
+        personalDataView.addSexes(
+                loadData(Sex.class).toArray(new Sex[0])
+        );
+    }
+
+    private <T> Collection<T> loadData(Class<T> t) {
+        Collection<T> result = new HashSet<>();
+        for (String activeModule : character.getActiveModules()) {
+            Collection<T> data = new JsonHandler(personalDataView.getClass()).readFiles(t).get(activeModule);
+            if (data != null) {
+                result.addAll(data);
+            }
+        }
+        return result;
     }
 
     private void load(PersonalData personalData) {

@@ -31,4 +31,6 @@ public interface PersonalDataListener {
 
     void changePublicAwareness(int publicAwareness);
 
+    void initializePersonalData();
+
 }

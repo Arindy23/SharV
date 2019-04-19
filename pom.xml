@@ -16,6 +16,7 @@
         <module>guifx</module>
         <module>chummer</module>
         <module>controller</module>
+        <module>data</module>
     </modules>
 
     <properties>
