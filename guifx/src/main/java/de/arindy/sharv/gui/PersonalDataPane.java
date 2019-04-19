@@ -4,6 +4,8 @@ import de.arindy.sharv.Logger;
 import de.arindy.sharv.api.gui.DefaultPersonalDataListener;
 import de.arindy.sharv.api.gui.PersonalDataListener;
 import de.arindy.sharv.api.gui.PersonalDataView;
+import de.arindy.sharv.character.Metatype;
+import de.arindy.sharv.character.Sex;
 import de.arindy.sharv.gui.jfx.BorderedTitledPane;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -41,7 +43,7 @@ public class PersonalDataPane implements PersonalDataView {
     @FXML
     private TextField publicAwareness;
     @FXML
-    private ComboBox<String> metatype;
+    private ComboBox<Metatype> metatype;
     @FXML
     private Label karma;
     @FXML
@@ -49,7 +51,7 @@ public class PersonalDataPane implements PersonalDataView {
     @FXML
     private Label nuyen;
     @FXML
-    private ComboBox<String> sex;
+    private ComboBox<Sex> sex;
     @FXML
     private TextField age;
     @FXML
@@ -75,6 +77,10 @@ public class PersonalDataPane implements PersonalDataView {
     public PersonalDataPane withPersonalDataListener(final PersonalDataListener personalDataListener) {
         this.personalDataListener = personalDataListener.register(this);
         return this;
+    }
+
+    public void initialize() {
+        personalDataListener.initializePersonalData();
     }
 
     public void onName(final InputMethodEvent inputMethodEvent) {
@@ -157,16 +163,26 @@ public class PersonalDataPane implements PersonalDataView {
     }
 
     @Override
-    public PersonalDataView setMetatype(final String metatype) {
+    public PersonalDataView setMetatype(final Metatype metatype) {
         LOG.entering(metatype);
-        this.metatype.getSelectionModel().select(metatype);
+        if (this.metatype.getItems().contains(metatype)) {
+            this.metatype.getSelectionModel().select(metatype);
+        } else {
+            LOG.warning(String.format("%s not available! Selecting first in List!", metatype));
+            this.metatype.getSelectionModel().selectFirst();
+        }
         return LOG.returning(this);
     }
 
     @Override
-    public PersonalDataView setSex(final String sex) {
+    public PersonalDataView setSex(final Sex sex) {
         LOG.entering(sex);
-        this.sex.getSelectionModel().select(sex);
+        if (this.sex.getItems().contains(sex)) {
+            this.sex.getSelectionModel().select(sex);
+        } else {
+            LOG.warning(String.format("%s not available! Selecting first in List!", sex));
+            this.sex.getSelectionModel().selectFirst();
+        }
         return LOG.returning(this);
     }
 
@@ -268,7 +284,7 @@ public class PersonalDataPane implements PersonalDataView {
     }
 
     @Override
-    public PersonalDataView addSexes(final String... sexes) {
+    public PersonalDataView addSexes(final Sex... sexes) {
         LOG.entering(sexes);
         this.sex.getItems().addAll(sexes);
         return LOG.returning(this);
@@ -282,7 +298,7 @@ public class PersonalDataPane implements PersonalDataView {
     }
 
     @Override
-    public PersonalDataView addMetatypes(final String... metatypes) {
+    public PersonalDataView addMetatypes(final Metatype... metatypes) {
         LOG.entering(metatypes);
         this.metatype.getItems().addAll(metatypes);
         return LOG.returning(this);
@@ -298,13 +314,13 @@ public class PersonalDataPane implements PersonalDataView {
     @Override
     public void updateTitle() {
         final String prefix;
-        if (streetname.getText().isEmpty()) {
+        if (streetname.getText() == null || streetname.getText().isEmpty()) {
             prefix = name.getText();
         } else {
             prefix = streetname.getText();
         }
         final String titlePrefix;
-        if (prefix.isEmpty()) {
+        if (prefix == null || prefix.isEmpty()) {
             titlePrefix = "";
         } else {
             titlePrefix = String.format("%s - ", prefix);

@@ -1,5 +1,7 @@
 package de.arindy.sharv.api.gui;
 
+import de.arindy.sharv.character.Metatype;
+import de.arindy.sharv.character.Sex;
 import lombok.Getter;
 
 @Getter
@@ -7,8 +9,8 @@ public class DefaultPersonalDataListener implements PersonalDataListener {
 
     private String name;
     private String streetname;
-    private String metatype;
-    private String sex;
+    private Metatype metatype;
+    private Sex sex;
     private int age;
     private int height;
     private int weight;
@@ -36,12 +38,12 @@ public class DefaultPersonalDataListener implements PersonalDataListener {
     }
 
     @Override
-    public void changeMetatype(String metatype) {
+    public void changeMetatype(Metatype metatype) {
         this.metatype = metatype;
     }
 
     @Override
-    public void changeSex(String sex) {
+    public void changeSex(Sex sex) {
         this.sex = sex;
     }
 

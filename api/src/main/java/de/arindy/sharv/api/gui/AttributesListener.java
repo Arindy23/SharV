@@ -1,5 +1,7 @@
 package de.arindy.sharv.api.gui;
 
+import de.arindy.sharv.character.Special;
+
 public interface AttributesListener {
 
     void changeBody(int body);
@@ -18,7 +20,7 @@ public interface AttributesListener {
 
     void changeCharisma(int charisma);
 
-    void changeSpecial(String special);
+    void changeSpecial(Special special);
 
     void changeSpecialValue(int specialValue);
 

@@ -4,6 +4,7 @@ import de.arindy.sharv.Logger;
 import de.arindy.sharv.api.gui.AttributesListener;
 import de.arindy.sharv.api.gui.AttributesView;
 import de.arindy.sharv.api.gui.DefaultAttributesListener;
+import de.arindy.sharv.character.Special;
 import de.arindy.sharv.gui.jfx.CheckBoxPane;
 import de.arindy.sharv.gui.jfx.ContentAwareTextField;
 import javafx.event.ActionEvent;
@@ -118,7 +119,7 @@ public class AttributesPane implements AttributesView {
     @FXML
     private Label socialLimit;
     @FXML
-    private ComboBox<String> special;
+    private ComboBox<Special> special;
     @FXML
     private ContentAwareTextField specialValue;
     @FXML
@@ -603,16 +604,21 @@ public class AttributesPane implements AttributesView {
     }
 
     @Override
-    public AttributesView addSpecials(String... specials) {
+    public AttributesView addSpecials(Special... specials) {
         LOG.entering(specials);
         special.getItems().addAll(specials);
         return LOG.returning(this);
     }
 
     @Override
-    public AttributesView setSpecial(final String special) {
+    public AttributesView setSpecial(final Special special) {
         LOG.entering(special);
-        this.special.getSelectionModel().select(special);
+        if (this.special.getItems().contains(special)) {
+            this.special.getSelectionModel().select(special);
+        } else {
+            LOG.warning(String.format("%s not available! Selecting first in List!", special));
+            this.special.getSelectionModel().selectFirst();
+        }
         return LOG.returning(this);
     }
 

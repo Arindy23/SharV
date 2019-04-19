@@ -2,6 +2,7 @@ package de.arindy.sharv.gui;
 
 import de.arindy.sharv.api.gui.AttributesView;
 import de.arindy.sharv.api.gui.DefaultAttributesListener;
+import de.arindy.sharv.character.Special;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -157,21 +158,21 @@ class AttributesPaneTest extends HeadlessGUITest {
     void changingSpecialShouldTriggerListener(final FxRobot r) {
         Platform.runLater(() -> {
             attributes.removeSpecials();
-            attributes.addSpecials("Magic", "poop");
+            attributes.addSpecials(new Special("Magic"), new Special("poop"));
         });
         robot(r).selectComboBoxItem("#special", "Magic");
-        verifyThat(attributesListener.getSpecial(), is("Magic"));
+        verifyThat(attributesListener.getSpecial(), is(new Special("Magic")));
     }
 
     @Test
     void setSpecialShouldChangeSpecial(final FxRobot r) throws Exception {
         Platform.runLater(() -> {
             attributes.removeSpecials();
-            attributes.addSpecials("Magic", "poop");
+            attributes.addSpecials(new Special("Magic"), new Special("poop"));
         });
-        Platform.runLater(() -> attributes.setSpecial("poop"));
+        Platform.runLater(() -> attributes.setSpecial(new Special("poop")));
         awaitSharV();
-        verifyThat(robot(r).lookupComboBox("#special").getSelectionModel().getSelectedItem(), is("poop"));
+        verifyThat(robot(r).lookupComboBox("#special").getSelectionModel().getSelectedItem(), is(new Special("poop")));
     }
 
     @Test

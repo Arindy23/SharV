@@ -1,5 +1,7 @@
 package de.arindy.sharv.api.gui;
 
+import de.arindy.sharv.character.Special;
+
 public interface AttributesView {
 
     AttributesView setBodyMax(int bodyMax);
@@ -112,9 +114,9 @@ public interface AttributesView {
 
     AttributesView removeSpecials();
 
-    AttributesView addSpecials(String... specials);
+    AttributesView addSpecials(Special... specials);
 
-    AttributesView setSpecial(String special);
+    AttributesView setSpecial(Special special);
 
     AttributesView setSpecialValue(int specialValue);
 

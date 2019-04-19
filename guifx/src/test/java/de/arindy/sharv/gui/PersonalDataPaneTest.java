@@ -2,6 +2,8 @@ package de.arindy.sharv.gui;
 
 import de.arindy.sharv.api.gui.DefaultPersonalDataListener;
 import de.arindy.sharv.api.gui.PersonalDataView;
+import de.arindy.sharv.character.Metatype;
+import de.arindy.sharv.character.Sex;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -157,20 +159,20 @@ class PersonalDataPaneTest extends HeadlessGUITest {
     void changingMetatypeShouldTriggerListener(final FxRobot r) throws Exception {
         Platform.runLater(() -> {
             personalData.removeMetatypes();
-            personalData.addMetatypes("Human", "Elf");
+            personalData.addMetatypes(new Metatype("Human"), new Metatype("Elf"));
         });
         robot(r).selectComboBoxItem("#metatype", "Human");
-        verifyThat(personalDataListener.getMetatype(), is("Human"));
+        verifyThat(personalDataListener.getMetatype(), is(new Metatype("Human")));
     }
 
     @Test
     void changingSexShouldTriggerListener(final FxRobot r) throws Exception {
         Platform.runLater(() -> {
             personalData.removeAllSexes();
-            personalData.addSexes("male", "female");
+            personalData.addSexes(new Sex("male"), new Sex("female"));
         });
         robot(r).selectComboBoxItem("#sex", "female");
-        verifyThat(personalDataListener.getSex(), is("female"));
+        verifyThat(personalDataListener.getSex(), is(new Sex("female")));
     }
 
     @Test
@@ -212,21 +214,21 @@ class PersonalDataPaneTest extends HeadlessGUITest {
     @Test
     void setMetatypeShouldUpdateMetatypeComboBox(final FxRobot r) throws Exception {
         Platform.runLater(() -> {
-            personalData.addMetatypes("Toll", "Elv", "Human");
-            personalData.setMetatype("Human");
+            personalData.addMetatypes(new Metatype("Toll"), new Metatype("Elv"), new Metatype("Human"));
+            personalData.setMetatype(new Metatype("Human"));
         });
         awaitSharV();
-        verifyThat(robot(r).lookupComboBox("#metatype"), ComboBoxMatchers.hasSelectedItem("Human"));
+        verifyThat(robot(r).lookupComboBox("#metatype"), ComboBoxMatchers.hasSelectedItem(new Metatype("Human")));
     }
 
     @Test
     void setSexShouldUpdateSexComboBox(final FxRobot r) throws Exception {
         Platform.runLater(() -> {
-            personalData.addSexes("Male", "Female");
-            personalData.setSex("Female");
+            personalData.addSexes(new Sex("Male"), new Sex("Female"));
+            personalData.setSex(new Sex("Female"));
         });
         awaitSharV();
-        verifyThat(robot(r).lookupComboBox("#sex"), ComboBoxMatchers.hasSelectedItem("Female"));
+        verifyThat(robot(r).lookupComboBox("#sex"), ComboBoxMatchers.hasSelectedItem(new Sex("Female")));
     }
 
     @Test

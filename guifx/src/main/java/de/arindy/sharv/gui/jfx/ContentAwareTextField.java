@@ -26,14 +26,6 @@ public class ContentAwareTextField extends TextField {
         this(UNRESTRICTED_REGEX, UNRESTRICTED_MAX_LENGTH, MAX_INTEGER_VALUE);
     }
 
-    public ContentAwareTextField(final String regex) {
-        this(regex, UNRESTRICTED_MAX_LENGTH, MAX_INTEGER_VALUE);
-    }
-
-    public ContentAwareTextField(final Integer maxLength) {
-        this(UNRESTRICTED_REGEX, maxLength, MAX_INTEGER_VALUE);
-    }
-
     public ContentAwareTextField(final String regex, final Integer maxLength, final Integer maxValue) {
         this.regex.set(regex);
         this.maxLength.set(maxLength);
@@ -42,17 +34,18 @@ public class ContentAwareTextField extends TextField {
 
     @Override
     public void replaceText(final int start, final int end, final String text) {
+        log().entering(start, end, text);
         final String oldText = currentText();
         final int oldCaretPosition = getCaretPosition();
         boolean changed = false;
-        if (isInRange(end, text)) {
+        if (isInRange(start, end, text)) {
             super.replaceText(start, end, text);
             changed = true;
         }
         if (isUnrestricted() && isNotRegexConform()) {
             setText(oldText, oldCaretPosition);
             changed = false;
-        } else if (isOverLimit(end) || isNotRegexConform() || isTooLong()) {
+        } else if (isOverLimit() || isNotRegexConform() || isTooLong()) {
             setText(oldText, oldCaretPosition);
             changed = false;
         } else if (isOverMaxValue()) {
@@ -103,12 +96,12 @@ public class ContentAwareTextField extends TextField {
         return !currentText().matches(getRegex());
     }
 
-    private boolean isOverLimit(int end) {
-        return end > getMaxLength() || end < 0;
+    private boolean isOverLimit() {
+        return getLength() > getMaxLength() || getLength() < 0;
     }
 
-    private boolean isInRange(int end, String text) {
-        return end >= 0 && (isUnrestricted() || end < getMaxLength()) || text.isEmpty();
+    private boolean isInRange(int start, int end, String text) {
+        return end >= 0 && (isUnrestricted() || (getLength() - (end - start) + text.length() <= getMaxLength())) || text.isEmpty();
     }
 
     private boolean isUnrestricted() {

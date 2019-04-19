@@ -1,5 +1,8 @@
 package de.arindy.sharv.api.gui;
 
+import de.arindy.sharv.character.Metatype;
+import de.arindy.sharv.character.Sex;
+
 public interface PersonalDataListener {
 
     PersonalDataListener register(PersonalDataView personalDataView);
@@ -8,9 +11,9 @@ public interface PersonalDataListener {
 
     void changeStreetname(String streetname);
 
-    void changeMetatype(String metatype);
+    void changeMetatype(Metatype metatype);
 
-    void changeSex(String sex);
+    void changeSex(Sex sex);
 
     void changeAge(int age);
 

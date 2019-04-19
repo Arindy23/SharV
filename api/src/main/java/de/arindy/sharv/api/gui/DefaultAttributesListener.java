@@ -1,5 +1,6 @@
 package de.arindy.sharv.api.gui;
 
+import de.arindy.sharv.character.Special;
 import lombok.Getter;
 
 @Getter
@@ -13,7 +14,7 @@ public class DefaultAttributesListener implements AttributesListener {
     private int logic;
     private int intuition;
     private int charisma;
-    private String special;
+    private Special special;
     private int specialValue;
     private int edge;
     private int burnedEdge;
@@ -66,7 +67,7 @@ public class DefaultAttributesListener implements AttributesListener {
     }
 
     @Override
-    public void changeSpecial(String special) {
+    public void changeSpecial(Special special) {
         this.special = special;
     }
 

@@ -3,11 +3,14 @@ package de.arindy.sharv.controller;
 import de.arindy.sharv.Logger;
 import de.arindy.sharv.api.gui.*;
 import de.arindy.sharv.character.Character;
+import de.arindy.sharv.character.*;
 import de.arindy.sharv.persistence.JsonHandler;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.io.File;
 import java.io.IOException;
+
+import static de.arindy.sharv.controller.Calculator.*;
 
 @ApplicationScoped
 public class SharVCharacter implements PersonalDataListener, AttributesListener, ConditionMonitorListener, MenuListener {
@@ -49,69 +52,81 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
 
     @Override
     public void changeName(String name) {
-
+        LOG.entering(name);
+        character.getPersonalData().setName(name);
     }
 
     @Override
     public void changeStreetname(String streetname) {
-
+        LOG.entering(streetname);
+        character.getPersonalData().setStreetname(streetname);
     }
 
     @Override
-    public void changeMetatype(String metatype) {
-
+    public void changeMetatype(Metatype metatype) {
+        LOG.entering(metatype);
+        character.getPersonalData().setMetatype(metatype);
     }
 
     @Override
-    public void changeSex(String sex) {
-
+    public void changeSex(Sex sex) {
+        LOG.entering(sex);
+        character.getPersonalData().setSex(sex);
     }
 
     @Override
     public void changeAge(int age) {
-
+        LOG.entering(age);
+        character.getPersonalData().setAge(age);
     }
 
     @Override
     public void changeHeight(int height) {
-
+        LOG.entering(height);
+        character.getPersonalData().setHeight(height);
     }
 
     @Override
     public void changeWeight(int weight) {
-
+        LOG.entering(weight);
+        character.getPersonalData().setWeight(weight);
     }
 
     @Override
     public void changeEthnicity(String ethnicity) {
-
+        LOG.entering(ethnicity);
+        character.getPersonalData().setEthnicity(ethnicity);
     }
 
     @Override
     public void changeConcept(String concept) {
-
+        LOG.entering(concept);
+        character.getPersonalData().setConcept(concept);
     }
 
     @Override
     public void changeStreetCred(int streetCred) {
-
+        LOG.entering(streetCred);
+        character.getPersonalData().setStreetCred(streetCred);
     }
 
     @Override
     public void changeNotoriety(int notoriety) {
-
+        LOG.entering(notoriety);
+        character.getPersonalData().setNotoriety(notoriety);
     }
 
     @Override
     public void changePublicAwareness(int publicAwareness) {
-
+        LOG.entering(publicAwareness);
+        character.getPersonalData().setPublicAwareness(publicAwareness);
     }
 
     @Override
     public void changeBody(int body) {
         LOG.entering(body);
         character.getAttributes().getPhysical().setBody(body);
-        conditionMonitorView.setPhysicalDamageMax(Calculator.calculateDamageMax(body));
+        conditionMonitorView.setPhysicalDamageMax(calculatePhysicalDamageMax(character));
     }
 
     @Override
@@ -122,68 +137,77 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
 
     @Override
     public void changeReaction(int reaction) {
-
+        LOG.entering(reaction);
+        character.getAttributes().getPhysical().setReaction(reaction);
     }
 
     @Override
     public void changeStrength(int strength) {
-
+        LOG.entering(strength);
+        character.getAttributes().getPhysical().setStrength(strength);
     }
 
     @Override
     public void changeWillpower(int willpower) {
         LOG.entering(willpower);
         character.getAttributes().getMental().setWillpower(willpower);
-        conditionMonitorView.setStunDamageMax(Calculator.calculateDamageMax(willpower));
+        conditionMonitorView.setStunDamageMax(calculateStunDamageMax(character));
     }
 
     @Override
     public void changeLogic(int logic) {
-
+        LOG.entering(logic);
+        character.getAttributes().getMental().setLogic(logic);
     }
 
     @Override
     public void changeIntuition(int intuition) {
-
+        LOG.entering(intuition);
+        character.getAttributes().getMental().setIntuition(intuition);
     }
 
     @Override
     public void changeCharisma(int charisma) {
-
+        LOG.entering(charisma);
+        character.getAttributes().getMental().setCharisma(charisma);
     }
 
     @Override
-    public void changeSpecial(String special) {
-
+    public void changeSpecial(Special special) {
+        LOG.entering(special);
+        character.getAttributes().getSpecialAttributes().setSpecial(special);
     }
 
     @Override
     public void changeSpecialValue(int specialValue) {
-
+        LOG.entering(specialValue);
+        character.getAttributes().getSpecialAttributes().setSpecialValue(specialValue);
     }
 
     @Override
     public void changeEdge(int edge) {
-
+        LOG.entering(edge);
+        character.getAttributes().getSpecialAttributes().setEdge(edge);
     }
 
     @Override
     public void changeBurnedEdge(int burnedEdge) {
-
+        LOG.entering(burnedEdge);
+        character.getAttributes().getSpecialAttributes().setBurnedEdge(burnedEdge);
     }
 
     @Override
     public void changePhysicalDamage(int physicalDamage) {
         LOG.entering(physicalDamage);
         character.setPhysicalDamage(physicalDamage);
-        conditionMonitorView.setDicePoolModifier(Calculator.calculateDicePoolModifier(character));
+        conditionMonitorView.setDicePoolModifier(calculateDicePoolModifier(character));
     }
 
     @Override
     public void changeStunDamage(int stunDamage) {
         LOG.entering(stunDamage);
         character.setStunDamage(stunDamage);
-        conditionMonitorView.setDicePoolModifier(Calculator.calculateDicePoolModifier(character));
+        conditionMonitorView.setDicePoolModifier(calculateDicePoolModifier(character));
     }
 
     @Override
@@ -198,6 +222,7 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
         try {
             if (file != null) {
                 character = JsonHandler.readFile(file, Character.class);
+                load(character);
                 menuView.setHighlightColor(character.getHighlightColor());
                 menuView.setCharacterFile(file);
                 LOG.debug(String.format("Character loaded: %s", character));
@@ -220,4 +245,70 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
             LOG.exception(e.getMessage(), e);
         }
     }
+
+    private void load(final Character character) {
+        load(character.getPersonalData());
+        load(character.getAttributes());
+        conditionMonitorView
+                .setPhysicalDamageMax(calculatePhysicalDamageMax(character))
+                .setStunDamageMax(calculateStunDamageMax(character))
+                .setPhysicalDamage(character.getPhysicalDamage())
+                .setStunDamage(character.getStunDamage())
+                .setDicePoolModifier(calculateDicePoolModifier(character));
+    }
+
+    private void load(PersonalData personalData) {
+        personalDataView
+                .setName(personalData.getName())
+                .setStreetname(personalData.getStreetname())
+                .setMetatype(personalData.getMetatype())
+                .setKarma(0)
+                .setKarmaMax(0)
+                .setNuyen(0)
+                .setSex(personalData.getSex())
+                .setAge(personalData.getAge())
+                .setHeight(personalData.getHeight())
+                .setWeight(personalData.getWeight())
+                .setEthnicity(personalData.getEthnicity())
+                .setConcept(personalData.getConcept())
+                .setStreetCred(personalData.getStreetCred())
+                .setNotoriety(personalData.getNotoriety())
+                .setPublicAwareness(personalData.getPublicAwareness());
+    }
+
+    private void load(Attributes attributes) {
+        attributesView
+                .setBody(attributes.getPhysical().getBody())
+                .setAgility(attributes.getPhysical().getAgility())
+                .setReaction(attributes.getPhysical().getReaction())
+                .setStrength(attributes.getPhysical().getStrength())
+                .setWillpower(attributes.getMental().getWillpower())
+                .setLogic(attributes.getMental().getLogic())
+                .setIntuition(attributes.getMental().getIntuition())
+                .setCharisma(attributes.getMental().getCharisma())
+                .setComposure(0)
+                .setJudgeIntentions(0)
+                .setMemory(0)
+                .setLiftCarry(0)
+                .setWalk(0)
+                .setRun(0)
+                .setSprint(0)
+                .setSpecial(attributes.getSpecialAttributes().getSpecial())
+                .setSpecialValue(attributes.getSpecialAttributes().getSpecialValue())
+                .setEdge(attributes.getSpecialAttributes().getEdge())
+                .setInitiativePhysical(0)
+                .setInitiativeAstral(0)
+                .setInitiativeMatrixAR(0)
+                .setInitiativeMatrixVRcold(0)
+                .setInitiativeMatrixVRhot(0)
+                .setInitiativeRiggingAR(0)
+                .setInitiativeRiggingVRcold(0)
+                .setInitiativeRiggingVRhot(0)
+                .setInitiativeRiggingDirect(0)
+                .setEssence(0)
+                .setPhysicalLimit(0)
+                .setMentalLimit(0)
+                .setSocialLimit(0);
+    }
+
 }

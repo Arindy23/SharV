@@ -1,14 +1,17 @@
 package de.arindy.sharv.api.gui;
 
+import de.arindy.sharv.character.Metatype;
+import de.arindy.sharv.character.Sex;
+
 public interface PersonalDataView {
 
     PersonalDataView setName(String name);
 
     PersonalDataView setStreetname(String streetname);
 
-    PersonalDataView setMetatype(String metatype);
+    PersonalDataView setMetatype(Metatype metatype);
 
-    PersonalDataView setSex(String sex);
+    PersonalDataView setSex(Sex sex);
 
     PersonalDataView setAge(int age);
 
@@ -36,11 +39,11 @@ public interface PersonalDataView {
 
     PersonalDataView setNuyen(int nuyen);
 
-    PersonalDataView addSexes(String... sexes);
+    PersonalDataView addSexes(Sex... sexes);
 
     PersonalDataView removeAllSexes();
 
-    PersonalDataView addMetatypes(String... metatypes);
+    PersonalDataView addMetatypes(Metatype... metatypes);
 
     PersonalDataView removeMetatypes();
 
