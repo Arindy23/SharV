@@ -108,6 +108,17 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
                 <version>${maven-site-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>stage</goal>
+                        </goals>
+                        <phase>site</phase>
+                        <configuration>
+                            <skipDeploy>true</skipDeploy>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
@@ -165,5 +176,12 @@
             </plugin>
         </plugins>
     </reporting>
+
+    <distributionManagement>
+        <site>
+            <id>localSiteRepo</id>
+            <url>file://${project.build.directory}/siteRepo</url>
+        </site>
+    </distributionManagement>
 
 </project>

@@ -4,6 +4,9 @@ import de.arindy.sharv.character.Metatype;
 import de.arindy.sharv.character.Sex;
 import lombok.Getter;
 
+import javax.enterprise.inject.Alternative;
+
+@Alternative
 @Getter
 public class DefaultPersonalDataListener implements PersonalDataListener {
 

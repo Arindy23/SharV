@@ -18,7 +18,7 @@ import java.util.Map;
 import static de.arindy.sharv.controller.Calculator.*;
 
 @ApplicationScoped
-public class SharVCharacter implements PersonalDataListener, AttributesListener, ConditionMonitorListener, MenuListener {
+public class SharVCharacter implements PersonalDataListener, AttributesListener, ConditionMonitorListener, MenuListener, SaveGuard, PersistentCharacter {
 
     private final Logger LOG;
 
@@ -31,6 +31,7 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
     private ConditionMonitorView conditionMonitorView;
     private MenuView menuView;
     private SharvJSONPersistenceHandler sharvPersistenceHandler;
+    private boolean modified;
 
     private SharVCharacter() {
         character = new Character();
@@ -50,7 +51,7 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
     private Collection<Runnable> metatypeActions() {
         final Collection<Runnable> result = new HashSet<>();
 
-        result.add(() -> attributesView.setBodyMax(Calculator.calculateBodyMax(character)));
+        result.add(() -> attributesView.setBodyMax(calculateBodyMax(character)));
 
         return result;
     }
@@ -88,12 +89,14 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
     public void changeName(String name) {
         LOG.entering(name);
         character.getPersonalData().setName(name);
+        modified = true;
     }
 
     @Override
     public void changeStreetname(String streetname) {
         LOG.entering(streetname);
         character.getPersonalData().setStreetname(streetname);
+        modified = true;
     }
 
     @Override
@@ -103,60 +106,70 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
         for (Runnable metatypeAction : actions.get(Metatype.class)) {
             metatypeAction.run();
         }
+        modified = true;
     }
 
     @Override
     public void changeSex(Sex sex) {
         LOG.entering(sex);
         character.getPersonalData().setSex(sex);
+        modified = true;
     }
 
     @Override
     public void changeAge(int age) {
         LOG.entering(age);
         character.getPersonalData().setAge(age);
+        modified = true;
     }
 
     @Override
     public void changeHeight(int height) {
         LOG.entering(height);
         character.getPersonalData().setHeight(height);
+        modified = true;
     }
 
     @Override
     public void changeWeight(int weight) {
         LOG.entering(weight);
         character.getPersonalData().setWeight(weight);
+        modified = true;
     }
 
     @Override
     public void changeEthnicity(String ethnicity) {
         LOG.entering(ethnicity);
         character.getPersonalData().setEthnicity(ethnicity);
+        modified = true;
     }
 
     @Override
     public void changeConcept(String concept) {
         LOG.entering(concept);
         character.getPersonalData().setConcept(concept);
+        modified = true;
     }
 
     @Override
     public void changeStreetCred(int streetCred) {
         LOG.entering(streetCred);
         character.getPersonalData().setStreetCred(streetCred);
+        modified = true;
     }
 
     @Override
     public void changeNotoriety(int notoriety) {
         LOG.entering(notoriety);
         character.getPersonalData().setNotoriety(notoriety);
+        modified = true;
     }
 
     @Override
     public void changePublicAwareness(int publicAwareness) {
         LOG.entering(publicAwareness);
         character.getPersonalData().setPublicAwareness(publicAwareness);
+        modified = true;
     }
 
     @Override
@@ -170,24 +183,28 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
         LOG.entering(body);
         character.getAttributes().getPhysical().setBody(body);
         conditionMonitorView.setPhysicalDamageMax(calculatePhysicalDamageMax(character));
+        modified = true;
     }
 
     @Override
     public void changeAgility(int agility) {
         LOG.entering(agility);
         character.getAttributes().getPhysical().setAgility(agility);
+        modified = true;
     }
 
     @Override
     public void changeReaction(int reaction) {
         LOG.entering(reaction);
         character.getAttributes().getPhysical().setReaction(reaction);
+        modified = true;
     }
 
     @Override
     public void changeStrength(int strength) {
         LOG.entering(strength);
         character.getAttributes().getPhysical().setStrength(strength);
+        modified = true;
     }
 
     @Override
@@ -195,48 +212,56 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
         LOG.entering(willpower);
         character.getAttributes().getMental().setWillpower(willpower);
         conditionMonitorView.setStunDamageMax(calculateStunDamageMax(character));
+        modified = true;
     }
 
     @Override
     public void changeLogic(int logic) {
         LOG.entering(logic);
         character.getAttributes().getMental().setLogic(logic);
+        modified = true;
     }
 
     @Override
     public void changeIntuition(int intuition) {
         LOG.entering(intuition);
         character.getAttributes().getMental().setIntuition(intuition);
+        modified = true;
     }
 
     @Override
     public void changeCharisma(int charisma) {
         LOG.entering(charisma);
         character.getAttributes().getMental().setCharisma(charisma);
+        modified = true;
     }
 
     @Override
     public void changeSpecial(Special special) {
         LOG.entering(special);
         character.getAttributes().getSpecialAttributes().setSpecial(special);
+        modified = true;
     }
 
     @Override
     public void changeSpecialValue(int specialValue) {
         LOG.entering(specialValue);
         character.getAttributes().getSpecialAttributes().setSpecialValue(specialValue);
+        modified = true;
     }
 
     @Override
     public void changeEdge(int edge) {
         LOG.entering(edge);
         character.getAttributes().getSpecialAttributes().setEdge(edge);
+        modified = true;
     }
 
     @Override
     public void changeBurnedEdge(int burnedEdge) {
         LOG.entering(burnedEdge);
         character.getAttributes().getSpecialAttributes().setBurnedEdge(burnedEdge);
+        modified = true;
     }
 
     @Override
@@ -244,6 +269,7 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
         LOG.entering(physicalDamage);
         character.setPhysicalDamage(physicalDamage);
         conditionMonitorView.setDicePoolModifier(calculateDicePoolModifier(character));
+        modified = true;
     }
 
     @Override
@@ -251,12 +277,14 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
         LOG.entering(stunDamage);
         character.setStunDamage(stunDamage);
         conditionMonitorView.setDicePoolModifier(calculateDicePoolModifier(character));
+        modified = true;
     }
 
     @Override
     public void changeColor(String color) {
         LOG.entering(color);
         character.setHighlightColor(color);
+        modified = true;
     }
 
     @Override
@@ -267,7 +295,7 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
                 character = sharvPersistenceHandler.loadChar(file);
                 load(character);
                 menuView.setHighlightColor(character.getHighlightColor());
-                menuView.setCharacterFile(file);
+                modified = false;
                 LOG.debug(String.format("Character loaded: %s", character));
             }
         } catch (IOException e) {
@@ -281,7 +309,6 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
         try {
             if (file != null) {
                 sharvPersistenceHandler.saveChar(file, character);
-                menuView.setCharacterFile(file);
                 LOG.debug(String.format("Character written: %s", file.getAbsolutePath()));
             }
         } catch (IOException e) {
@@ -299,12 +326,16 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
     public void activateModule(String module) {
         LOG.entering(module);
         character.getActiveModules().add(module);
+        initializePersonalData();
+        modified = true;
     }
 
     @Override
     public void deactivateModule(String module) {
         LOG.entering(module);
         character.getActiveModules().remove(module);
+        initializePersonalData();
+        modified = true;
     }
 
     private void load(final Character character) {
@@ -325,6 +356,7 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
         personalDataView.addMetatypes(
                 loadData(Metatype.class).toArray(new Metatype[0])
         );
+        personalDataView.setMetatype(character.getPersonalData().getMetatype());
     }
 
     private void initSexes() {
@@ -332,6 +364,7 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
         personalDataView.addSexes(
                 loadData(Sex.class).toArray(new Sex[0])
         );
+        personalDataView.setSex(character.getPersonalData().getSex());
     }
 
     private <T> Collection<T> loadData(Class<T> t) {
@@ -367,7 +400,7 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
     private void load(Attributes attributes) {
         attributesView
                 .setBody(attributes.getPhysical().getBody())
-                .setBodyMax(Calculator.calculateBodyMax(character))
+                .setBodyMax(calculateBodyMax(character))
                 .setAgility(attributes.getPhysical().getAgility())
                 .setReaction(attributes.getPhysical().getReaction())
                 .setStrength(attributes.getPhysical().getStrength())
@@ -398,6 +431,11 @@ public class SharVCharacter implements PersonalDataListener, AttributesListener,
                 .setPhysicalLimit(0)
                 .setMentalLimit(0)
                 .setSocialLimit(0);
+    }
+
+    @Override
+    public boolean shouldSave() {
+        return modified;
     }
 
 }

@@ -3,6 +3,9 @@ package de.arindy.sharv.api.gui;
 import de.arindy.sharv.character.Special;
 import lombok.Getter;
 
+import javax.enterprise.inject.Alternative;
+
+@Alternative
 @Getter
 public class DefaultAttributesListener implements AttributesListener {
 

@@ -20,7 +20,7 @@ import java.util.*;
  */
 public class SharvJSONPersistenceHandler {
 
-    private final Logger LOG = Logger.get(getClass().getSimpleName());
+    private final Logger LOG = Logger.get(getClass().getName());
     private final File root;
 
     public SharvJSONPersistenceHandler(final File root) {
@@ -61,8 +61,8 @@ public class SharvJSONPersistenceHandler {
         final File language = getDataForLanguage();
         if (language.exists()) {
             try (DirectoryStream<Path> sources = Files.newDirectoryStream(language.toPath())) {
-                final Collection<T> dataSet = new HashSet<>();
                 sources.forEach(source -> {
+                    final Collection<T> dataSet = new HashSet<>();
                     try (DirectoryStream<Path> data = Files.newDirectoryStream(new File(source.toFile(), target.getSimpleName()).toPath())) {
                         data.forEach(t -> {
                             try {
@@ -72,7 +72,7 @@ public class SharvJSONPersistenceHandler {
                             }
                         });
                     } catch (IOException e) {
-                        LOG.error(String.format("No Data found: %s", target.getSimpleName()));
+                        LOG.error(String.format("No Data found: %s/%s", source.getFileName(),target.getSimpleName()));
                     }
                     result.put(source.getFileName().toString(), dataSet);
                 });
@@ -109,7 +109,7 @@ public class SharvJSONPersistenceHandler {
                 .readValue(file, T);
     }
 
-    private static void writeFile(File file, Object o) throws IOException {
+    public static void writeFile(File file, Object o) throws IOException {
         new ObjectMapper()
                 .enable(SerializationFeature.INDENT_OUTPUT)
                 .setSerializationInclusion(JsonInclude.Include.NON_EMPTY)

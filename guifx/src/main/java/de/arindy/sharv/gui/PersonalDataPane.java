@@ -7,6 +7,7 @@ import de.arindy.sharv.api.gui.PersonalDataView;
 import de.arindy.sharv.character.Metatype;
 import de.arindy.sharv.character.Sex;
 import de.arindy.sharv.gui.jfx.BorderedTitledPane;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -20,7 +21,10 @@ import javafx.stage.Stage;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Formattable;
+import java.util.HashSet;
 
 import static de.arindy.sharv.gui.JavaFXUtil.*;
 
@@ -99,12 +103,18 @@ public class PersonalDataPane implements PersonalDataView {
 
     public void onMetatype() {
         LOG.entering();
-        personalDataListener.changeMetatype(getSelectedItem(metatype));
+        final Metatype selectedItem = getSelectedItem(metatype);
+        if (selectedItem != null) {
+            personalDataListener.changeMetatype(selectedItem);
+        }
     }
 
     public void onSex() {
         LOG.entering();
-        personalDataListener.changeSex(getSelectedItem(sex));
+        Sex selectedItem = getSelectedItem(sex);
+        if (selectedItem != null) {
+            personalDataListener.changeSex(selectedItem);
+        }
     }
 
     public void onAge(final InputMethodEvent inputMethodEvent) {
@@ -169,7 +179,7 @@ public class PersonalDataPane implements PersonalDataView {
         if (this.metatype.getItems().contains(metatype)) {
             this.metatype.getSelectionModel().select(metatype);
         } else {
-            warnNotAvailable(metatype);
+            LOG.warning(warnNotAvailable(metatype));
             this.metatype.getSelectionModel().selectFirst();
         }
         return this;
@@ -181,14 +191,14 @@ public class PersonalDataPane implements PersonalDataView {
         if (this.sex.getItems().contains(sex)) {
             this.sex.getSelectionModel().select(sex);
         } else {
-            warnNotAvailable(sex);
+            LOG.warning(warnNotAvailable(sex));
             this.sex.getSelectionModel().selectFirst();
         }
         return this;
     }
 
-    private void warnNotAvailable(Formattable formattable) {
-        LOG.warning(String.format("%s not available! Selecting first in List!", formattable));
+    private String warnNotAvailable(Formattable formattable) {
+        return String.format("%s not available! Selecting first in List!", formattable);
     }
 
     @Override
@@ -305,7 +315,12 @@ public class PersonalDataPane implements PersonalDataView {
     @Override
     public PersonalDataView addMetatypes(final Metatype... metatypes) {
         LOG.entering(metatypes);
-        this.metatype.getItems().addAll(metatypes);
+        final Metatype selectedItem = this.metatype.getSelectionModel().getSelectedItem();
+        final Collection<Metatype> hashSet = new HashSet<>(Arrays.asList(metatypes));
+        hashSet.addAll(this.metatype.getItems());
+        removeMetatypes();
+        this.metatype.getItems().addAll(FXCollections.observableArrayList(hashSet).sorted());
+        this.metatype.getSelectionModel().select(selectedItem);
         return this;
     }
 

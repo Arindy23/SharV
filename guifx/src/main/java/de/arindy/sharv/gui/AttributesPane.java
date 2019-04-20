@@ -617,14 +617,10 @@ public class AttributesPane implements AttributesView {
         if (this.special.getItems().contains(special)) {
             this.special.getSelectionModel().select(special);
         } else {
-            warnNotAvailable(special);
+            LOG.warning(String.format("%s not available! Selecting first in List!", (Formattable) special));
             this.special.getSelectionModel().selectFirst();
         }
         return this;
-    }
-
-    private void warnNotAvailable(Formattable formattable) {
-        LOG.warning(String.format("%s not available! Selecting first in List!", formattable));
     }
 
     @Override

@@ -2,6 +2,9 @@ package de.arindy.sharv.api.gui;
 
 import lombok.Getter;
 
+import javax.enterprise.inject.Alternative;
+
+@Alternative
 @Getter
 public class DefaultConditionMonitorListener implements ConditionMonitorListener {
 

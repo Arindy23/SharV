@@ -31,6 +31,7 @@ public class SharVGUI extends Application implements Reloadable {
     private FXMLLoader fxmlLoader;
     @Inject
     private SharVMenu menu;
+    private ExitAction exitAction;
 
     public SharVGUI() {
         LOG = Logger.get(getClass().getName());
@@ -59,8 +60,14 @@ public class SharVGUI extends Application implements Reloadable {
         primaryStage.getIcons().addAll(
                 icons()
         );
-        primaryStage.setOnCloseRequest(e -> new ExitAction().perform());
+        primaryStage.setOnCloseRequest(e -> exitAction.perform(e));
         primaryStage.show();
+    }
+
+    @Inject
+    public SharVGUI withExitAction(final ExitAction exitAction) {
+        this.exitAction = exitAction;
+        return this;
     }
 
     private Image[] icons() {

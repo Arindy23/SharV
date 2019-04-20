@@ -5,6 +5,7 @@ import de.arindy.sharv.api.gui.DefaultMenuListener;
 import de.arindy.sharv.api.gui.MenuListener;
 import de.arindy.sharv.api.gui.MenuView;
 import de.arindy.sharv.api.gui.Reloadable;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ColorPicker;
@@ -13,11 +14,10 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
-import javafx.stage.FileChooser;
+import javafx.stage.WindowEvent;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.Objects;
@@ -71,7 +71,8 @@ public class SharVMenu implements MenuView {
     @FXML
     private ColorPicker color;
     private MenuListener menuListener;
-    private File characterFile;
+    private PersistAction persistAction;
+    private ExitAction exitAction;
     //</editor-fold>
 
     public SharVMenu() {
@@ -83,6 +84,18 @@ public class SharVMenu implements MenuView {
     @Inject
     public SharVMenu withMenuListener(final MenuListener menuListener) {
         this.menuListener = menuListener.register(this);
+        return this;
+    }
+
+    @Inject
+    public SharVMenu withPersistAction(final PersistAction persistAction) {
+        this.persistAction = persistAction;
+        return this;
+    }
+
+    @Inject
+    public SharVMenu withExitAction(final ExitAction exitAction) {
+        this.exitAction = exitAction;
         return this;
     }
 
@@ -102,32 +115,12 @@ public class SharVMenu implements MenuView {
 
     public void loadCharacter() {
         LOG.entering();
-        menuListener.load(
-                fileChooser().showOpenDialog(root.getParent().getScene().getWindow())
-        );
+        persistAction.loadCharacter();
     }
 
     public void saveCharacter() {
         LOG.entering();
-        menuListener.save(
-                fileChooser().showSaveDialog(root.getParent().getScene().getWindow())
-        );
-
-    }
-
-    private FileChooser fileChooser() {
-        final FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Character", "*.sharV"),
-                new FileChooser.ExtensionFilter("*.*", "*.*")
-        );
-        if (characterFile != null && characterFile.exists()) {
-            fileChooser.setInitialDirectory(characterFile.getParentFile());
-            fileChooser.setInitialFileName(characterFile.getName());
-        } else {
-            fileChooser.setInitialFileName("sharVCharacter.sharV");
-        }
-        return fileChooser;
+        persistAction.saveCharacter();
     }
 
     public void changeLocale(final ActionEvent event) throws IOException {
@@ -165,7 +158,7 @@ public class SharVMenu implements MenuView {
     }
 
     public void exit() {
-        new ExitAction().perform();
+        exitAction.perform(new WindowEvent(root.getParent().getScene().getWindow(), WindowEvent.WINDOW_CLOSE_REQUEST));
     }
 
     void changeStyle(final String activeStyle) {
@@ -207,13 +200,6 @@ public class SharVMenu implements MenuView {
         return this;
     }
 
-    @Override
-    public MenuView setCharacterFile(final File characterFile) {
-        LOG.entering(characterFile);
-        this.characterFile = characterFile;
-        return this;
-    }
-
     public void onModule(final ActionEvent event) {
         LOG.entering(event);
         RadioMenuItem source = (RadioMenuItem) event.getSource();
@@ -226,7 +212,7 @@ public class SharVMenu implements MenuView {
 
     @Override
     public MenuView addAvailableModules(final String... modules) {
-        for (final String moduleName : modules) {
+        for (final String moduleName : FXCollections.observableArrayList(modules).sorted()) {
             final RadioMenuItem module = new RadioMenuItem(moduleName);
             module.setOnAction(this::onModule);
             this.modules.getItems().add(module);
